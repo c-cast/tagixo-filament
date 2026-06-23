@@ -1,0 +1,619 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Cannot access property \$id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Forms/Pages/EditForm.php
+
+		-
+			message: '#^Cannot access property \$name on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: src/Filament/Resources/Layouts/Pages/BuildLayout.php
+
+		-
+			message: '#^Cannot access property \$content on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/BuildPage.php
+
+		-
+			message: '#^Cannot access property \$excerpt on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/BuildPage.php
+
+		-
+			message: '#^Cannot access property \$layout_id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/BuildPage.php
+
+		-
+			message: '#^Cannot access property \$meta_description on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/BuildPage.php
+
+		-
+			message: '#^Cannot access property \$meta_title on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/BuildPage.php
+
+		-
+			message: '#^Cannot access property \$slug on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/BuildPage.php
+
+		-
+			message: '#^Cannot access property \$status on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/BuildPage.php
+
+		-
+			message: '#^Cannot access property \$template on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/BuildPage.php
+
+		-
+			message: '#^Cannot access property \$theme on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/BuildPage.php
+
+		-
+			message: '#^Cannot access property \$title on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: src/Filament/Resources/Pages/Pages/BuildPage.php
+
+		-
+			message: '#^Cannot access property \$url on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/BuildPage.php
+
+		-
+			message: '#^Cannot call method getEffectiveLayout\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/BuildPage.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Filament/Resources/Pages/Pages/EditPage.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getEffectiveLayout\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/EditPage.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:publish\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/EditPage.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:unpublish\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Resources/Pages/Pages/EditPage.php
+
+		-
+			message: '#^Access to an undefined property Ccast\\Tagixo\\Models\\Layout\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/Pages/Tables/PagesTable.php
+
+		-
+			message: '#^Access to an undefined property Ccast\\Tagixo\\Models\\Page\:\:\$layout_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/Pages/Tables/PagesTable.php
+
+		-
+			message: '#^Access to an undefined property Ccast\\Tagixo\\Models\\Page\:\:\$published_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/Pages/Tables/PagesTable.php
+
+		-
+			message: '#^Access to an undefined property Ccast\\Tagixo\\Models\\Page\:\:\$slug\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Filament/Resources/Pages/Tables/PagesTable.php
+
+		-
+			message: '#^Access to an undefined property Ccast\\Tagixo\\Models\\Page\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 3
+			path: src/Filament/Resources/Pages/Tables/PagesTable.php
+
+		-
+			message: '#^Access to an undefined property Ccast\\Tagixo\\Models\\Page\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Filament/Resources/Pages/Tables/PagesTable.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/Pages/Tables/PagesTable.php
+
+		-
+			message: '#^Cannot access property \$id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Filament/Resources/Sliders/Pages/EditSlider.php
+
+		-
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/FormSchemaDefinitionResolver.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<Filament\\Resources\\Pages\\Page\> and ''getResource'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/FormSchemaDefinitionResolver.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<Filament\\Resources\\Pages\\Page\> and ''getResourcePageName'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/FormSchemaDefinitionResolver.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between class\-string and '''' will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: src/FormBuilder/FormSchemaDefinitionResolver.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between '''' and '''' will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
+			count: 1
+			path: src/FormBuilder/FormSchemaDefinitionResolver.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between class\-string and '''' will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: src/FormBuilder/FormSchemaDefinitionResolver.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/FormBuilder/FormSchemaDefinitionResolver.php
+
+		-
+			message: '#^Call to function is_array\(\) with array\<int, array\<string, mixed\>\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/FormSchemaToFilamentMapper.php
+
+		-
+			message: '#^Call to function is_array\(\) with array\<mixed\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/FormSchemaToFilamentMapper.php
+
+		-
+			message: '#^Call to function is_array\(\) with array\<string, mixed\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 2
+			path: src/FormBuilder/FormSchemaToFilamentMapper.php
+
+		-
+			message: '#^Offset ''class'' on array\{key\: string, name\: string, label\: string, class\: string, description\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/FormBuilder/FormSchemaToFilamentMapper.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/FormBuilder/FormSchemaToFilamentMapper.php
+
+		-
+			message: '#^Offset ''class'' on array\{key\: string, name\: string, label\: string, class\: string, description\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/FormBuilder/Modules/CheckboxField.php
+
+		-
+			message: '#^Offset ''class'' on array\{key\: string, name\: string, label\: string, class\: string, description\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/FormBuilder/Modules/DatePickerField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Schemas\\Components\\Fieldset and ''columns'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/FieldsetField.php
+
+		-
+			message: '#^Method Ccast\\TagixoFilament\\FormBuilder\\Modules\\FieldsetField\:\:toFilamentWrapper\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/FormBuilder/Modules/FieldsetField.php
+
+		-
+			message: '#^Offset ''class'' on array\{key\: string, name\: string, label\: string, class\: string, description\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/FormBuilder/Modules/FieldsetField.php
+
+		-
+			message: '#^Offset ''class'' on array\{key\: string, name\: string, label\: string, class\: string, description\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/FormBuilder/Modules/FileUploadField.php
+
+		-
+			message: '#^Method Ccast\\TagixoFilament\\FormBuilder\\Modules\\GridField\:\:toFilamentWrapper\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/FormBuilder/Modules/GridField.php
+
+		-
+			message: '#^Offset ''class'' on array\{key\: string, name\: string, label\: string, class\: string, description\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/FormBuilder/Modules/GridField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Schemas\\Components\\Group and ''columns'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/GroupField.php
+
+		-
+			message: '#^Method Ccast\\TagixoFilament\\FormBuilder\\Modules\\GroupField\:\:toFilamentWrapper\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/FormBuilder/Modules/GroupField.php
+
+		-
+			message: '#^Offset ''class'' on array\{key\: string, name\: string, label\: string, class\: string, description\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/FormBuilder/Modules/GroupField.php
+
+		-
+			message: '#^Offset ''class'' on array\{key\: string, name\: string, label\: string, class\: string, description\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/FormBuilder/Modules/RadioField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Schemas\\Components\\Section and ''collapsed'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/SectionField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Schemas\\Components\\Section and ''collapsible'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/SectionField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Schemas\\Components\\Section and ''columns'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/SectionField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Schemas\\Components\\Section and ''description'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/SectionField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Schemas\\Components\\Section and ''icon'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/SectionField.php
+
+		-
+			message: '#^Method Ccast\\TagixoFilament\\FormBuilder\\Modules\\SectionField\:\:toFilamentWrapper\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/FormBuilder/Modules/SectionField.php
+
+		-
+			message: '#^Offset ''class'' on array\{key\: string, name\: string, label\: string, class\: string, description\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/FormBuilder/Modules/SectionField.php
+
+		-
+			message: '#^Offset ''class'' on array\{key\: string, name\: string, label\: string, class\: string, description\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/FormBuilder/Modules/SelectField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Schemas\\Components\\Tabs\\Tab and ''columns'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/TabField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Schemas\\Components\\Tabs\\Tab and ''icon'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/TabField.php
+
+		-
+			message: '#^Method Ccast\\TagixoFilament\\FormBuilder\\Modules\\TabField\:\:toFilamentWrapper\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/FormBuilder/Modules/TabField.php
+
+		-
+			message: '#^Offset ''class'' on array\{key\: string, name\: string, label\: string, class\: string, description\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/FormBuilder/Modules/TabField.php
+
+		-
+			message: '#^Method Ccast\\TagixoFilament\\FormBuilder\\Modules\\TabsField\:\:toFilamentWrapper\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/FormBuilder/Modules/TabsField.php
+
+		-
+			message: '#^Offset ''class'' on array\{key\: string, name\: string, label\: string, class\: string, description\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/FormBuilder/Modules/TabsField.php
+
+		-
+			message: '#^Method Ccast\\TagixoFilament\\FormBuilder\\Modules\\TextAreaField\:\:makeFilamentComponent\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/FormBuilder/Modules/TextAreaField.php
+
+		-
+			message: '#^Offset ''class'' on array\{key\: string, name\: string, label\: string, class\: string, description\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/FormBuilder/Modules/TextAreaField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Forms\\Components\\TextInput and ''email'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/TextInputField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Forms\\Components\\TextInput and ''numeric'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/TextInputField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Forms\\Components\\TextInput and ''tel'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/TextInputField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Forms\\Components\\TextInput and ''url'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/TextInputField.php
+
+		-
+			message: '#^Method Ccast\\TagixoFilament\\FormBuilder\\Modules\\TextInputField\:\:makeFilamentComponent\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/FormBuilder/Modules/TextInputField.php
+
+		-
+			message: '#^Offset ''class'' on array\{key\: string, name\: string, label\: string, class\: string, description\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/FormBuilder/Modules/TextInputField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Schemas\\Components\\Wizard and ''skippable'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/WizardField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Schemas\\Components\\Wizard and ''startOnStep'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/WizardField.php
+
+		-
+			message: '#^Method Ccast\\TagixoFilament\\FormBuilder\\Modules\\WizardField\:\:toFilamentWrapper\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/FormBuilder/Modules/WizardField.php
+
+		-
+			message: '#^Offset ''class'' on array\{key\: string, name\: string, label\: string, class\: string, description\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/FormBuilder/Modules/WizardField.php
+
+		-
+			message: '#^Call to function is_array\(\) with array\<string, string\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/WizardStepField.php
+
+		-
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/WizardStepField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Schemas\\Components\\Wizard\\Step and ''columns'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/WizardStepField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Schemas\\Components\\Wizard\\Step and ''description'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/WizardStepField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Filament\\Schemas\\Components\\Wizard\\Step and ''icon'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/WizardStepField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with T of Filament\\Forms\\Components\\Field and ''helperText'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/WizardStepField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with T of Filament\\Forms\\Components\\Field and ''live'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/WizardStepField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with T of Filament\\Forms\\Components\\Field and ''regex'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/WizardStepField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with T of Filament\\Forms\\Components\\Field and ''validationAttribute'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/WizardStepField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with T of Filament\\Forms\\Components\\Field and ''validationMessages'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/WizardStepField.php
+
+		-
+			message: '#^Call to function method_exists\(\) with T of Filament\\Schemas\\Components\\Component and ''columnSpan'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Modules/WizardStepField.php
+
+		-
+			message: '#^Method Ccast\\TagixoFilament\\FormBuilder\\Modules\\WizardStepField\:\:toFilamentWrapper\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/FormBuilder/Modules/WizardStepField.php
+
+		-
+			message: '#^Offset ''class'' on array\{key\: string, name\: string, label\: string, class\: string, description\: string\|null\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/FormBuilder/Modules/WizardStepField.php
+
+		-
+			message: '#^Call to function is_array\(\) with array\<string, mixed\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Reactivity/ReactivityActionRunner.php
+
+		-
+			message: '#^Dead catch \- Symfony\\Component\\ExpressionLanguage\\SyntaxError is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/FormBuilder/Reactivity/ReactivityExpressionEvaluator.php
+
+		-
+			message: '#^Instanceof between Symfony\\Component\\ExpressionLanguage\\ExpressionFunction and Symfony\\Component\\ExpressionLanguage\\ExpressionFunction will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: src/FormBuilder/Reactivity/ReactivityExpressionEvaluator.php
+
+		-
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/FormBuilder/Reactivity/ReactivityFunctionRegistry.php
+
+		-
+			message: '#^Instanceof between Closure and Closure will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: src/FormBuilder/Reactivity/ReactivityFunctionRegistry.php
+
+		-
+			message: '#^Instanceof between Symfony\\Component\\ExpressionLanguage\\ExpressionFunction and Symfony\\Component\\ExpressionLanguage\\ExpressionFunction will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 2
+			path: src/FormBuilder/Reactivity/ReactivityFunctionRegistry.php
+
+		-
+			message: '#^Result of && is always true\.$#'
+			identifier: booleanAnd.alwaysTrue
+			count: 1
+			path: src/FormBuilder/Reactivity/ReactivityFunctionRegistry.php
+
+		-
+			message: '#^Access to an undefined property Ccast\\TagixoFilament\\MediaGallery\\Http\\Livewire\\MediaSelector\:\:\$availableVariants\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/MediaGallery/Http/Livewire/MediaSelector.php
+
+		-
+			message: '#^Access to an undefined property Ccast\\TagixoFilament\\MediaGallery\\Http\\Livewire\\MediaSelector\:\:\$focusedMedia\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/MediaGallery/Http/Livewire/MediaSelector.php
+
+		-
+			message: '#^Access to an undefined property Ccast\\TagixoFilament\\MediaGallery\\Http\\Livewire\\MediaSelector\:\:\$folders\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/MediaGallery/Http/Livewire/MediaSelector.php
+
+		-
+			message: '#^Access to an undefined property Ccast\\TagixoFilament\\MediaGallery\\Http\\Livewire\\MediaSelector\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 3
+			path: src/MediaGallery/Http/Livewire/MediaSelector.php
+
+		-
+			message: '#^Access to an undefined property Ccast\\TagixoFilament\\MediaGallery\\Http\\Livewire\\MediaSelector\:\:\$media\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/MediaGallery/Http/Livewire/MediaSelector.php
+
+		-
+			message: '#^Property Ccast\\TagixoFilament\\MediaGallery\\Http\\Livewire\\MediaSelector\:\:\$acceptedTypes \(array\) on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.property
+			count: 1
+			path: src/MediaGallery/Http/Livewire/MediaSelector.php
+
+		-
+			message: '#^Property Ccast\\TagixoFilament\\MediaGallery\\Http\\Livewire\\MediaSelector\:\:\$multiple \(bool\) on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.property
+			count: 1
+			path: src/MediaGallery/Http/Livewire/MediaSelector.php

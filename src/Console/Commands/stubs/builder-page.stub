@@ -1,0 +1,70 @@
+<?php
+
+namespace {{ namespace }};
+
+use Ccast\TagixoFilament\Filament\Pages\BuilderPage;
+
+class {{ class }} extends BuilderPage
+{
+    /**
+     * The page title
+     */
+    protected static ?string $title = '{{ title }}';
+
+    /**
+     * The page navigation icon
+     */
+    protected static ?string $navigationIcon = 'heroicon-o-cube-transparent';
+
+    /**
+     * The page navigation group (optional)
+     */
+    // protected static ?string $navigationGroup = 'Content';
+
+    /**
+     * The page navigation sort order (optional)
+     */
+    // protected static ?int $navigationSort = 10;
+
+    /**
+     * Get the builder context
+     *
+     * Options: 'page', 'form', 'mail', 'pdf'
+     */
+    public function getContext(): string
+    {
+        return '{{ context }}';
+    }
+
+    /**
+     * Load the initial structure
+     *
+     * Implement your loading logic here.
+     * Return the JSON structure string, or null for empty.
+     *
+     * Example implementations:
+     * - Load from database: return MyModel::find($id)?->structure;
+     * - Load from file: return file_get_contents(storage_path('templates/my-template.json'));
+     * - Load from cache: return cache()->get('template.structure');
+     */
+    protected function loadStructure(): ?string
+    {
+        // TODO: Implement your loading logic
+        return null;
+    }
+
+    /**
+     * Save the structure
+     *
+     * Implement your persistence logic here.
+     *
+     * Example implementations:
+     * - Save to database: MyModel::find($id)->update(['structure' => $structure]);
+     * - Save to file: file_put_contents(storage_path('templates/my-template.json'), $structure);
+     * - Save to cache: cache()->put('template.structure', $structure);
+     */
+    protected function saveStructure(string $structure): void
+    {
+        // TODO: Implement your saving logic
+    }
+}
