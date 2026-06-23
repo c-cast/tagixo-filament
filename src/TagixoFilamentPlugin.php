@@ -25,24 +25,42 @@ class TagixoFilamentPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        $panel->resources([
-            PageResource::class,
-            LayoutResource::class,
-            FormResource::class,
-            SliderResource::class,
-            MailResource::class,
-            MenuResource::class,
-        ]);
+        // The resource list is config-driven: comment out a line in
+        // config/tagixo-filament.php to hide that builder from the panel.
+        // Fall back to the package defaults when the config is unavailable.
+        $resources = array_values(array_filter(
+            (array) config('tagixo-filament.resources', $this->defaultResources()),
+            fn ($resource) => is_string($resource) && class_exists($resource),
+        ));
 
-        if ($this->mediaGallery) {
-            $panel->resources([
-                MediaResource::class,
-            ]);
+        // The fluent flag still adds its resource (deduped), so existing
+        // ->withMediaGallery() call sites keep working alongside the config.
+        if ($this->mediaGallery && ! in_array(MediaResource::class, $resources, true)) {
+            $resources[] = MediaResource::class;
         }
+
+        $panel->resources($resources);
 
         $panel->pages([
             ManageSiteScripts::class,
         ]);
+    }
+
+    /**
+     * Default resources used when config/tagixo-filament.php is not loaded.
+     *
+     * @return array<int, class-string>
+     */
+    private function defaultResources(): array
+    {
+        return [
+            PageResource::class,
+            LayoutResource::class,
+            MenuResource::class,
+            FormResource::class,
+            SliderResource::class,
+            MailResource::class,
+        ];
     }
 
     public function boot(Panel $panel): void
