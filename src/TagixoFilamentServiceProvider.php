@@ -107,6 +107,13 @@ class TagixoFilamentServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->loadJsonTranslationsFrom(__DIR__.'/../resources/lang');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'tagixo-filament');
+
+        $this->publishes([
+            __DIR__.'/../resources/lang' => resource_path('lang/vendor/tagixo-filament'),
+        ], 'tagixo-filament-translations');
+
         $this->loadViewsFrom(__DIR__.'/../resources/views/media-gallery', 'media-gallery');
 
         // Filament is an 'app' form runtime: enable the app target and render its
