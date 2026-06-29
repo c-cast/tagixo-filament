@@ -1,6 +1,8 @@
 # Tagixo Filament SDK
 
-Filament 4/5 integration for the [Tagixo Visual Builder](https://tagixo.com). Provides Filament Resources, a Livewire-backed editor page, and an optional media gallery panel — ready to mount on any Filament panel.
+Filament 5 integration for the [Tagixo Visual Builder](https://tagixo.com). Provides Filament Resources, a Livewire-backed editor page, and an optional media gallery panel — ready to mount on any Filament panel.
+
+> **License required.** This SDK is for customers who have purchased a [Tagixo license](https://tagixo.com). See [Before you install](#before-you-install) below.
 
 ## What you get
 
@@ -19,8 +21,12 @@ Underlying admin CRUD is handled by Filament Resources; the core package's stand
 
 - PHP `^8.2`
 - Laravel `^12.0` (inherited from `ccast/tagixo`)
-- Filament `^4.0` or `^5.0`
-- `ccast/tagixo` `^1.0` (installed automatically as a dependency)
+- Filament `^5.0`
+- `ccast/tagixo` `^0.2` — private package, access granted with a valid license
+
+## Before you install
+
+This SDK requires a valid **Tagixo license**. `ccast/tagixo` (the visual builder core) is a licensed package distributed through the Tagixo Composer repository. Installation instructions and repository credentials are provided in your [customer account](https://tagixo.com) after purchase.
 
 ## Installation
 
@@ -30,7 +36,7 @@ Underlying admin CRUD is handled by Filament Resources; the core package's stand
 composer require ccast/tagixo-filament
 ```
 
-This also installs `ccast/tagixo` (the framework-agnostic core) as a transitive dependency. The service provider `Ccast\TagixoFilament\TagixoFilamentServiceProvider` is auto-discovered via Laravel's package discovery.
+This pulls in `ccast/tagixo` (the framework-agnostic core) as a dependency. The service provider `Ccast\TagixoFilament\TagixoFilamentServiceProvider` is auto-discovered via Laravel's package discovery.
 
 ### 2. Run migrations
 
