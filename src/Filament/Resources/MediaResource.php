@@ -22,6 +22,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -72,59 +73,45 @@ class MediaResource extends Resource
     {
         return $table
             ->query(Media::query()->originals()->latest())
+            ->contentGrid(['sm' => 2, 'md' => 3, 'xl' => 4])
             ->columns([
-                ImageColumn::make('path')
-                    ->label(__('Preview'))
-                    ->disk(fn (Media $record) => $record->disk)
-                    ->imageSize(80)
-                    ->square(),
+                Stack::make([
+                    ImageColumn::make('path')
+                        ->label(__('Preview'))
+                        ->disk(fn (Media $record) => $record->disk)
+                        ->height('160px')
+                        ->width('100%')
+                        ->extraImgAttributes(['class' => 'object-cover w-full rounded-t-lg']),
 
-                TextColumn::make('filename')
-                    ->label(__('Filename'))
-                    ->searchable()
-                    ->sortable()
-                    ->limit(30)
-                    ->tooltip(fn (Media $record) => $record->original_filename),
+                    Stack::make([
+                        TextColumn::make('filename')
+                            ->label(__('Filename'))
+                            ->searchable()
+                            ->sortable()
+                            ->limit(24)
+                            ->weight(\Filament\Support\Enums\FontWeight::Medium)
+                            ->tooltip(fn (Media $record) => $record->original_filename),
 
-                TextColumn::make('type')
-                    ->label(__('Type'))
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'image' => 'success',
-                        'video' => 'info',
-                        'document' => 'warning',
-                        default => 'gray',
-                    })
-                    ->sortable(),
+                        TextColumn::make('type')
+                            ->label(__('Type'))
+                            ->badge()
+                            ->color(fn (string $state): string => match ($state) {
+                                'image' => 'success',
+                                'video' => 'info',
+                                'document' => 'warning',
+                                default => 'gray',
+                            }),
 
-                TextColumn::make('formatted_size')
-                    ->label(__('Size'))
-                    ->sortable(query: fn ($query, string $direction) => $query->orderBy('size', $direction)),
+                        TextColumn::make('formatted_size')
+                            ->label(__('Size'))
+                            ->color(\Filament\Support\Enums\Color::Gray),
 
-                TextColumn::make('width')
-                    ->label(__('Dimensions'))
-                    ->formatStateUsing(
-                        fn (Media $record) => $record->width && $record->height
-                        ? "{$record->width} × {$record->height}"
-                        : '—'
-                    ),
-
-                TextColumn::make('folder')
-                    ->label(__('Folder'))
-                    ->searchable()
-                    ->sortable()
-                    ->placeholder('—'),
-
-                TextColumn::make('uploader.name')
-                    ->label(__('Uploaded By'))
-                    ->sortable()
-                    ->toggleable(),
-
-                TextColumn::make('created_at')
-                    ->label(__('Uploaded At'))
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                        TextColumn::make('folder')
+                            ->label(__('Folder'))
+                            ->placeholder('—')
+                            ->color(\Filament\Support\Enums\Color::Gray),
+                    ])->space(1)->extraAttributes(['class' => 'p-3']),
+                ]),
             ])
             ->filters([
                 SelectFilter::make('type')

@@ -58,6 +58,18 @@ trait InteractsWithVisualBuilderFilament
     }
 
     /**
+     * URL the builder's back/exit arrow links to.
+     *
+     * Null by default (standalone pages fall back to history.back() /
+     * window.close()). Resource-backed builder pages override this to return
+     * the owning resource's index URL — see FilamentVisualBuilderPage.
+     */
+    public function getBackUrl(): ?string
+    {
+        return null;
+    }
+
+    /**
      * Regenerate stylesheet for live canvas preview.
      * Called from the Vue frontend via $wire.regenerateStylesheet(structure).
      */

@@ -39,8 +39,23 @@ class FormSchemaDefinitionResolver
 
         if (is_string($definition)) {
             $trimmed = trim($definition);
+
+            // Numeric string → tgx_forms.id
             if ($trimmed !== '' && ctype_digit($trimmed)) {
                 return $this->loadFieldsByFormSchemaId((int) $trimmed);
+            }
+
+            // Non-numeric, non-JSON string → tgx_forms.slug. We only attempt a
+            // slug lookup when the string doesn't look like an inline JSON
+            // definition (object/array), so passing a raw JSON schema string
+            // keeps working unchanged. A miss falls through to returning the
+            // string as-is (treated as an inline definition by the caller).
+            if ($trimmed !== '' && ! $this->looksLikeJson($trimmed)) {
+                $bySlug = $this->loadFieldsByFormSchemaSlug($trimmed);
+
+                if ($bySlug !== null) {
+                    return $bySlug;
+                }
             }
 
             return $definition;
@@ -237,13 +252,52 @@ class FormSchemaDefinitionResolver
             ->where('id', $formSchemaId)
             ->first();
 
+        return $this->extractFieldsFromRow($row);
+    }
+
+    /**
+     * Load a form definition by its unique tgx_forms.slug.
+     *
+     * @return array<int, array<string, mixed>>|null
+     */
+    protected function loadFieldsByFormSchemaSlug(string $slug): ?array
+    {
+        $formsTable = $this->resolveFormsTable();
+
+        if ($slug === '' || $formsTable === null) {
+            return null;
+        }
+
+        $row = DB::table($formsTable)
+            ->where('slug', $slug)
+            ->first();
+
+        return $this->extractFieldsFromRow($row);
+    }
+
+    /**
+     * Extract the ordered field components from a tgx_forms row.
+     *
+     * Canonical column is `fields` (the ordered field components written by
+     * the builder since the content/fields split); `schema` is the legacy
+     * single-blob column from pre-split / pre-rename tables. property_exists
+     * guards avoid "undefined property" warnings on tables missing either.
+     *
+     * @return array<int, array<string, mixed>>|null
+     */
+    protected function extractFieldsFromRow(?object $row): ?array
+    {
         if (! $row) {
             return null;
         }
 
-        // Canonical column is `schema` (written by the builder); `fields`
-        // is the legacy column from pre-rename form_schemas tables.
-        $fields = $row->schema ?? $row->fields ?? null;
+        $fields = null;
+        foreach (['fields', 'schema'] as $column) {
+            if (property_exists($row, $column) && $row->{$column} !== null) {
+                $fields = $row->{$column};
+                break;
+            }
+        }
 
         if (is_array($fields)) {
             return $fields;
@@ -256,6 +310,17 @@ class FormSchemaDefinitionResolver
         }
 
         return [];
+    }
+
+    /**
+     * Whether a string looks like an inline JSON object/array definition,
+     * in which case it must NOT be treated as a slug.
+     */
+    protected function looksLikeJson(string $value): bool
+    {
+        $first = $value[0] ?? '';
+
+        return $first === '{' || $first === '[';
     }
 
     protected function resolveFormsTable(): ?string

@@ -156,3 +156,40 @@ it('falls back to form_schemas table when tgx_forms table is missing', function 
     expect($components[0])->toBeInstanceOf(TextInput::class);
     expect($components[0]->getName())->toBe('legacy_table_field');
 });
+
+it('resolves a form by its tgx_forms.slug', function () {
+    insertTgxForm(8001, 'Contact Form', 'contact-form', [
+        'fields' => [
+            ['type' => 'text', 'name' => 'slug_field', 'label' => 'Slug Field'],
+        ],
+    ]);
+
+    $components = Form::components('contact-form');
+
+    expect($components)->toHaveCount(1);
+    expect($components[0])->toBeInstanceOf(TextInput::class);
+    expect($components[0]->getName())->toBe('slug_field');
+});
+
+it('does not treat an inline json string as a slug', function () {
+    // A slug-less JSON string starting with `{`/`[` must be parsed inline,
+    // never looked up against tgx_forms.slug.
+    $json = json_encode([
+        'fields' => [
+            ['type' => 'text', 'name' => 'inline_field', 'label' => 'Inline Field'],
+        ],
+    ], JSON_THROW_ON_ERROR);
+
+    $components = Form::components($json);
+
+    expect($components)->toHaveCount(1);
+    expect($components[0]->getName())->toBe('inline_field');
+});
+
+it('returns the string unchanged when no form matches the slug', function () {
+    // Unknown slug → no row → falls through to the inline-definition path,
+    // which yields no components (the string is not a valid field array).
+    $components = Form::components('does-not-exist');
+
+    expect($components)->toBe([]);
+});

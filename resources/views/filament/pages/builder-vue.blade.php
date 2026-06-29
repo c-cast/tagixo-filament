@@ -41,7 +41,17 @@
 >
 
     {{-- Vue App Mount Point --}}
+    {{--
+        wire:ignore is REQUIRED here. The Vue builder app mounts into this node
+        and owns its entire subtree. Without it, ANY Livewire round-trip the
+        builder makes (e.g. $wire.getComponentDefaults / saveFromVue / the
+        media-gallery modal) re-morphs the DOM back to this server markup,
+        destroying the mounted Vue app and leaving the canvas blank on the
+        "Loading Visual Builder..." spinner. The data-* attributes are read once
+        at mount, so freezing this subtree from Livewire diffing is correct.
+    --}}
     <div
+        wire:ignore
         id="tagixo-vue"
         class="flex-1 w-full min-h-0"
         data-structure="{{ json_encode($this->getStructureForVue()) }}"
@@ -60,6 +70,9 @@
         data-canvas="{{ json_encode($this->getCanvasForVue()) }}"
         @if ($previewUrl = $this->getPreviewUrl())
             data-preview-url="{{ $previewUrl }}"
+        @endif
+        @if ($backUrl = $this->getBackUrl())
+            data-back-url="{{ $backUrl }}"
         @endif
     >
         {{-- Loading State (shown until Vue mounts) --}}

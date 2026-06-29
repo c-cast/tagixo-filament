@@ -94,6 +94,8 @@
                         if (! row) return;
                         const id = row.getAttribute('data-mt-id');
                         const idx = this.indexOfId(id);
+                        const ul = root.querySelector('[x-sortable]');
+                        const sortable = ul ? ul.sortable : null;
                         drag = {
                             startX: e.clientX,
                             lastX: e.clientX,
@@ -101,6 +103,8 @@
                             depth: this.state[idx]?.depth ?? 0,
                             el: row,
                             id,
+                            sortable,
+                            originalOrder: sortable ? sortable.toArray() : [],
                         };
                     }, true);
 
@@ -115,12 +119,12 @@
                     document.addEventListener('pointermove', move, true);
                     document.addEventListener('dragover', move, true);
 
-                    const clear = () => {
+                    // Clear only the ghost indent on pointerup (covers a click with
+                    // no drag); the reorder + clearing `drag` happens in onDragEnd,
+                    // which fires after a real SortableJS drop.
+                    document.addEventListener('pointerup', () => {
                         if (drag && drag.el) drag.el.style.marginInlineStart = '';
-                        drag = null;
-                    };
-                    document.addEventListener('pointerup', clear, true);
-                    document.addEventListener('drop', clear, true);
+                    }, true);
                 },
 
                 renderGhost() {
@@ -138,30 +142,51 @@
                     drag.el.style.marginInlineStart = (d * REM) + 'rem';
                 },
 
-                // Called by x-sort after a drop. `itemId` = the moved row's key,
-                // `position` = its new flat index. We move the whole subtree and
-                // apply the depth chosen by the horizontal drag.
-                onSorted(itemId, position) {
-                    const from = this.indexOfId(itemId);
-                    if (from < 0) { drag = null; return; }
+                // Fires after a SortableJS drop (Filament x-sortable). Reassemble
+                // the dragged subtree at its new spot (children follow the parent)
+                // and apply the depth chosen by the horizontal drag.
+                onDragEnd(e) {
+                    const sortable = (drag && drag.sortable) || (e && e.target && e.target.sortable);
+                    const newOrder = sortable ? sortable.toArray().map(Number) : null;
 
-                    const len = this.blockLength(from);
-                    const block = this.state.slice(from, from + len);
-                    const rest = this.state.slice(0, from).concat(this.state.slice(from + len));
+                    if (drag && drag.el) drag.el.style.marginInlineStart = '';
 
-                    let target = position;
-                    if (position > from) target = position - len + 1;
-                    target = Math.max(0, Math.min(target, rest.length));
+                    if (! newOrder || ! drag) { drag = null; return; }
 
-                    const above = target > 0 ? rest[target - 1] : null;
+                    // Revert SortableJS's DOM move so Alpine's x-for re-renders from
+                    // `state` (the single source of truth).
+                    if (drag.originalOrder && drag.originalOrder.length) {
+                        sortable.sort(drag.originalOrder, false);
+                    }
+
+                    const dragPos = this.indexOfId(drag.id);
+                    const candidate = drag.depth;
+                    drag = null;
+                    if (dragPos < 0) return;
+
+                    const len = this.blockLength(dragPos);
+                    const block = this.state.slice(dragPos, dragPos + len);
+                    const inBlock = new Set();
+                    for (let k = 0; k < len; k++) inBlock.add(dragPos + k);
+
+                    const result = [];
+                    for (const pos of newOrder) {
+                        if (pos === dragPos) {
+                            for (const b of block) result.push(b);
+                        } else if (! inBlock.has(pos)) {
+                            result.push(this.state[pos]);
+                        }
+                    }
+                    if (result.length !== this.state.length) return;
+
+                    const at = result.indexOf(block[0]);
+                    const above = at > 0 ? result[at - 1] : null;
                     const maxDepth = above ? (above.depth ?? 0) + 1 : 0;
-                    const candidate = drag ? drag.depth : (block[0].depth ?? 0);
-                    const finalDepth = Math.max(0, Math.min(candidate, maxDepth));
+                    const finalDepth = Math.max(0, Math.min(candidate ?? (block[0].depth ?? 0), maxDepth));
                     const delta = finalDepth - (block[0].depth ?? 0);
                     block.forEach((b) => { b.depth = Math.max(0, (b.depth ?? 0) + delta); });
 
-                    drag = null;
-                    this.state = rest.slice(0, target).concat(block, rest.slice(target));
+                    this.state = result;
                     this.normalize();
                 },
 
@@ -211,18 +236,18 @@
     >
         {{-- Tree --}}
         <ul
-            x-sort="onSorted($item, $position)"
-            x-sort:config="{ handle: '.menu-tree-handle', animation: 150 }"
+            x-sortable
+            x-on:end="onDragEnd($event)"
             class="space-y-1 list-none m-0 p-0"
         >
             <template x-for="(item, i) in state" :key="item.__id">
                 <li
-                    x-sort:item="item.__id"
+                    :x-sortable-item="i"
                     :data-mt-id="item.__id"
                     class="fi-input-wrapper flex items-center gap-2 rounded-lg bg-white px-3 py-2 shadow-sm ring-1 ring-gray-950/10 dark:bg-white/5 dark:ring-white/10"
                     :style="`margin-inline-start: ${(item.depth || 0) * 1.75}rem`"
                 >
-                    <button type="button" x-sort:handle class="menu-tree-handle cursor-move text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 shrink-0" :title="'{{ __('Drag to reorder; drag right/left to change level') }}'">
+                    <button type="button" x-sortable-handle class="menu-tree-handle cursor-move text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 shrink-0" :title="'{{ __('Drag to reorder; drag right/left to change level') }}'">
                         @svg('heroicon-m-bars-2', 'w-4 h-4')
                     </button>
 

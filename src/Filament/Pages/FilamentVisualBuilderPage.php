@@ -94,6 +94,24 @@ abstract class FilamentVisualBuilderPage extends ResourcePage implements Builder
     }
 
     /**
+     * URL the builder's back/exit arrow links to.
+     *
+     * Defaults to the owning resource's index page (the list view the user
+     * came from). Override to point elsewhere (e.g. the record's edit page),
+     * or return null to fall back to history.back() / window.close().
+     */
+    public function getBackUrl(): ?string
+    {
+        $resource = static::getResource();
+
+        if (! $resource) {
+            return null;
+        }
+
+        return $resource::getUrl('index');
+    }
+
+    /**
      * Canvas prop types to exclude from the builder drawer.
      *
      * In the Filament panel context, some canvas prop types are irrelevant

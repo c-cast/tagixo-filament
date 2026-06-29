@@ -1,6 +1,6 @@
 # Tagixo Filament SDK
 
-Filament 4/5 integration for the [Tagixo Visual Builder](../tagixo). Provides Filament Resources, a Livewire-backed editor page, and an optional media gallery panel — ready to mount on any Filament panel.
+Filament 4/5 integration for the [Tagixo Visual Builder](https://tagixo.com). Provides Filament Resources, a Livewire-backed editor page, and an optional media gallery panel — ready to mount on any Filament panel.
 
 ## What you get
 
@@ -13,7 +13,7 @@ Once installed, your Filament panel gains:
 - **Auto-registered CSS asset** — the builder's Tailwind + component styles loaded via Filament's asset pipeline
 - **Livewire bridge** — media selector + global gallery modal wired into Filament's Livewire stack
 
-Underlying admin CRUD is handled by Filament Resources; the core package's standalone routes (`/tagixo/manage/*`) remain available for custom types not managed by this SDK. See the [core builder-types docs](../tagixo/docs) for details.
+Underlying admin CRUD is handled by Filament Resources; the core package's standalone routes (`/tagixo/manage/*`) remain available for custom types not managed by this SDK. See the [core builder-types docs](https://tagixo.com/docs) for details.
 
 ## Requirements
 
@@ -201,6 +201,6 @@ MIT — see [LICENSE](LICENSE) file.
 
 ## Links
 
-- Core package: [`ccast/tagixo`](../tagixo)
-- Full documentation: [`tagixo/docs/`](../tagixo/docs/)
+- Core package: [`ccast/tagixo`](https://tagixo.com)
+- Full documentation: [`tagixo/docs/`](https://tagixo.com/docs/)
 - Issues: report on the main Tagixo repository

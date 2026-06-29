@@ -3,8 +3,11 @@
 namespace Ccast\TagixoFilament\Filament\Resources\Pages\Pages;
 
 use Ccast\TagixoFilament\Filament\Resources\Pages\PageResource;
+use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Artisan;
 
 class ListPages extends ListRecords
 {
@@ -14,6 +17,32 @@ class ListPages extends ListRecords
     {
         return [
             CreateAction::make(),
+
+            Action::make('generateSitemap')
+                ->label(__('Generate Sitemap'))
+                ->icon('heroicon-o-map')
+                ->color('gray')
+                ->requiresConfirmation()
+                ->modalHeading(__('Generate Sitemap'))
+                ->modalDescription(__('This will regenerate public/sitemap.xml with all currently published pages.'))
+                ->modalSubmitActionLabel(__('Generate'))
+                ->action(function () {
+                    try {
+                        Artisan::call('tagixo:generate-sitemap');
+
+                        Notification::make()
+                            ->title(__('Sitemap generated'))
+                            ->body(__('public/sitemap.xml has been updated.'))
+                            ->success()
+                            ->send();
+                    } catch (\Throwable $e) {
+                        Notification::make()
+                            ->title(__('Sitemap generation failed'))
+                            ->body($e->getMessage())
+                            ->danger()
+                            ->send();
+                    }
+                }),
         ];
     }
 }
