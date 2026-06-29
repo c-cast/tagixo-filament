@@ -1,0 +1,27 @@
+* text=auto eol=lf
+
+*.php diff=php
+*.md diff=markdown
+
+# Files excluded from Composer release tarballs (git archive / dist).
+# They stay tracked in the repo but are stripped when consumers run
+# `composer require ccast/tagixo-filament`, so the dist only ships runtime code.
+
+# Tests & static analysis / formatting tooling
+/tests              export-ignore
+/build              export-ignore
+/.phpunit.cache     export-ignore
+/phpunit.xml.dist   export-ignore
+/phpstan.neon.dist  export-ignore
+/phpstan-baseline.neon export-ignore
+/pint.json          export-ignore
+/rector.php         export-ignore
+
+# Composer meta (libraries ship without their own lock)
+/composer.lock      export-ignore
+
+# CI / repo meta
+/.github            export-ignore
+/.editorconfig      export-ignore
+/.gitignore         export-ignore
+/.gitattributes     export-ignore
