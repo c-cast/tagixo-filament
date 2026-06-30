@@ -2,6 +2,7 @@
 
 namespace Ccast\TagixoFilament\MediaGallery\Http\Livewire;
 
+use Ccast\Tagixo\MediaGallery\Exceptions\MediaUploadException;
 use Ccast\Tagixo\MediaGallery\Models\Media;
 use Ccast\Tagixo\MediaGallery\Services\MediaService;
 use Filament\Forms\Components\Textarea;
@@ -243,8 +244,22 @@ class MediaSelector extends Component implements HasSchemas
         $uploaded = [];
 
         foreach ($this->files as $file) {
-            $media = $mediaService->upload($file);
+            try {
+                // upload() runs the authoritative server-side guard and throws
+                // when a file is rejected (size / MIME / executable extension).
+                // Surface that as a validation error instead of a 500.
+                $media = $mediaService->upload($file);
+            } catch (MediaUploadException $e) {
+                $this->addError('files', $e->getMessage());
+
+                continue;
+            }
+
             $uploaded[] = $media->id;
+        }
+
+        if ($uploaded === []) {
+            return;
         }
 
         $this->files = [];
