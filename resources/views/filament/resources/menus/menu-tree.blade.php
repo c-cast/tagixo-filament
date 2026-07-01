@@ -262,7 +262,7 @@
                     ></span>
 
                     <label class="inline-flex items-center shrink-0" :title="'{{ __('Visible') }}'">
-                        <input type="checkbox" x-model="item.visible" class="fi-checkbox-input rounded border-gray-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-gray-600 dark:bg-white/5">
+                        <x-filament::input.checkbox x-model="item.visible" />
                     </label>
 
                     <div class="flex items-center gap-0.5 shrink-0 text-gray-500 dark:text-gray-400">
@@ -308,52 +308,64 @@
                     <div class="space-y-4">
                         <div>
                             <label class="mb-1 block text-sm font-medium text-gray-950 dark:text-white">{{ __('Label') }}</label>
-                            <input type="text" x-model="editDraft.label" class="fi-input block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-white/10 dark:bg-white/5 dark:text-white">
+                            <x-filament::input.wrapper>
+                                <x-filament::input type="text" x-model="editDraft.label" />
+                            </x-filament::input.wrapper>
                         </div>
 
                         <div>
                             <label class="mb-1 block text-sm font-medium text-gray-950 dark:text-white">{{ __('Link type') }}</label>
-                            <select x-model="editDraft.target_type" class="fi-select block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-white/10 dark:bg-white/5 dark:text-white">
-                                <template x-for="opt in linkTypeOptions" :key="opt.value">
-                                    <option :value="opt.value" x-text="opt.label"></option>
-                                </template>
-                            </select>
+                            <x-filament::input.wrapper>
+                                <x-filament::input.select x-model="editDraft.target_type">
+                                    <template x-for="opt in linkTypeOptions" :key="opt.value">
+                                        <option :value="opt.value" x-text="opt.label"></option>
+                                    </template>
+                                </x-filament::input.select>
+                            </x-filament::input.wrapper>
                         </div>
 
                         <div x-show="editDraft.target_type === 'page'">
                             <label class="mb-1 block text-sm font-medium text-gray-950 dark:text-white">{{ __('Page') }}</label>
-                            <select x-model.number="editDraft.target_page_id" class="fi-select block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-white/10 dark:bg-white/5 dark:text-white">
-                                <option :value="null">{{ __('— Select a page —') }}</option>
-                                <template x-for="opt in pageOptions" :key="opt.value">
-                                    <option :value="opt.value" x-text="opt.label"></option>
-                                </template>
-                            </select>
+                            <x-filament::input.wrapper>
+                                <x-filament::input.select x-model.number="editDraft.target_page_id">
+                                    <option :value="null">{{ __('— Select a page —') }}</option>
+                                    <template x-for="opt in pageOptions" :key="opt.value">
+                                        <option :value="opt.value" x-text="opt.label"></option>
+                                    </template>
+                                </x-filament::input.select>
+                            </x-filament::input.wrapper>
                         </div>
 
                         <div x-show="editDraft.target_type !== 'page'">
                             <label class="mb-1 block text-sm font-medium text-gray-950 dark:text-white">{{ __('Link target') }}</label>
-                            <input type="text" x-model="editDraft.target_value" class="fi-input block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-white/10 dark:bg-white/5 dark:text-white">
+                            <x-filament::input.wrapper>
+                                <x-filament::input type="text" x-model="editDraft.target_value" />
+                            </x-filament::input.wrapper>
                             <p class="mt-1 text-xs text-gray-400">{{ __('URL, route name, or anchor (#section). Depends on the link type.') }}</p>
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="mb-1 block text-sm font-medium text-gray-950 dark:text-white">{{ __('Icon') }}</label>
-                                <input type="text" x-model="editDraft.icon" placeholder="heroicon-o-home" class="fi-input block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-white/10 dark:bg-white/5 dark:text-white">
+                                <x-filament::input.wrapper>
+                                    <x-filament::input type="text" x-model="editDraft.icon" placeholder="heroicon-o-home" />
+                                </x-filament::input.wrapper>
                             </div>
                             <div>
                                 <label class="mb-1 block text-sm font-medium text-gray-950 dark:text-white">{{ __('Item CSS class') }}</label>
-                                <input type="text" x-model="editDraft.css_class" class="fi-input block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-white/10 dark:bg-white/5 dark:text-white">
+                                <x-filament::input.wrapper>
+                                    <x-filament::input type="text" x-model="editDraft.css_class" />
+                                </x-filament::input.wrapper>
                             </div>
                         </div>
 
                         <div class="flex items-center gap-6 pt-1">
                             <label class="inline-flex items-center gap-2 text-sm text-gray-950 dark:text-white">
-                                <input type="checkbox" x-model="editDraft.new_tab" class="rounded border-gray-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-gray-600 dark:bg-white/5">
+                                <x-filament::input.checkbox x-model="editDraft.new_tab" />
                                 {{ __('Open in new tab') }}
                             </label>
                             <label class="inline-flex items-center gap-2 text-sm text-gray-950 dark:text-white">
-                                <input type="checkbox" x-model="editDraft.visible" class="rounded border-gray-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-gray-600 dark:bg-white/5">
+                                <x-filament::input.checkbox x-model="editDraft.visible" />
                                 {{ __('Visible') }}
                             </label>
                         </div>
