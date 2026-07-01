@@ -52,16 +52,18 @@
         wire:ignore
         x-data="{ loading: true }"
         x-init="
-            let ready = false, busy = false, done = false;
-            const hide = () => { if (! done) { done = true; loading = false; } };
-            {{-- Reveal only once the app is ready AND the module render queue has
-                 drained — modules are fetched/rendered after tagixo:ready, and
-                 that async pass is exactly the flash we want to hide. --}}
-            const maybeHide = () => { if (ready && ! busy) setTimeout(hide, 150); };
-            window.addEventListener('tagixo:module-render-state', (e) => { busy = (e.detail?.pending ?? 0) > 0; maybeHide(); });
-            window.addEventListener('tagixo:ready', () => { ready = true; maybeHide(); }, { once: true });
-            if (document.getElementById('tagixo-vue')?.dataset.renderReady === '1') { ready = true; maybeHide(); }
-            setTimeout(hide, 10000); {{-- safety net so it can never stick --}}
+            let done = false;
+            {{-- Fade only after the browser has painted, so the reveal shows the
+                 final layout, never the in-between frame. --}}
+            const hide = () => { if (! done) { done = true; requestAnimationFrame(() => { loading = false; }); } };
+            {{-- The real flash is the canvas alignment: content paints left,
+                 then centres once the host stylesheet is regenerated. Wait for
+                 that first stylesheet application (tagixo:styles-applied). --}}
+            window.addEventListener('tagixo:styles-applied', hide, { once: true });
+            {{-- Fallbacks so the overlay can never hang if that never fires. --}}
+            window.addEventListener('tagixo:ready', () => setTimeout(hide, 600), { once: true });
+            if (document.getElementById('tagixo-vue')?.dataset.renderReady === '1') setTimeout(hide, 600);
+            setTimeout(hide, 10000);
         "
         x-show="loading"
         x-transition:leave="transition-opacity ease-out duration-300"
@@ -146,6 +148,7 @@
     document.addEventListener('livewire:navigated', () => window.initVisualBuilder?.())
 
     // Listen for structure changes from Vue and update dynamic styles
+    let tagixoStylesAppliedOnce = false;
     window.addEventListener('tagixo:structure-changed', async (e) => {
         try {
             // Request updated stylesheet from Livewire
@@ -153,6 +156,14 @@
             const styleEl = document.getElementById('tagixo-dynamic-styles');
             if (styleEl) {
                 styleEl.textContent = stylesheet;
+            }
+
+            // Signal the loading overlay that the canvas now has its full
+            // styling (including body alignment) — the first application is the
+            // moment the initial "flash of unstyled layout" resolves.
+            if (! tagixoStylesAppliedOnce) {
+                tagixoStylesAppliedOnce = true;
+                window.dispatchEvent(new CustomEvent('tagixo:styles-applied'));
             }
         } catch (error) {
             console.error('[VisualBuilder] Failed to update stylesheet:', error);
