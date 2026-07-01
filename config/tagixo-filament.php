@@ -6,6 +6,8 @@ use Ccast\TagixoFilament\Filament\Resources\Mails\MailResource;
 use Ccast\TagixoFilament\Filament\Resources\MediaResource;
 use Ccast\TagixoFilament\Filament\Resources\Menus\MenuResource;
 use Ccast\TagixoFilament\Filament\Resources\Pages\PageResource;
+use Ccast\TagixoFilament\Filament\Resources\PdfTemplates\PdfTemplateResource;
+use Ccast\TagixoFilament\Filament\Resources\Popups\PopupResource;
 use Ccast\TagixoFilament\Filament\Resources\Sliders\SliderResource;
 
 return [
@@ -33,6 +35,8 @@ return [
         FormResource::class,
         SliderResource::class,
         MailResource::class,
+        PopupResource::class,
+        PdfTemplateResource::class,
 
         /*
         | Optional resources — disabled by default.

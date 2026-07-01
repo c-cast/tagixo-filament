@@ -20,7 +20,7 @@ use Filament\Schemas\Contracts\HasSchemas;
  * Usage:
  * 1. Extend this class in your Resource's Pages directory
  * 2. Set protected static string $resource = YourResource::class
- * 3. Implement getContext() to return 'page', 'form', 'mail', or 'pdf'
+ * 3. Implement getContext() to return 'page', 'form', 'mail', 'pdf', or 'popup'
  * 4. Implement loadStructure() to load JSON from your model
  * 5. Implement saveStructure() to persist JSON to your model
  * 6. Register the page in YourResource::getPages()
@@ -39,7 +39,7 @@ abstract class FilamentVisualBuilderPage extends ResourcePage implements Builder
     /**
      * Get the builder context
      *
-     * @return string One of: 'page', 'form', 'mail', 'pdf'
+     * @return string One of: 'page', 'form', 'mail', 'pdf', 'popup'
      */
     abstract public function getContext(): string;
 
