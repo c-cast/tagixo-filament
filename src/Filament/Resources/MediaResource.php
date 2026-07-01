@@ -104,12 +104,12 @@ class MediaResource extends Resource
 
                         TextColumn::make('formatted_size')
                             ->label(__('Size'))
-                            ->color(\Filament\Support\Enums\Color::Gray),
+                            ->color('gray'),
 
                         TextColumn::make('folder')
                             ->label(__('Folder'))
                             ->placeholder('—')
-                            ->color(\Filament\Support\Enums\Color::Gray),
+                            ->color('gray'),
                     ])->space(1)->extraAttributes(['class' => 'p-3']),
                 ]),
             ])
