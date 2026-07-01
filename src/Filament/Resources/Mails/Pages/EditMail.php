@@ -2,8 +2,8 @@
 
 namespace Ccast\TagixoFilament\Filament\Resources\Mails\Pages;
 
+use Ccast\TagixoFilament\Filament\Actions\VisualBuilderAction;
 use Ccast\TagixoFilament\Filament\Resources\Mails\MailResource;
-use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
@@ -14,11 +14,7 @@ class EditMail extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('visualBuilder')
-                ->label(__('Open Visual Builder'))
-                ->icon('heroicon-o-paint-brush')
-                ->color('primary')
-                ->url(fn (): string => MailResource::getUrl('build', ['record' => $this->record])),
+            VisualBuilderAction::make(MailResource::class),
 
             DeleteAction::make(),
         ];

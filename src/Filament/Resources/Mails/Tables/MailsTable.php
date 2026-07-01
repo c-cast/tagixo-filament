@@ -4,6 +4,7 @@ namespace Ccast\TagixoFilament\Filament\Resources\Mails\Tables;
 
 use Ccast\Tagixo\Facades\Tagixo;
 use Ccast\Tagixo\Models\MailTemplate;
+use Ccast\TagixoFilament\Filament\Actions\VisualBuilderAction;
 use Ccast\TagixoFilament\Filament\Resources\Mails\MailResource;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
@@ -70,12 +71,7 @@ class MailsTable
                     ]),
             ])
             ->actions([
-                Action::make('visualBuilder')
-                    ->label(__('Visual Builder'))
-                    ->icon('heroicon-o-paint-brush')
-                    ->color('primary')
-                    ->url(fn (MailTemplate $record): string => MailResource::getUrl('build', ['record' => $record]))
-                    ->tooltip(__('Open the visual mail builder')),
+                VisualBuilderAction::make(MailResource::class),
 
                 Action::make('sendTest')
                     ->label(__('Send test'))

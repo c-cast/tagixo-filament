@@ -5,6 +5,7 @@ namespace Ccast\TagixoFilament\Filament\Resources\Pages\Tables;
 use Ccast\Tagixo\Enums\PageStatus;
 use Ccast\Tagixo\Models\Layout;
 use Ccast\Tagixo\Models\Page;
+use Ccast\TagixoFilament\Filament\Actions\VisualBuilderAction;
 use Ccast\TagixoFilament\Filament\Resources\Pages\PageResource;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
@@ -105,13 +106,7 @@ class PagesTable
             ->actions([
                 EditAction::make(),
 
-                Action::make('visualBuilder')
-                    ->label(__('Visual Builder'))
-                    ->icon('heroicon-o-paint-brush')
-                    ->color('primary')
-                    ->url(fn (Page $record) => PageResource::getUrl('build', ['record' => $record]))
-                    ->openUrlInNewTab()
-                    ->tooltip(__('Open visual page builder in new tab')),
+                VisualBuilderAction::make(PageResource::class),
 
                 Action::make('publish')
                     ->label(__('Publish'))

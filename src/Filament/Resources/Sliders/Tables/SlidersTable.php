@@ -2,8 +2,7 @@
 
 namespace Ccast\TagixoFilament\Filament\Resources\Sliders\Tables;
 
-use Ccast\Tagixo\Models\Slider;
-use Filament\Actions\Action;
+use Ccast\TagixoFilament\Filament\Actions\VisualBuilderAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -56,13 +55,7 @@ class SlidersTable
                     ]),
             ])
             ->actions([
-                Action::make('visualBuilder')
-                    ->label(__('Visual Builder'))
-                    ->icon('heroicon-o-paint-brush')
-                    ->color('primary')
-                    ->url(fn (Slider $record): string => route('builder.sliders.edit', $record->id))
-                    ->openUrlInNewTab()
-                    ->tooltip(__('Open visual slider builder in new tab')),
+                VisualBuilderAction::forRoute('builder.sliders.edit'),
 
                 EditAction::make(),
                 DeleteAction::make(),

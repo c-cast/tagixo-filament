@@ -2,8 +2,7 @@
 
 namespace Ccast\TagixoFilament\Filament\Resources\Forms\Tables;
 
-use Ccast\Tagixo\Models\FormSchema;
-use Filament\Actions\Action;
+use Ccast\TagixoFilament\Filament\Actions\VisualBuilderAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -56,13 +55,7 @@ class FormsTable
                     ]),
             ])
             ->actions([
-                Action::make('visualBuilder')
-                    ->label(__('Visual Builder'))
-                    ->icon('heroicon-o-paint-brush')
-                    ->color('primary')
-                    ->url(fn (FormSchema $record): string => route('builder.forms.edit', $record->id))
-                    ->openUrlInNewTab()
-                    ->tooltip(__('Open visual form builder in new tab')),
+                VisualBuilderAction::forRoute('builder.forms.edit'),
 
                 EditAction::make(),
                 DeleteAction::make(),

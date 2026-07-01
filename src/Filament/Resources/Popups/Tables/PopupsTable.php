@@ -2,9 +2,8 @@
 
 namespace Ccast\TagixoFilament\Filament\Resources\Popups\Tables;
 
-use Ccast\Tagixo\Models\Popup;
+use Ccast\TagixoFilament\Filament\Actions\VisualBuilderAction;
 use Ccast\TagixoFilament\Filament\Resources\Popups\PopupResource;
-use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -55,12 +54,7 @@ class PopupsTable
                     ]),
             ])
             ->actions([
-                Action::make('visualBuilder')
-                    ->label(__('Visual Builder'))
-                    ->icon('heroicon-o-paint-brush')
-                    ->color('primary')
-                    ->url(fn (Popup $record): string => PopupResource::getUrl('build', ['record' => $record]))
-                    ->tooltip(__('Open the visual popup builder')),
+                VisualBuilderAction::make(PopupResource::class),
 
                 EditAction::make(),
                 DeleteAction::make(),

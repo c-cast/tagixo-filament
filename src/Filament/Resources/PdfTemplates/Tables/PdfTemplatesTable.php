@@ -3,9 +3,8 @@
 namespace Ccast\TagixoFilament\Filament\Resources\PdfTemplates\Tables;
 
 use Ccast\Tagixo\Enums\PageStatus;
-use Ccast\Tagixo\Models\PdfTemplate;
+use Ccast\TagixoFilament\Filament\Actions\VisualBuilderAction;
 use Ccast\TagixoFilament\Filament\Resources\PdfTemplates\PdfTemplateResource;
-use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -68,12 +67,7 @@ class PdfTemplatesTable
                     )->all()),
             ])
             ->actions([
-                Action::make('visualBuilder')
-                    ->label(__('Visual Builder'))
-                    ->icon('heroicon-o-paint-brush')
-                    ->color('primary')
-                    ->url(fn (PdfTemplate $record): string => PdfTemplateResource::getUrl('build', ['record' => $record]))
-                    ->tooltip(__('Open the visual PDF builder')),
+                VisualBuilderAction::make(PdfTemplateResource::class),
 
                 EditAction::make(),
                 DeleteAction::make(),

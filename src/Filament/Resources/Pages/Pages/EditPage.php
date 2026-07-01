@@ -3,6 +3,7 @@
 namespace Ccast\TagixoFilament\Filament\Resources\Pages\Pages;
 
 use Ccast\Tagixo\Enums\PageStatus;
+use Ccast\TagixoFilament\Filament\Actions\VisualBuilderAction;
 use Ccast\TagixoFilament\Filament\Resources\Pages\PageResource;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
@@ -15,14 +16,7 @@ class EditPage extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('openVisualBuilder')
-                ->label(__('Visual Builder'))
-                ->icon('heroicon-o-paint-brush')
-                ->color('primary')
-                ->badge(__('New'))
-                ->badgeColor('success')
-                ->url(fn ($record) => PageResource::getUrl('build', ['record' => $record]))
-                ->tooltip(__('Switch to visual builder mode')),
+            VisualBuilderAction::make(PageResource::class),
 
             // Header/footer are edited from the Layout resource (Layouts →
             // Edit Header / Edit Footer), not from the page.
