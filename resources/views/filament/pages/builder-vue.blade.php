@@ -52,11 +52,16 @@
         wire:ignore
         x-data="{ loading: true }"
         x-init="
-            const hide = () => { loading = false };
-            window.addEventListener('tagixo:ready', () => setTimeout(hide, 200), { once: true });
-            window.addEventListener('tagixo:mounted', () => setTimeout(hide, 700), { once: true });
-            if (document.getElementById('tagixo-vue')?.dataset.renderReady === '1') hide();
-            setTimeout(hide, 8000);
+            let ready = false, busy = false, done = false;
+            const hide = () => { if (! done) { done = true; loading = false; } };
+            {{-- Reveal only once the app is ready AND the module render queue has
+                 drained — modules are fetched/rendered after tagixo:ready, and
+                 that async pass is exactly the flash we want to hide. --}}
+            const maybeHide = () => { if (ready && ! busy) setTimeout(hide, 150); };
+            window.addEventListener('tagixo:module-render-state', (e) => { busy = (e.detail?.pending ?? 0) > 0; maybeHide(); });
+            window.addEventListener('tagixo:ready', () => { ready = true; maybeHide(); }, { once: true });
+            if (document.getElementById('tagixo-vue')?.dataset.renderReady === '1') { ready = true; maybeHide(); }
+            setTimeout(hide, 10000); {{-- safety net so it can never stick --}}
         "
         x-show="loading"
         x-transition:leave="transition-opacity ease-out duration-300"
