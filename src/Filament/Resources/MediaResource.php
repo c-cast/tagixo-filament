@@ -65,6 +65,7 @@ class MediaResource extends Resource
     {
         return $schema->components([
             Section::make(__('Media Details'))
+                ->columnSpanFull()
                 ->schema(static::mediaDetailsComponents()),
         ]);
     }
@@ -143,6 +144,7 @@ class MediaResource extends Resource
                 EditAction::make()
                     ->schema([
                         Section::make(__('Media Details'))
+                            ->columnSpanFull()
                             ->schema(static::mediaDetailsComponents()),
                     ])
                     ->mutateDataUsing(function (array $data): array {
