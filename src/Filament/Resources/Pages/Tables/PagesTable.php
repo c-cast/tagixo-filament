@@ -34,21 +34,6 @@ class PagesTable
                     ->color(fn (PageStatus $state): string => $state->color())
                     ->formatStateUsing(fn (PageStatus $state): string => $state->label()),
 
-                TextColumn::make('template')
-                    ->label(__('Template'))
-                    ->badge()
-                    ->color('info')
-                    ->searchable()
-                    ->sortable(),
-
-                TextColumn::make('theme')
-                    ->label(__('Theme'))
-                    ->badge()
-                    ->color('gray')
-                    ->default(__('Default'))
-                    ->toggleable()
-                    ->sortable(),
-
                 TextColumn::make('layout_label')
                     ->label(__('Layout'))
                     ->state(function (Page $record): string {
@@ -109,24 +94,6 @@ class PagesTable
                         'published' => __('Published'),
                         'scheduled' => __('Scheduled'),
                         'archived' => __('Archived'),
-                    ]),
-
-                SelectFilter::make('template')
-                    ->label(__('Template'))
-                    ->options([
-                        'default' => __('Default'),
-                        'landing' => __('Landing Page'),
-                        'contact' => __('Contact'),
-                        'about' => __('About'),
-                        'product' => __('Product'),
-                    ]),
-
-                SelectFilter::make('theme')
-                    ->label(__('Theme'))
-                    ->options([
-                        'default' => __('Default Theme'),
-                        'dark' => __('Dark Theme'),
-                        'minimal' => __('Minimal Theme'),
                     ]),
 
                 SelectFilter::make('layout_id')

@@ -144,18 +144,6 @@ class BuildPage extends FilamentVisualBuilderPage
                 'type' => 'string',
             ],
             [
-                'key' => 'template',
-                'label' => __('Template'),
-                'value' => $record->template,
-                'type' => 'string',
-            ],
-            [
-                'key' => 'theme',
-                'label' => __('Theme'),
-                'value' => $record->theme,
-                'type' => 'string',
-            ],
-            [
                 'key' => 'layout_id',
                 'label' => __('Layout ID'),
                 'value' => $record->layout_id,
