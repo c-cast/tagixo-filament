@@ -66,4 +66,18 @@ return [
         'fields' => [],
         'wrappers' => [],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Pages resource
+    |--------------------------------------------------------------------------
+    |
+    | `sitemap_action`: show the "Generate Sitemap" header action on the Pages
+    | list. Turn it off where a single global sitemap doesn't apply (e.g. a
+    | per-tenant demo).
+    |
+    */
+    'pages' => [
+        'sitemap_action' => (bool) env('TAGIXO_FILAMENT_SITEMAP_ACTION', true),
+    ],
 ];

@@ -22,6 +22,9 @@ class ListPages extends ListRecords
                 ->label(__('Generate Sitemap'))
                 ->icon('heroicon-o-map')
                 ->color('gray')
+                // A single global sitemap makes no sense in some setups (e.g. a
+                // per-tenant demo). Toggle off via config to hide the action.
+                ->visible(fn (): bool => (bool) config('tagixo-filament.pages.sitemap_action', true))
                 ->requiresConfirmation()
                 ->modalHeading(__('Generate Sitemap'))
                 ->modalDescription(__('This will regenerate public/sitemap.xml with all currently published pages.'))
