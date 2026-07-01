@@ -41,6 +41,9 @@ class PageForm
                             ->unique(ignoreRecord: true)
                             ->suffixIcon('heroicon-o-link')
                             ->placeholder(__('Slug'))
+                            ->helperText(fn (): string => __('Use the slug ":slug" to make this page the site homepage (served at /).', [
+                                'slug' => config('tagixo.frontend.home_slug', 'home'),
+                            ]))
                             ->columnSpan([
                                 'default' => 12,
                                 '2xl' => 5

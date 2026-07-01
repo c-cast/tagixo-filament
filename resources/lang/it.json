@@ -163,6 +163,7 @@
     "Uploaded At": "Caricato il",
     "Uploaded By": "Caricato da",
     "URL": "URL",
+    "Use the slug \":slug\" to make this page the site homepage (served at /).": "Usa lo slug \":slug\" per rendere questa pagina la homepage del sito (servita su /).",
     "Videos": "Video",
     "Visual Builder": "Visual Builder",
     "Wrapper CSS class": "Classe CSS wrapper"
