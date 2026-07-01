@@ -53,9 +53,15 @@
         x-data="{ loading: true }"
         x-init="
             let done = false;
-            {{-- Fade only after the browser has painted, so the reveal shows the
-                 final layout, never the in-between frame. --}}
-            const hide = () => { if (! done) { done = true; requestAnimationFrame(() => { loading = false; }); } };
+            {{-- Let the new stylesheet reflow + paint (two frames) plus a short
+                 buffer before fading, so the reveal only ever shows the final
+                 centred layout, never the in-between left-aligned frame. --}}
+            const hide = () => {
+                if (done) return; done = true;
+                requestAnimationFrame(() => requestAnimationFrame(() => {
+                    setTimeout(() => { loading = false; }, 150);
+                }));
+            };
             {{-- The real flash is the canvas alignment: content paints left,
                  then centres once the host stylesheet is regenerated. Wait for
                  that first stylesheet application (tagixo:styles-applied). --}}
