@@ -2,7 +2,6 @@
 
 namespace Ccast\TagixoFilament;
 
-use Ccast\TagixoFilament\Filament\Pages\ManageSiteSettings;
 use Ccast\TagixoFilament\Filament\Resources\Forms\FormResource;
 use Ccast\TagixoFilament\Filament\Resources\LayoutResource;
 use Ccast\TagixoFilament\Filament\Resources\Mails\MailResource;
@@ -40,10 +39,6 @@ class TagixoFilamentPlugin implements Plugin
         }
 
         $panel->resources($resources);
-
-        $panel->pages([
-            ManageSiteSettings::class,
-        ]);
     }
 
     /**
