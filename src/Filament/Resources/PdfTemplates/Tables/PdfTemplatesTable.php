@@ -3,6 +3,7 @@
 namespace Ccast\TagixoFilament\Filament\Resources\PdfTemplates\Tables;
 
 use Ccast\Tagixo\Enums\PageStatus;
+use Ccast\TagixoFilament\Filament\Actions\PdfPreviewAction;
 use Ccast\TagixoFilament\Filament\Actions\VisualBuilderAction;
 use Ccast\TagixoFilament\Filament\Resources\PdfTemplates\PdfTemplateResource;
 use Filament\Actions\BulkActionGroup;
@@ -68,6 +69,8 @@ class PdfTemplatesTable
             ])
             ->actions([
                 VisualBuilderAction::make(PdfTemplateResource::class),
+
+                PdfPreviewAction::make(),
 
                 EditAction::make(),
                 DeleteAction::make(),

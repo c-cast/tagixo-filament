@@ -2,6 +2,7 @@
 
 namespace Ccast\TagixoFilament\Filament\Resources\PdfTemplates\Pages;
 
+use Ccast\TagixoFilament\Filament\Actions\PdfPreviewAction;
 use Ccast\TagixoFilament\Filament\Actions\VisualBuilderAction;
 use Ccast\TagixoFilament\Filament\Resources\PdfTemplates\PdfTemplateResource;
 use Filament\Actions\DeleteAction;
@@ -15,6 +16,8 @@ class EditPdfTemplate extends EditRecord
     {
         return [
             VisualBuilderAction::make(PdfTemplateResource::class),
+
+            PdfPreviewAction::make(),
 
             DeleteAction::make(),
         ];
