@@ -40,6 +40,39 @@
     class="tagixo-container h-screen flex flex-col bg-gray-100 dark:bg-gray-800"
 >
 
+    {{--
+        First-paint loading screen. The Vue builder renders its canvas before
+        the dynamic stylesheet is applied, so without this the user briefly sees
+        unstyled content. This overlay is visible immediately (plain CSS, before
+        Alpine boots) and covers the whole builder until Vue signals it is
+        mounted and ready (`tagixo:ready`), then fades out. `wire:ignore` keeps
+        Livewire round-trips (save, media modal) from re-showing it.
+    --}}
+    <div
+        wire:ignore
+        x-data="{ loading: true }"
+        x-init="
+            const hide = () => { loading = false };
+            window.addEventListener('tagixo:ready', () => setTimeout(hide, 200), { once: true });
+            window.addEventListener('tagixo:mounted', () => setTimeout(hide, 700), { once: true });
+            if (document.getElementById('tagixo-vue')?.dataset.renderReady === '1') hide();
+            setTimeout(hide, 8000);
+        "
+        x-show="loading"
+        x-transition:leave="transition-opacity ease-out duration-300"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="tagixo-builder-loading fixed inset-0 z-[9999] flex items-center justify-center bg-white dark:bg-gray-900"
+    >
+        <div class="text-center">
+            <svg class="animate-spin h-10 w-10 text-primary-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="text-gray-500 dark:text-gray-400">{{ __('Loading Visual Builder...') }}</p>
+        </div>
+    </div>
+
     {{-- Vue App Mount Point --}}
     {{--
         wire:ignore is REQUIRED here. The Vue builder app mounts into this node
