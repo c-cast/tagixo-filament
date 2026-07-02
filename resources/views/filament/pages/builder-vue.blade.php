@@ -41,50 +41,12 @@
 >
 
     {{--
-        First-paint loading screen. The Vue builder renders its canvas before
-        the dynamic stylesheet is applied, so without this the user briefly sees
-        unstyled content. This overlay is visible immediately (plain CSS, before
-        Alpine boots) and covers the whole builder until Vue signals it is
-        mounted and ready (`tagixo:ready`), then fades out. `wire:ignore` keeps
-        Livewire round-trips (save, media modal) from re-showing it.
+        The first-paint loading overlay lives INSIDE the Vue builder app (its
+        Suspense fallback + boot overlay), which owns the single loading state
+        and hides it only once the canvas is fully styled (on the
+        `tagixo:styles-applied` event dispatched below). Do NOT add an overlay
+        here too — it would stack a second spinner over the Vue one.
     --}}
-    <div
-        wire:ignore
-        x-data="{ loading: true }"
-        x-init="
-            let done = false;
-            {{-- Let the new stylesheet reflow + paint (two frames) plus a short
-                 buffer before fading, so the reveal only ever shows the final
-                 centred layout, never the in-between left-aligned frame. --}}
-            const hide = () => {
-                if (done) return; done = true;
-                requestAnimationFrame(() => requestAnimationFrame(() => {
-                    setTimeout(() => { loading = false; }, 150);
-                }));
-            };
-            {{-- The real flash is the canvas alignment: content paints left,
-                 then centres once the host stylesheet is regenerated. Wait for
-                 that first stylesheet application (tagixo:styles-applied). --}}
-            window.addEventListener('tagixo:styles-applied', hide, { once: true });
-            {{-- Fallbacks so the overlay can never hang if that never fires. --}}
-            window.addEventListener('tagixo:ready', () => setTimeout(hide, 600), { once: true });
-            if (document.getElementById('tagixo-vue')?.dataset.renderReady === '1') setTimeout(hide, 600);
-            setTimeout(hide, 10000);
-        "
-        x-show="loading"
-        x-transition:leave="transition-opacity ease-out duration-300"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
-        class="tagixo-builder-loading fixed inset-0 z-[9999] flex items-center justify-center bg-white dark:bg-gray-900"
-    >
-        <div class="text-center">
-            <svg class="animate-spin h-10 w-10 text-primary-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <p class="text-gray-500 dark:text-gray-400">{{ __('Loading Visual Builder...') }}</p>
-        </div>
-    </div>
 
     {{-- Vue App Mount Point --}}
     {{--
@@ -121,16 +83,8 @@
             data-back-url="{{ $backUrl }}"
         @endif
     >
-        {{-- Loading State (shown until Vue mounts) --}}
-        <div class="h-full flex items-center justify-center" x-show="!initialized">
-            <div class="text-center">
-                <svg class="animate-spin h-10 w-10 text-primary-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                <p class="text-gray-500 dark:text-gray-400">{{ __('Loading Visual Builder...') }}</p>
-            </div>
-        </div>
+        {{-- The full-screen loading overlay above is the single loading state;
+             Vue mounts into this (now empty) node and owns its subtree. --}}
     </div>
 
     {{-- Global Media Gallery Modal (singleton for all fields) --}}
