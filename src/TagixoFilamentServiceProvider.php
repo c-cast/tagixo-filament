@@ -23,11 +23,8 @@ use Ccast\TagixoFilament\FormBuilder\Modules\TextInputField;
 use Ccast\TagixoFilament\FormBuilder\Modules\WizardField;
 use Ccast\TagixoFilament\FormBuilder\Modules\WizardStepField;
 use Ccast\TagixoFilament\FormBuilder\Reactivity\ReactivityFunctionRegistry;
-use Ccast\TagixoFilament\MediaGallery\Http\Livewire\MediaSelector;
-use Ccast\TagixoFilament\MediaGallery\Livewire\GlobalMediaGalleryModal;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
-use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -140,20 +137,6 @@ class TagixoFilamentServiceProvider extends PackageServiceProvider
             Css::make('tagixo', base_path('vendor/ccast/tagixo/dist/tagixo.css')),
         ], $this->getAssetPackageName());
 
-        // Livewire 4's Finder early-returns for namespaced names without
-        // checking the explicit classComponents map, so Livewire::component()
-        // alone does not work for `media-gallery::*` aliases. Register them
-        // via resolveMissingComponent() instead.
-        Livewire::component('media-gallery::media-selector', MediaSelector::class);
-        Livewire::component('media-gallery::global-media-gallery-modal', GlobalMediaGalleryModal::class);
-
-        Livewire::resolveMissingComponent(function (string $name): ?string {
-            return match ($name) {
-                'media-gallery::media-selector' => MediaSelector::class,
-                'media-gallery::global-media-gallery-modal' => GlobalMediaGalleryModal::class,
-                default => null,
-            };
-        });
     }
 
     protected function getAssetPackageName(): ?string

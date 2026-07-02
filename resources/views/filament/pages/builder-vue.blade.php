@@ -83,12 +83,9 @@
             data-back-url="{{ $backUrl }}"
         @endif
     >
-        {{-- The full-screen loading overlay above is the single loading state;
-             Vue mounts into this (now empty) node and owns its subtree. --}}
+        {{-- Vue mounts into this (empty) node and owns its subtree, including
+             its own boot overlay and its media picker (MediaGalleryModal.vue). --}}
     </div>
-
-    {{-- Global Media Gallery Modal (singleton for all fields) --}}
-    <livewire:media-gallery::global-media-gallery-modal wire:key="global-media-gallery" />
 </div>
 
 @push('styles')
