@@ -112,10 +112,17 @@ class ThemeBuilderPage extends Page
         return $tree;
     }
 
+    private function likeOperator(): string
+    {
+        return \DB::getDriverName() === 'pgsql' ? 'ilike' : 'like';
+    }
+
     public function searchPages(string $query): array
     {
-        return \Ccast\Tagixo\Models\Page::where('title', 'ilike', '%'.$query.'%')
-            ->orWhere('slug', 'ilike', '%'.$query.'%')
+        $op = $this->likeOperator();
+
+        return \Ccast\Tagixo\Models\Page::where('title', $op, '%'.$query.'%')
+            ->orWhere('slug', $op, '%'.$query.'%')
             ->limit(10)
             ->get(['id', 'title'])
             ->map(fn ($p) => ['id' => $p->id, 'title' => $p->title])
@@ -129,10 +136,11 @@ class ThemeBuilderPage extends Page
             return [];
         }
 
+        $op = $this->likeOperator();
         $class = $registration['class'];
         foreach (['title', 'name', 'label', 'slug'] as $col) {
             try {
-                $results = $class::where($col, 'ilike', '%'.$query.'%')->limit(10)->get(['id', $col]);
+                $results = $class::where($col, $op, '%'.$query.'%')->limit(10)->get(['id', $col]);
 
                 return $results->map(fn ($r) => ['id' => $r->id, 'label' => $r->{$col}])->toArray();
             } catch (\Throwable) {
@@ -150,10 +158,11 @@ class ThemeBuilderPage extends Page
             return [];
         }
 
+        $op = $this->likeOperator();
         $class = $taxonomy['class'];
         foreach (['title', 'name', 'label', 'slug'] as $col) {
             try {
-                $results = $class::where($col, 'ilike', '%'.$query.'%')->limit(10)->get(['id', $col]);
+                $results = $class::where($col, $op, '%'.$query.'%')->limit(10)->get(['id', $col]);
 
                 return $results->map(fn ($r) => ['id' => $r->id, 'label' => $r->{$col}])->toArray();
             } catch (\Throwable) {

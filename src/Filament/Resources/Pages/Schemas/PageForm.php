@@ -2,7 +2,6 @@
 
 namespace Ccast\TagixoFilament\Filament\Resources\Pages\Schemas;
 
-use Ccast\Tagixo\Facades\Tagixo;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
@@ -65,55 +64,6 @@ class PageForm
                     ])
                     ->columnSpanFull()
                     ->columns(12),
-                Section::make(__("Template"))
-                ->schema([
-                    Select::make('template_type')
-                        ->label(__('Template Type'))
-                        ->options([
-                            'static' => __('Static'),
-                            'archive' => __('Archive (all records)'),
-                            'single' => __('Single (one record per URL)'),
-                            'specific' => __('Specific (fixed record)'),
-                        ])
-                        ->default('static')
-                        ->live()
-                        ->helperText(__('Static: normal page. Archive: lists all model records. Single: /slug/{record}. Specific: always shows the same record.'))
-                        ->columnSpanFull(),
-
-                    Select::make('model_class')
-                        ->label(__('Model'))
-                        ->options(fn () => collect(Tagixo::getRegisteredModels())->mapWithKeys(fn ($m) => [$m['class'] => $m['label']])->all())
-                        ->searchable()
-                        ->nullable()
-                        ->helperText(__('The Eloquent model that provides data for this template page.'))
-                        ->visible(fn ($get) => in_array($get('template_type'), ['archive', 'single', 'specific'], true))
-                        ->columnSpan([
-                            'default' => 12,
-                            '2xl' => 8
-                        ]),
-
-                    Select::make('model_url_key')
-                        ->label(__('URL Key'))
-                        ->options(fn ($get) => self::resolveModelAttributes($get('model_class')))
-                        ->default('id')
-                        ->helperText(__('The model attribute used as the URL parameter (e.g. id, slug).'))
-                        ->visible(fn ($get) => $get('template_type') === 'single')
-                        ->columnSpan([
-                            'default' => 12,
-                            '2xl' => 4
-                        ]),
-
-                    TextInput::make('model_id')
-                        ->label(__('Record ID'))
-                        ->numeric()
-                        ->nullable()
-                        ->helperText(__('The ID of the specific record to display on this page.'))
-                        ->visible(fn ($get) => $get('template_type') === 'specific')
-                        ->columnSpan([
-                            'default' => 12,
-                            '2xl' => 4
-                        ]),
-                ])->columnSpanFull()->columns(12)
             ])->columnSpan([
                 'default' => 12,
                 '2xl' => 8

@@ -31,6 +31,11 @@ class PageResource extends Resource
         return __('Visual Builder');
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->userManaged();
+    }
+
     public static function canAccess(): bool
     {
         return true;
