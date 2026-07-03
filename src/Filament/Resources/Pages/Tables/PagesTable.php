@@ -3,7 +3,6 @@
 namespace Ccast\TagixoFilament\Filament\Resources\Pages\Tables;
 
 use Ccast\Tagixo\Enums\PageStatus;
-use Ccast\Tagixo\Models\Layout;
 use Ccast\Tagixo\Models\Page;
 use Ccast\TagixoFilament\Filament\Actions\VisualBuilderAction;
 use Ccast\TagixoFilament\Filament\Resources\Pages\PageResource;
@@ -34,31 +33,6 @@ class PagesTable
                     ->badge()
                     ->color(fn (PageStatus $state): string => $state->color())
                     ->formatStateUsing(fn (PageStatus $state): string => $state->label()),
-
-                TextColumn::make('layout_label')
-                    ->label(__('Layout'))
-                    ->state(function (Page $record): string {
-                        if ($record->layout?->name) {
-                            return $record->layout->name;
-                        }
-
-                        static $globalLayoutName = null;
-                        static $globalLayoutResolved = false;
-
-                        if (! $globalLayoutResolved) {
-                            $globalLayoutName = Layout::global()?->name;
-                            $globalLayoutResolved = true;
-                        }
-
-                        if ($globalLayoutName) {
-                            return __('Global: :name', ['name' => $globalLayoutName]);
-                        }
-
-                        return __('No layout');
-                    })
-                    ->badge()
-                    ->color(fn (Page $record): string => $record->layout_id ? 'primary' : 'gray')
-                    ->toggleable(),
 
                 TextColumn::make('published_at')
                     ->label(__('Published'))
@@ -97,11 +71,6 @@ class PagesTable
                         'archived' => __('Archived'),
                     ]),
 
-                SelectFilter::make('layout_id')
-                    ->label(__('Layout'))
-                    ->relationship('layout', 'name')
-                    ->searchable()
-                    ->preload(),
             ])
             ->actions([
                 EditAction::make(),

@@ -2,6 +2,7 @@
 
 namespace Ccast\TagixoFilament;
 
+use Ccast\TagixoFilament\Filament\Pages\ThemeBuilderPage;
 use Ccast\TagixoFilament\Filament\Resources\Forms\FormResource;
 use Ccast\TagixoFilament\Filament\Resources\LayoutResource;
 use Ccast\TagixoFilament\Filament\Resources\Mails\MailResource;
@@ -9,6 +10,8 @@ use Ccast\TagixoFilament\Filament\Resources\MediaResource;
 use Ccast\TagixoFilament\Filament\Resources\Menus\MenuResource;
 use Ccast\TagixoFilament\Filament\Resources\Pages\PageResource;
 use Ccast\TagixoFilament\Filament\Resources\Sliders\SliderResource;
+use Ccast\Tagixo\Contracts\HasPlugin;
+use Ccast\Tagixo\Tagixo;
 use Filament\Contracts\Plugin;
 use Filament\FilamentManager;
 use Filament\Panel;
@@ -39,6 +42,7 @@ class TagixoFilamentPlugin implements Plugin
         }
 
         $panel->resources($resources);
+        $panel->pages([ThemeBuilderPage::class]);
     }
 
     /**
@@ -60,7 +64,18 @@ class TagixoFilamentPlugin implements Plugin
 
     public function boot(Panel $panel): void
     {
-        //
+        foreach (app(Tagixo::class)->getPlugins() as $plugin) {
+            if (! ($plugin instanceof HasPlugin)) {
+                continue;
+            }
+
+            $sub = $plugin->getPlugin();
+
+            if ($sub instanceof Plugin) {
+                $sub->register($panel);
+                $sub->boot($panel);
+            }
+        }
     }
 
     public static function make(): static

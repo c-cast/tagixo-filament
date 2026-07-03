@@ -2,19 +2,13 @@
 
 namespace Ccast\TagixoFilament\Filament\Resources\Layouts\Pages;
 
-use Ccast\Tagixo\Models\Layout;
 use Ccast\Tagixo\Renderers\PageRenderer;
 use Ccast\TagixoFilament\Concerns\CleansBuilderStructure;
 use Ccast\TagixoFilament\Filament\Pages\FilamentVisualBuilderPage;
+use Ccast\TagixoFilament\Filament\Pages\ThemeBuilderPage;
 use Ccast\TagixoFilament\Filament\Resources\LayoutResource;
 use Filament\Actions\Action;
 
-/**
- * Visual Builder Page for Layout Header/Footer editing
- *
- * Extends FilamentVisualBuilderPage and loads/saves
- * header or footer content from the Layout model.
- */
 class BuildLayout extends FilamentVisualBuilderPage
 {
     use CleansBuilderStructure;
@@ -23,29 +17,33 @@ class BuildLayout extends FilamentVisualBuilderPage
 
     public string $section = 'header';
 
-    /**
-     * Get the builder context
-     */
     public function getContext(): string
     {
         return 'page';
     }
 
-    /**
-     * Mount the page with a record and section
-     */
     public function mount(int | string $record, ?string $section = 'header'): void
     {
         $this->record = $this->resolveRecord($record);
-        $this->section = in_array($section, ['header', 'footer']) ? $section : 'header';
+        $this->section = in_array($section, ['header', 'body', 'footer']) ? $section : 'header';
 
         $this->authorizeAccess();
         $this->initializeVisualBuilder();
     }
 
-    /**
-     * Load the initial structure from the Layout model
-     */
+    public function getLayoutFrameForVue(): array
+    {
+        $sectionLabel = __(['header' => 'Header', 'body' => 'Body', 'footer' => 'Footer'][$this->section] ?? 'Body');
+
+        return [
+            'enabled'     => true,
+            'activeScope' => 'body',
+            'body'   => ['scope' => 'body',   'label' => $sectionLabel, 'available' => true,  'editable' => true,  'previewHtml' => '', 'previewCss' => '', 'structure' => null],
+            'header' => ['scope' => 'header', 'label' => __('Header'),  'available' => false, 'editable' => false, 'previewHtml' => '', 'previewCss' => '', 'structure' => null],
+            'footer' => ['scope' => 'footer', 'label' => __('Footer'),  'available' => false, 'editable' => false, 'previewHtml' => '', 'previewCss' => '', 'structure' => null],
+        ];
+    }
+
     public function loadStructure(): ?string
     {
         $contentField = "{$this->section}_content";
@@ -62,9 +60,6 @@ class BuildLayout extends FilamentVisualBuilderPage
         return null;
     }
 
-    /**
-     * Save the structure to the Layout model
-     */
     public function saveStructure(string $structure): void
     {
         $decoded = json_decode($structure, true);
@@ -88,30 +83,26 @@ class BuildLayout extends FilamentVisualBuilderPage
         ]);
     }
 
-    /**
-     * Get the page title
-     */
     public function getTitle(): string
     {
-        $sectionLabel = __($this->section === 'header' ? 'Header' : 'Footer');
+        $sectionLabel = __(['header' => 'Header', 'body' => 'Body', 'footer' => 'Footer'][$this->section] ?? 'Header');
 
         return "{$this->record->name} — {$sectionLabel}";
     }
 
-    /**
-     * Get the page heading
-     */
     public function getHeading(): string
     {
         return $this->getTitle();
     }
 
-    /**
-     * Build page header actions.
-     */
+    public function getBackUrl(): ?string
+    {
+        return ThemeBuilderPage::getUrl();
+    }
+
     protected function getHeaderActions(): array
     {
-        return [
+        $actions = [
             Action::make('edit_header')
                 ->label(__('Header'))
                 ->icon('heroicon-o-paint-brush')
@@ -120,41 +111,51 @@ class BuildLayout extends FilamentVisualBuilderPage
                     'record' => $this->record,
                     'section' => 'header',
                 ])),
-            Action::make('edit_footer')
-                ->label(__('Footer'))
+        ];
+
+        if (! $this->record->is_global) {
+            $actions[] = Action::make('edit_body')
+                ->label(__('Body'))
                 ->icon('heroicon-o-paint-brush')
-                ->color($this->section === 'footer' ? 'primary' : 'gray')
+                ->color($this->section === 'body' ? 'primary' : 'gray')
                 ->url(fn () => LayoutResource::getUrl('build', [
                     'record' => $this->record,
-                    'section' => 'footer',
-                ])),
-            Action::make('back_to_layout')
-                ->label(__('Layout Settings'))
-                ->icon('heroicon-o-arrow-left')
-                ->color('gray')
-                ->url(fn () => LayoutResource::getUrl('edit', [
-                    'record' => $this->record,
-                ])),
-        ];
+                    'section' => 'body',
+                ]));
+        }
+
+        $actions[] = Action::make('edit_footer')
+            ->label(__('Footer'))
+            ->icon('heroicon-o-paint-brush')
+            ->color($this->section === 'footer' ? 'primary' : 'gray')
+            ->url(fn () => LayoutResource::getUrl('build', [
+                'record' => $this->record,
+                'section' => 'footer',
+            ]));
+
+        $actions[] = Action::make('back_to_layout')
+            ->label(__('Theme Builder'))
+            ->icon('heroicon-o-arrow-left')
+            ->color('gray')
+            ->url(fn () => ThemeBuilderPage::getUrl());
+
+        return $actions;
     }
 
-    /**
-     * Expose layout attributes to the Visual Builder Vue frontend.
-     */
     public function getPageAttributesForVue(): array
     {
         return [
             [
-                'key' => 'name',
+                'key'   => 'name',
                 'label' => __('Name'),
                 'value' => $this->record->name,
-                'type' => 'string',
+                'type'  => 'string',
             ],
             [
-                'key' => 'section',
+                'key'   => 'section',
                 'label' => __('Section'),
                 'value' => $this->section,
-                'type' => 'string',
+                'type'  => 'string',
             ],
         ];
     }

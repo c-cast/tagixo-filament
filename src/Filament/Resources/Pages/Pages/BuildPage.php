@@ -3,6 +3,7 @@
 namespace Ccast\TagixoFilament\Filament\Resources\Pages\Pages;
 
 use Ccast\Tagixo\Renderers\PageRenderer;
+use Ccast\Tagixo\Services\LayoutResolver;
 use Ccast\TagixoFilament\Concerns\CleansBuilderStructure;
 use Ccast\TagixoFilament\Filament\Pages\FilamentVisualBuilderPage;
 use Ccast\TagixoFilament\Filament\Resources\Pages\PageResource;
@@ -104,7 +105,7 @@ class BuildPage extends FilamentVisualBuilderPage
     public function getPageAttributesForVue(): array
     {
         $record = $this->record;
-        $effectiveLayout = $record->getEffectiveLayout();
+        $effectiveLayout = app(LayoutResolver::class)->resolve($record);
 
         return [
             [
@@ -142,12 +143,6 @@ class BuildPage extends FilamentVisualBuilderPage
                 'label' => __('Status'),
                 'value' => $record->status?->value,
                 'type' => 'string',
-            ],
-            [
-                'key' => 'layout_id',
-                'label' => __('Layout ID'),
-                'value' => $record->layout_id,
-                'type' => 'number',
             ],
             [
                 'key' => 'layout_name',

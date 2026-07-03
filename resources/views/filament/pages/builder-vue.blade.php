@@ -76,6 +76,9 @@
         data-available-fonts="{{ json_encode($this->getAvailableFontsForVue()) }}"
         data-prop-type-registry="{{ json_encode($this->getPropTypeRegistryForVue()) }}"
         data-canvas="{{ json_encode($this->getCanvasForVue()) }}"
+        @if (method_exists($this, 'getLayoutFrameForVue'))
+            data-layout-frame="{{ json_encode($this->getLayoutFrameForVue()) }}"
+        @endif
         @if ($previewUrl = $this->getPreviewUrl())
             data-preview-url="{{ $previewUrl }}"
         @endif

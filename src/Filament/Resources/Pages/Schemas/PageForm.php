@@ -3,7 +3,6 @@
 namespace Ccast\TagixoFilament\Filament\Resources\Pages\Schemas;
 
 use Ccast\Tagixo\Facades\Tagixo;
-use Ccast\Tagixo\Models\Layout;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
@@ -55,21 +54,9 @@ class PageForm
                             ->nullable()
                             ->columnSpan([
                                 'default' => 12,
-                                '2xl' => 6
+                                '2xl' => 12
                             ]),
 
-                        Select::make('layout_id')
-                            ->label(__('Layout'))
-                            ->options(fn () => Layout::query()->orderBy('name')->pluck('name', 'id')->all())
-                            ->searchable()
-                            ->preload()
-                            ->required()
-                            ->default(fn () => Layout::global()?->id)
-                            ->helperText(__('Other layouts override the header/footer; empty sections fall back to the Global Layout.'))
-                            ->columnSpan([
-                                'default' => 12,
-                                '2xl' => 6
-                            ]),
                         Textarea::make('excerpt')
                             ->label(__('Excerpt'))
                             ->rows(3)
