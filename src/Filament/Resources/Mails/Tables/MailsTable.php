@@ -11,9 +11,11 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -77,19 +79,75 @@ class MailsTable
                     ->label(__('Send test'))
                     ->icon('heroicon-o-paper-airplane')
                     ->color('gray')
-                    ->form([
-                        TextInput::make('recipient')
-                            ->label(__('Recipient'))
-                            ->email()
-                            ->required()
-                            ->placeholder('you@example.com'),
+                    ->form(function (): array {
+                        $needsSmtp = ! Tagixo::mailIsConfigured();
 
-                        Textarea::make('test_vars')
-                            ->label(__('Test variables (JSON)'))
-                            ->rows(4)
-                            ->placeholder('{"name": "John"}')
-                            ->helperText(__('Optional JSON object of variables interpolated into the template.')),
-                    ])
+                        return [
+                            TextInput::make('recipient')
+                                ->label(__('Recipient'))
+                                ->email()
+                                ->required()
+                                ->placeholder('you@example.com'),
+
+                            Textarea::make('test_vars')
+                                ->label(__('Test variables (JSON)'))
+                                ->rows(4)
+                                ->placeholder('{"name": "John"}')
+                                ->helperText(__('Optional JSON object of variables interpolated into the template.')),
+
+                            // Shown only when the app has no working mail transport:
+                            // the sender supplies their own SMTP just to try delivery.
+                            // These values are used for this one send and never stored.
+                            Section::make(__('SMTP settings'))
+                                ->description(__('Mail is not configured on this server. Enter your own SMTP to send the test — these details are used only for this send and are never saved.'))
+                                ->icon('heroicon-o-lock-closed')
+                                ->visible($needsSmtp)
+                                ->columns(2)
+                                ->schema([
+                                    TextInput::make('smtp_host')
+                                        ->label(__('SMTP host'))
+                                        ->required($needsSmtp)
+                                        ->placeholder('smtp.gmail.com'),
+
+                                    TextInput::make('smtp_port')
+                                        ->label(__('Port'))
+                                        ->numeric()
+                                        ->default(587)
+                                        ->required($needsSmtp),
+
+                                    Select::make('smtp_encryption')
+                                        ->label(__('Encryption'))
+                                        ->options([
+                                            'tls' => 'TLS',
+                                            'ssl' => 'SSL',
+                                            'none' => __('None'),
+                                        ])
+                                        ->default('tls')
+                                        ->selectablePlaceholder(false),
+
+                                    TextInput::make('smtp_from_address')
+                                        ->label(__('From address'))
+                                        ->email()
+                                        ->required($needsSmtp)
+                                        ->placeholder('you@example.com'),
+
+                                    TextInput::make('smtp_username')
+                                        ->label(__('Username'))
+                                        ->autocomplete('off'),
+
+                                    TextInput::make('smtp_password')
+                                        ->label(__('Password'))
+                                        ->password()
+                                        ->revealable()
+                                        ->autocomplete('new-password'),
+
+                                    TextInput::make('smtp_from_name')
+                                        ->label(__('From name'))
+                                        ->placeholder(config('app.name'))
+                                        ->columnSpanFull(),
+                                ]),
+                        ];
+                    })
                     ->action(function (MailTemplate $record, array $data): void {
                         $vars = [];
                         $raw = trim((string) ($data['test_vars'] ?? ''));
@@ -110,10 +168,23 @@ class MailsTable
 
                         $subject = $record->subject ?: '[TEST] '.$record->name;
 
+                        // Transient SMTP (only when the app can't deliver): sent
+                        // through once, never persisted. Null when mail works.
+                        $smtp = Tagixo::mailIsConfigured() ? null : [
+                            'host' => $data['smtp_host'] ?? null,
+                            'port' => $data['smtp_port'] ?? 587,
+                            'encryption' => $data['smtp_encryption'] ?? 'tls',
+                            'username' => $data['smtp_username'] ?? null,
+                            'password' => $data['smtp_password'] ?? null,
+                            'from_address' => $data['smtp_from_address'] ?? null,
+                            'from_name' => $data['smtp_from_name'] ?? null,
+                        ];
+
                         try {
                             $pending = Tagixo::mail($record->slug)
                                 ->to($data['recipient'])
-                                ->subject($subject);
+                                ->subject($subject)
+                                ->usingSmtp($smtp);
 
                             if (! empty($vars)) {
                                 $pending->with($vars);
