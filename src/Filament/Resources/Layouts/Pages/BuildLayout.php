@@ -2,6 +2,7 @@
 
 namespace Ccast\TagixoFilament\Filament\Resources\Layouts\Pages;
 
+use Ccast\Tagixo\Builder\LayoutPreviewResolver;
 use Ccast\Tagixo\Renderers\PageRenderer;
 use Ccast\TagixoFilament\Concerns\CleansBuilderStructure;
 use Ccast\TagixoFilament\Filament\Pages\FilamentVisualBuilderPage;
@@ -93,6 +94,11 @@ class BuildLayout extends FilamentVisualBuilderPage
     public function getHeading(): string
     {
         return $this->getTitle();
+    }
+
+    public function getPreviewUrl(): ?string
+    {
+        return app(LayoutPreviewResolver::class)->resolve($this->record);
     }
 
     public function getBackUrl(): ?string
