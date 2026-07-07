@@ -4,7 +4,6 @@ namespace Ccast\TagixoFilament\Filament\Resources\Layouts\Pages;
 
 use Ccast\Tagixo\Builder\LayoutPreviewResolver;
 use Ccast\Tagixo\Renderers\PageRenderer;
-use Ccast\TagixoFilament\Concerns\CleansBuilderStructure;
 use Ccast\TagixoFilament\Filament\Pages\FilamentVisualBuilderPage;
 use Ccast\TagixoFilament\Filament\Pages\ThemeBuilderPage;
 use Ccast\TagixoFilament\Filament\Resources\LayoutResource;
@@ -12,7 +11,6 @@ use Filament\Actions\Action;
 
 class BuildLayout extends FilamentVisualBuilderPage
 {
-    use CleansBuilderStructure;
 
     protected static string $resource = LayoutResource::class;
 

@@ -4,7 +4,6 @@ namespace Ccast\TagixoFilament\Filament\Resources\Pages\Pages;
 
 use Ccast\Tagixo\Renderers\PageRenderer;
 use Ccast\Tagixo\Services\LayoutResolver;
-use Ccast\TagixoFilament\Concerns\CleansBuilderStructure;
 use Ccast\TagixoFilament\Filament\Pages\FilamentVisualBuilderPage;
 use Ccast\TagixoFilament\Filament\Resources\Pages\PageResource;
 
@@ -16,7 +15,6 @@ use Ccast\TagixoFilament\Filament\Resources\Pages\PageResource;
  */
 class BuildPage extends FilamentVisualBuilderPage
 {
-    use CleansBuilderStructure;
 
     protected static string $resource = PageResource::class;
 

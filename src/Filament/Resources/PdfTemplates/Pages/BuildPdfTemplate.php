@@ -4,7 +4,6 @@ namespace Ccast\TagixoFilament\Filament\Resources\PdfTemplates\Pages;
 
 use Ccast\Tagixo\Renderers\PageRenderer;
 use Ccast\Tagixo\Renderers\PdfRenderer;
-use Ccast\TagixoFilament\Concerns\CleansBuilderStructure;
 use Ccast\TagixoFilament\Filament\Pages\FilamentVisualBuilderPage;
 use Ccast\TagixoFilament\Filament\Resources\PdfTemplates\PdfTemplateResource;
 
@@ -18,7 +17,6 @@ use Ccast\TagixoFilament\Filament\Resources\PdfTemplates\PdfTemplateResource;
  */
 class BuildPdfTemplate extends FilamentVisualBuilderPage
 {
-    use CleansBuilderStructure;
 
     protected static string $resource = PdfTemplateResource::class;
 

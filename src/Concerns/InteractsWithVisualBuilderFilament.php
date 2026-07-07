@@ -2,9 +2,6 @@
 
 namespace Ccast\TagixoFilament\Concerns;
 
-use Ccast\Tagixo\Core\StyleGenerator;
-use Ccast\Tagixo\Renderers\PageRenderer;
-use Ccast\Tagixo\Services\BuilderApiService;
 use Filament\Notifications\Notification;
 use Livewire\Attributes\On;
 
@@ -67,32 +64,6 @@ trait InteractsWithVisualBuilderFilament
     public function getBackUrl(): ?string
     {
         return null;
-    }
-
-    /**
-     * Regenerate stylesheet for live canvas preview.
-     * Called from the Vue frontend via $wire.regenerateStylesheet(structure).
-     */
-    public function regenerateStylesheet(string | array $structure): string
-    {
-        $parsed = is_array($structure) ? $structure : json_decode($structure, true);
-
-        if (! is_array($parsed)) {
-            return '';
-        }
-
-        // Prefer canonical core service when available.
-        if (class_exists(BuilderApiService::class)) {
-            return app(BuilderApiService::class)->stylesheet($parsed);
-        }
-
-        // Fallback for older core versions.
-        $components = $parsed['components'] ?? [];
-        $renderer = app(PageRenderer::class);
-        $globalVarsCss = $renderer->generateGlobalVariablesCss();
-        $componentCss = StyleGenerator::generateAllStyles($components);
-
-        return trim(($globalVarsCss ? $globalVarsCss."\n" : '').$componentCss);
     }
 
     // =========================================================================

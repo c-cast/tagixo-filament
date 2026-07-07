@@ -3,7 +3,6 @@
 namespace Ccast\TagixoFilament\Filament\Resources\Popups\Pages;
 
 use Ccast\Tagixo\Renderers\PageRenderer;
-use Ccast\TagixoFilament\Concerns\CleansBuilderStructure;
 use Ccast\TagixoFilament\Filament\Pages\FilamentVisualBuilderPage;
 use Ccast\TagixoFilament\Filament\Resources\Popups\PopupResource;
 
@@ -17,7 +16,6 @@ use Ccast\TagixoFilament\Filament\Resources\Popups\PopupResource;
  */
 class BuildPopup extends FilamentVisualBuilderPage
 {
-    use CleansBuilderStructure;
 
     protected static string $resource = PopupResource::class;
 

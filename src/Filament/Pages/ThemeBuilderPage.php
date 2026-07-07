@@ -2,8 +2,8 @@
 
 namespace Ccast\TagixoFilament\Filament\Pages;
 
-use Ccast\Tagixo\Facades\Tagixo;
 use Ccast\Tagixo\Models\Layout;
+use Ccast\Tagixo\Services\LayoutConditionService;
 use Ccast\TagixoFilament\Filament\Resources\LayoutResource;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Validator;
@@ -97,116 +97,26 @@ class ThemeBuilderPage extends Page
 
     public function getConditionTree(): array
     {
-        $models = Tagixo::getRegisteredModels();
-        $tree = [];
-        foreach ($models as $key => $model) {
-            $isTaxonomy = Tagixo::isTaxonomy($key);
-            $tree[$key] = [
-                'key'         => $key,
-                'label'       => $model['label'],
-                'is_taxonomy' => $isTaxonomy,
-                'taxonomies'  => $isTaxonomy ? [] : Tagixo::getTaxonomiesFor($key),
-            ];
-        }
-
-        return $tree;
-    }
-
-    private function likeOperator(): string
-    {
-        return \DB::getDriverName() === 'pgsql' ? 'ilike' : 'like';
+        return app(LayoutConditionService::class)->getConditionTree();
     }
 
     public function searchPages(string $query): array
     {
-        $op = $this->likeOperator();
-
-        return \Ccast\Tagixo\Models\Page::where('title', $op, '%'.$query.'%')
-            ->orWhere('slug', $op, '%'.$query.'%')
-            ->limit(10)
-            ->get(['id', 'title'])
-            ->map(fn ($p) => ['id' => $p->id, 'title' => $p->title])
-            ->toArray();
+        return app(LayoutConditionService::class)->searchPages($query);
     }
 
     public function searchRecords(string $modelKey, string $query): array
     {
-        $registration = Tagixo::getRegisteredModel($modelKey);
-        if ($registration === null) {
-            return [];
-        }
-
-        $op = $this->likeOperator();
-        $class = $registration['class'];
-        foreach (['title', 'name', 'label', 'slug'] as $col) {
-            try {
-                $results = $class::where($col, $op, '%'.$query.'%')->limit(10)->get(['id', $col]);
-
-                return $results->map(fn ($r) => ['id' => $r->id, 'label' => $r->{$col}])->toArray();
-            } catch (\Throwable) {
-                continue;
-            }
-        }
-
-        return [];
+        return app(LayoutConditionService::class)->searchRecords($modelKey, $query);
     }
 
     public function searchTaxonomyTerms(string $taxKey, string $query): array
     {
-        $taxonomy = Tagixo::getRegisteredTaxonomies()[$taxKey] ?? null;
-        if ($taxonomy === null) {
-            return [];
-        }
-
-        $op = $this->likeOperator();
-        $class = $taxonomy['class'];
-        foreach (['title', 'name', 'label', 'slug'] as $col) {
-            try {
-                $results = $class::where($col, $op, '%'.$query.'%')->limit(10)->get(['id', $col]);
-
-                return $results->map(fn ($r) => ['id' => $r->id, 'label' => $r->{$col}])->toArray();
-            } catch (\Throwable) {
-                continue;
-            }
-        }
-
-        return [];
+        return app(LayoutConditionService::class)->searchTaxonomyTerms($taxKey, $query);
     }
 
     public function getConditionLabel(array $condition): string
     {
-        $type = $condition['type'] ?? '';
-
-        return match ($type) {
-            'homepage'       => __('Homepage'),
-            'page_id'        => $condition['label'] ?? (__('Page #').($condition['value'] ?? '?')),
-            'model_all'      => __('All').' '.$this->modelLabel($condition['model'] ?? ''),
-            'model_archive'  => __('Archive').' '.$this->modelLabel($condition['model'] ?? ''),
-            'model_taxonomy' => ($condition['term_label'] ?? ('#'.($condition['term_id'] ?? '?')))
-                                .' ('.$this->modelLabel($condition['taxonomy'] ?? '').')',
-            'model_record'   => $condition['record_label'] ?? (__('Record #').($condition['model_id'] ?? '?')),
-            'all_pages'      => __('All Pages'),
-            'template_type'  => match ($condition['value'] ?? '') {
-                'static'   => __('Static Pages'),
-                'single'   => __('Single Pages'),
-                'archive'  => __('Archive Pages'),
-                'specific' => __('Specific Pages'),
-                default    => ucfirst((string) ($condition['value'] ?? '')),
-            }.(! empty($condition['model_class']) ? ' ('.class_basename($condition['model_class']).')' : ''),
-            default => ucfirst($type),
-        };
-    }
-
-    private function modelLabel(string $key): string
-    {
-        if ($key === '') {
-            return '';
-        }
-        $reg = Tagixo::getRegisteredModel($key);
-        if ($reg) {
-            return $reg['label'];
-        }
-
-        return Tagixo::getRegisteredTaxonomies()[$key]['label'] ?? $key;
+        return app(LayoutConditionService::class)->getConditionLabel($condition);
     }
 }

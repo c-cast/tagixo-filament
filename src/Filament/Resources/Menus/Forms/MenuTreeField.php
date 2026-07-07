@@ -4,8 +4,7 @@ namespace Ccast\TagixoFilament\Filament\Resources\Menus\Forms;
 
 use Ccast\Tagixo\Enums\MenuItemTargetType;
 use Ccast\Tagixo\Models\Page;
-use Ccast\TagixoFilament\Filament\Resources\Menus\Concerns\PersistsMenuItems;
-use Ccast\TagixoFilament\Support\MenuTreeStructure;
+use Ccast\Tagixo\Support\MenuTreeStructure;
 use Filament\Forms\Components\Field;
 
 /**

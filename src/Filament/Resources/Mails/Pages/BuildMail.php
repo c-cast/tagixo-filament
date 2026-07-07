@@ -3,7 +3,6 @@
 namespace Ccast\TagixoFilament\Filament\Resources\Mails\Pages;
 
 use Ccast\Tagixo\Renderers\MailRenderer;
-use Ccast\TagixoFilament\Concerns\CleansBuilderStructure;
 use Ccast\TagixoFilament\Filament\Pages\FilamentVisualBuilderPage;
 use Ccast\TagixoFilament\Filament\Resources\Mails\MailResource;
 
@@ -15,7 +14,6 @@ use Ccast\TagixoFilament\Filament\Resources\Mails\MailResource;
  */
 class BuildMail extends FilamentVisualBuilderPage
 {
-    use CleansBuilderStructure;
 
     protected static string $resource = MailResource::class;
 
