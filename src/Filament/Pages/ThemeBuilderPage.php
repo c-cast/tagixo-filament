@@ -92,7 +92,74 @@ class ThemeBuilderPage extends Page
 
     public function getBuildUrl(int $layoutId, string $section): string
     {
+        // Body of a template scoped to a registered model's pages: the special
+        // page (archive or single) is created lazily right here, the first
+        // time the Body is opened, and the builder edits THAT page — layouts
+        // and model template pages stay linked without pre-creating anything.
+        if ($section === 'body') {
+            $layout = Layout::find($layoutId);
+            $target = $this->resolveModelPageTarget($layout?->conditions ?? []);
+
+            if ($target !== null) {
+                [$modelKey, $templateType] = $target;
+                $pages = \Ccast\Tagixo\Facades\Tagixo::ensureRoutePagesForModel($modelKey);
+                $page = $pages[$templateType] ?? null;
+
+                if ($page !== null) {
+                    return \Ccast\TagixoFilament\Filament\Resources\Pages\PageResource::getUrl('build', ['record' => $page]);
+                }
+            }
+        }
+
         return LayoutResource::getUrl('build', ['record' => $layoutId, 'section' => $section]);
+    }
+
+    /**
+     * Whether the template's Body is configured: for model-scoped templates
+     * that means the special page exists and has content; otherwise the
+     * layout's own baked body decides (unchanged behavior).
+     */
+    public function isBodyConfigured($layout): bool
+    {
+        $target = $this->resolveModelPageTarget($layout->conditions ?? []);
+
+        if ($target !== null) {
+            [$modelKey, $templateType] = $target;
+            $page = \Ccast\Tagixo\Facades\Tagixo::findRoutePagesForModel($modelKey)[$templateType] ?? null;
+
+            return $page !== null && ! empty($page->content['components'] ?? null);
+        }
+
+        return (bool) $layout->body_rendered_html;
+    }
+
+    /**
+     * First layout condition that targets a registered model's pages:
+     * model_archive edits the archive page, the other model_* conditions the
+     * single page. Returns [modelKey, 'archive'|'single'] or null.
+     *
+     * @param  array<int, mixed>  $conditions
+     * @return array{0: string, 1: string}|null
+     */
+    protected function resolveModelPageTarget(array $conditions): ?array
+    {
+        foreach ($conditions as $condition) {
+            if (! is_array($condition) || empty($condition['model'])) {
+                continue;
+            }
+
+            $type = $condition['type'] ?? null;
+
+            if ($type === 'model_archive') {
+                return [(string) $condition['model'], 'archive'];
+            }
+
+            if (in_array($type, ['model_all', 'model_taxonomy', 'model_record'], true)) {
+                return [(string) $condition['model'], 'single'];
+            }
+        }
+
+        return null;
     }
 
     public function getConditionTree(): array

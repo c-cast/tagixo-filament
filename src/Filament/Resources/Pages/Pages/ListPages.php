@@ -13,6 +13,22 @@ class ListPages extends ListRecords
 {
     protected static string $resource = PageResource::class;
 
+    /**
+     * "Pages" lists the user-managed pages; "Model templates" the archive /
+     * single pages kept in sync from the registered model routes
+     * (tagixo:sync-pages) — reachable here so their content can be edited in
+     * the visual builder, while creation/deletion stays with the sync.
+     */
+    public function getTabs(): array
+    {
+        return [
+            'pages' => \Filament\Schemas\Components\Tabs\Tab::make(__('Pages'))
+                ->modifyQueryUsing(fn ($query) => $query->userManaged()),
+            'templates' => \Filament\Schemas\Components\Tabs\Tab::make(__('Model templates'))
+                ->modifyQueryUsing(fn ($query) => $query->whereNotNull('source')),
+        ];
+    }
+
     protected function getHeaderActions(): array
     {
         return [

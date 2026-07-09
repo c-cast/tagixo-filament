@@ -142,6 +142,10 @@
         border: 2px dashed var(--p-content-border-color, #e5e7eb); border-radius: var(--p-border-radius-md, .375rem);
         padding: 2rem; text-align: center; cursor: pointer;
         color: var(--p-text-muted-color, #6b7280); transition: border-color .15s, background .15s;
+        /* Flex column centering: Filament's preflight makes <svg> block-level,
+           so text-align alone leaves the upload icon stuck to the left. */
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        min-height: 10rem;
     }
     .tgx-fp-dropzone.over { border-color: var(--p-primary-color, #3b82f6); background: color-mix(in sRGB, var(--p-primary-color, #3b82f6) 5%, transparent); }
     .tgx-fp-queue { margin-top: .75rem; display: flex; flex-direction: column; gap: .35rem; max-height: 10rem; overflow-y: auto; }
@@ -683,7 +687,7 @@ if (!window.tgxMediaGalleryPicker) {
                                 </div>
                                 <template x-if="externalUrl.trim()">
                                     <div class="tgx-fp-ext-preview">
-                                        <img :src="externalUrl.trim()" style="max-width:100%;max-height:200px;object-fit:contain;display:block" @error="externalUrlError=true" @load="externalUrlError=false" />
+                                        <img :src="externalUrl.trim()" style="max-width:100%;max-height:200px;object-fit:contain;display:block" x-on:error="externalUrlError=true" x-on:load="externalUrlError=false" />
                                     </div>
                                 </template>
                                 <p x-show="externalUrlError" style="color:#ef4444;font-size:.875rem">Unable to load preview — check the URL.</p>

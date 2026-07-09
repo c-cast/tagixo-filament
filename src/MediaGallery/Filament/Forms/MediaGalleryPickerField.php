@@ -3,10 +3,13 @@
 namespace Ccast\TagixoFilament\MediaGallery\Filament\Forms;
 
 use Closure;
+use Filament\Forms\Components\Concerns\HasPlaceholder;
 use Filament\Forms\Components\Field;
 
 class MediaGalleryPickerField extends Field
 {
+    use HasPlaceholder;
+
     protected string $view = 'tagixo-filament::media-gallery.forms.media-gallery-picker';
 
     protected bool|Closure $isMultiple = false;

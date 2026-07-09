@@ -57,7 +57,7 @@
                                 style="border-color:#e5e7eb;color:#d1d5db;">
                                 <x-heroicon-o-minus class="w-4 h-4 shrink-0"/>{{ __('Body') }}
                             </span>
-                        @elseif ($layout->body_rendered_html)
+                        @elseif ($this->isBodyConfigured($layout))
                             <a href="{{ $this->getBuildUrl($layout->id, 'body') }}"
                                 class="flex items-center justify-center gap-2 w-full px-3 py-2 text-sm font-medium rounded-lg transition-colors"
                                 style="background:#059669;color:#fff;">

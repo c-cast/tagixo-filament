@@ -33,7 +33,10 @@ class PageResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->userManaged();
+        // No global userManaged() scope here: the List page splits records into
+        // "Pages" (user-managed) and "Model templates" (source-synced archive /
+        // single pages) tabs, so template pages become editable in the builder.
+        return parent::getEloquentQuery();
     }
 
     public static function canAccess(): bool

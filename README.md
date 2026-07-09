@@ -8,8 +8,9 @@ Filament 5 integration for the [Tagixo Visual Builder](https://tagixo.com). Prov
 
 Once installed, your Filament panel gains:
 
-- **Pages resource** (`/admin/pages`) — list, create, edit, and visually build pages
+- **Pages resource** (`/admin/pages`) — list, create, edit, and visually build pages. The list is split into two tabs: **Pages** (user-managed pages) and **Model templates** (the source-synced archive/single pages of registered models)
 - **Layouts resource** (`/admin/layouts`) — reusable headers/footers with the same builder UI
+- **Theme Builder page** — central place to configure templates. For model-scoped templates, opening the Body lazily creates the underlying special page (`model_archive` → archive; `model_all` / `taxonomy` / `record` → single, via `Tagixo::ensureRoutePagesForModel()`) and jumps straight into its builder; the "configured" state reflects the actual page content
 - **Media resource** (optional, `/admin/media`) — integrated media gallery with crop presets, folders, and variants
 - **`make:builder-page` artisan command** — scaffold a custom Filament Page that embeds the Tagixo builder for your own models
 - **Auto-registered CSS asset** — the builder's Tailwind + component styles loaded via Filament's asset pipeline
