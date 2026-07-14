@@ -41,11 +41,6 @@ class MediaResource extends Resource
         return __('Content');
     }
 
-    public static function canAccess(): bool
-    {
-        return true;
-    }
-
     public static function getNavigationLabel(): string
     {
         return __('Media Gallery');

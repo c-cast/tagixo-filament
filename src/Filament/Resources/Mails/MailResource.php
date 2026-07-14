@@ -31,11 +31,6 @@ class MailResource extends Resource
         return __('Visual Builder');
     }
 
-    public static function canAccess(): bool
-    {
-        return true;
-    }
-
     public static function getModelLabel(): string
     {
         return __('Mail template');

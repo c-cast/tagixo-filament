@@ -39,11 +39,6 @@ class PageResource extends Resource
         return parent::getEloquentQuery();
     }
 
-    public static function canAccess(): bool
-    {
-        return true;
-    }
-
     public static function getModelLabel(): string
     {
         return __('Page');

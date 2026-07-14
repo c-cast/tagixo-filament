@@ -20,6 +20,8 @@ class TagixoFilamentPlugin implements Plugin
 {
     private bool $mediaGallery = false;
 
+    private ?string $formTarget = null;
+
     public function getId(): string
     {
         return 'tagixo';
@@ -64,6 +66,10 @@ class TagixoFilamentPlugin implements Plugin
 
     public function boot(Panel $panel): void
     {
+        if ($this->formTarget !== null) {
+            app(Tagixo::class)->lockFormTarget($this->formTarget);
+        }
+
         foreach (app(Tagixo::class)->getPlugins() as $plugin) {
             if (! ($plugin instanceof HasPlugin)) {
                 continue;
@@ -86,6 +92,17 @@ class TagixoFilamentPlugin implements Plugin
     public static function get(): Plugin | FilamentManager
     {
         return filament(app(static::class)->getId());
+    }
+
+    /**
+     * Lock all forms in this panel to a specific target ('universal' or 'app').
+     * Hides the target selector — the user cannot change it.
+     */
+    public function formTarget(string $target): static
+    {
+        $this->formTarget = $target;
+
+        return $this;
     }
 
     public function withMediaGallery(bool $enabled = true): static

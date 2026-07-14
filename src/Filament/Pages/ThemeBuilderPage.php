@@ -8,6 +8,8 @@ use Ccast\TagixoFilament\Filament\Resources\LayoutResource;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Validator;
 
+use function Filament\get_authorization_response;
+
 class ThemeBuilderPage extends Page
 {
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-squares-2x2';
@@ -35,7 +37,11 @@ class ThemeBuilderPage extends Page
 
     public static function canAccess(): bool
     {
-        return true;
+        // The Theme Builder manages layouts: mirror the resources' semantics
+        // by following the Layout policy (config 'tagixo-filament.policies')
+        // through Filament's own authorization helper — no policy, or policy
+        // without viewAny(), keeps the page open to any panel user.
+        return get_authorization_response('viewAny', Layout::class)->allowed();
     }
 
     public static function getSlug(?\Filament\Panel $panel = null): string

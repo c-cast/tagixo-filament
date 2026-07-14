@@ -25,6 +25,7 @@ use Ccast\TagixoFilament\FormBuilder\Modules\WizardStepField;
 use Ccast\TagixoFilament\FormBuilder\Reactivity\ReactivityFunctionRegistry;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
+use Illuminate\Support\Facades\Gate;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -104,6 +105,17 @@ class TagixoFilamentServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        // Optional per-model policies from config: lets the host app gate each
+        // Tagixo builder — resource visibility/access follows the model's
+        // viewAny(), record operations follow the matching ability. Models
+        // without an entry keep the historical behaviour (open to any panel
+        // user), since Filament allows actions when no policy is registered.
+        foreach ((array) config('tagixo-filament.policies', []) as $model => $policy) {
+            if (is_string($model) && is_string($policy) && class_exists($model) && class_exists($policy)) {
+                Gate::policy($model, $policy);
+            }
+        }
+
         $this->loadJsonTranslationsFrom(__DIR__.'/../resources/lang');
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'tagixo-filament');
 

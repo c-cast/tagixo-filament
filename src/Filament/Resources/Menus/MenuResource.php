@@ -30,11 +30,6 @@ class MenuResource extends Resource
         return __('Visual Builder');
     }
 
-    public static function canAccess(): bool
-    {
-        return true;
-    }
-
     public static function getModelLabel(): string
     {
         return __('Menu');

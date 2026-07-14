@@ -12,11 +12,6 @@ class LayoutResource extends Resource
 
     protected static bool $shouldRegisterNavigation = false;
 
-    public static function canAccess(): bool
-    {
-        return true;
-    }
-
     public static function getModelLabel(): string
     {
         return __('Layout');

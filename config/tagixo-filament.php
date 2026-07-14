@@ -50,6 +50,31 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Policies
+    |--------------------------------------------------------------------------
+    |
+    | Optional per-model policy map, registered with Gate::policy() at boot.
+    | Each resource follows its model's policy: navigation and page access
+    | use viewAny(), record operations use the matching ability. The Theme
+    | Builder page follows the Layout policy. Models without an entry stay
+    | open to any panel user (Filament allows when no policy is registered).
+    |
+    | NOTE: define the ability methods explicitly (viewAny, view, create,
+    | update, delete, ...). Laravel skips a policy's before() when the
+    | ability method is missing, and Filament allows in that case — a
+    | policy with only before() would not restrict anything.
+    |
+    | Example — restrict every builder to a custom gate:
+    | 'policies' => [
+    |     \Ccast\Tagixo\Models\Page::class => \App\Policies\TagixoResourcePolicy::class,
+    |     \Ccast\Tagixo\Models\Layout::class => \App\Policies\TagixoResourcePolicy::class,
+    | ],
+    |
+    */
+    'policies' => [],
+
+    /*
+    |--------------------------------------------------------------------------
     | Form Mapper Extensions
     |--------------------------------------------------------------------------
     |

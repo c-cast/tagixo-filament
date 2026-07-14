@@ -40,10 +40,6 @@ class MenuForm
                         ->maxLength(500)
                         ->columnSpanFull(),
 
-                    TextInput::make('css_class')
-                        ->label(__('Wrapper CSS class'))
-                        ->placeholder(__('e.g. navbar-primary'))
-                        ->helperText(__('Applied to the <nav> wrapper when the menu is rendered.')),
                 ])
                 ->columns(2),
 
