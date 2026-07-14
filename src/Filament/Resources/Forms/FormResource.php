@@ -3,6 +3,7 @@
 namespace Ccast\TagixoFilament\Filament\Resources\Forms;
 
 use Ccast\Tagixo\Models\FormSchema;
+use Ccast\Tagixo\Tagixo;
 use Ccast\TagixoFilament\Filament\Resources\Forms\Pages\EditForm;
 use Ccast\TagixoFilament\Filament\Resources\Forms\Pages\ListForms;
 use Ccast\TagixoFilament\Filament\Resources\Forms\Pages\PreviewAppForm;
@@ -11,6 +12,7 @@ use Ccast\TagixoFilament\Filament\Resources\Forms\Tables\FormsTable;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use UnitEnum;
 
 class FormResource extends Resource
@@ -26,6 +28,18 @@ class FormResource extends Resource
     public static function getNavigationGroup(): string | UnitEnum | null
     {
         return __('Visual Builder');
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+        $locked = app(Tagixo::class)->getLockedFormTarget();
+
+        if ($locked !== null) {
+            $query->where('form_target', $locked);
+        }
+
+        return $query;
     }
 
     public static function getModelLabel(): string
