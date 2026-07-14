@@ -12,6 +12,7 @@ use Ccast\TagixoFilament\Filament\Resources\Pages\PageResource;
 use Ccast\TagixoFilament\Filament\Resources\Sliders\SliderResource;
 use Ccast\Tagixo\Contracts\HasPlugin;
 use Ccast\Tagixo\Tagixo;
+use Ccast\TagixoFilament\Forms\PropTypes\FilamentTablePropType;
 use Filament\Contracts\Plugin;
 use Filament\FilamentManager;
 use Filament\Panel;
@@ -69,6 +70,8 @@ class TagixoFilamentPlugin implements Plugin
         if ($this->formTarget !== null) {
             app(Tagixo::class)->lockFormTarget($this->formTarget);
         }
+
+        app(Tagixo::class)->extendFormModule('*', ['table' => FilamentTablePropType::class]);
 
         foreach (app(Tagixo::class)->getPlugins() as $plugin) {
             if (! ($plugin instanceof HasPlugin)) {
