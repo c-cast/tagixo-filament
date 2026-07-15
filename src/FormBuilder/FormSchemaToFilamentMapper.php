@@ -477,8 +477,9 @@ class FormSchemaToFilamentMapper
             // is never called upstream. Backfill column_span here so both formats
             // behave consistently when the key is absent (default = 12, full width).
             if (! isset($field['column_span'])) {
-                $typeId  = (string) ($field['type'] ?? '');
-                $filled  = $typeId !== '' ? FormModule::fillContentDefaults($typeId, $field) : $field;
+                $fieldType = (string) ($field['type'] ?? '');
+                $typeId    = $fieldType !== '' ? $this->resolveTypeIdFromFieldType($fieldType) : '';
+                $filled    = $typeId !== '' ? FormModule::fillContentDefaults($typeId, $field) : $field;
                 if (isset($filled['column_span'])) {
                     $field['column_span'] = $filled['column_span'];
                 }
@@ -486,5 +487,30 @@ class FormSchemaToFilamentMapper
 
             return $field;
         }, $schemaFields);
+    }
+
+    /** @var array<string,string>|null */
+    private ?array $fieldTypeToTypeIdMap = null;
+
+    /**
+     * Translate a simple-format field `type` (getFieldType()) to the ComponentRegistry
+     * key (getTypeId()). For many modules these differ (e.g. 'text' → 'text-input').
+     * Falls back to the value itself when no mapping is found.
+     */
+    private function resolveTypeIdFromFieldType(string $fieldType): string
+    {
+        if ($this->fieldTypeToTypeIdMap === null) {
+            $this->fieldTypeToTypeIdMap = [];
+            $registry = $this->componentRegistry;
+            foreach ($registry->all() as $typeId => $class) {
+                $meta = $registry->getMetadata($typeId);
+                $ft   = (string) ($meta['field_type'] ?? '');
+                if ($ft !== '' && ! isset($this->fieldTypeToTypeIdMap[$ft])) {
+                    $this->fieldTypeToTypeIdMap[$ft] = $typeId;
+                }
+            }
+        }
+
+        return $this->fieldTypeToTypeIdMap[$fieldType] ?? $fieldType;
     }
 }
