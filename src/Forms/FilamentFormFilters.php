@@ -2,6 +2,7 @@
 
 namespace Ccast\TagixoFilament\Forms;
 
+use Ccast\Tagixo\FormBuilder\FormModule;
 use Ccast\Tagixo\Models\FormSchema;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -28,7 +29,9 @@ class FilamentFormFilters
         $filters = [];
 
         foreach ($form->fields ?? [] as $field) {
+            $typeId     = (string) ($field['type'] ?? '');
             $tableProps = $field['props']['table'] ?? [];
+            $content    = FormModule::fillContentDefaults($typeId, $field['props']['content'] ?? []);
 
             if (! (bool) self::prop($tableProps, 'show_in_table')) {
                 continue;
@@ -38,7 +41,7 @@ class FilamentFormFilters
                 continue;
             }
 
-            $fieldKey = $field['props']['content']['name'] ?? $field['key'] ?? $field['id'] ?? null;
+            $fieldKey = $content['name'] ?? $field['key'] ?? $field['id'] ?? null;
 
             if ($fieldKey === null) {
                 continue;

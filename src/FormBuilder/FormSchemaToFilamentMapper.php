@@ -3,6 +3,7 @@
 namespace Ccast\TagixoFilament\FormBuilder;
 
 use Ccast\Tagixo\Core\ComponentRegistry;
+use Ccast\Tagixo\FormBuilder\FormModule;
 use Ccast\Tagixo\Services\BuilderModelRegistryService;
 use Ccast\TagixoFilament\FormBuilder\Concerns\AppliesFilamentFieldConfig;
 use Closure;
@@ -355,6 +356,7 @@ class FormSchemaToFilamentMapper
         }
 
         $content = $this->extractContent($componentClass, $props);
+        $content = FormModule::fillContentDefaults($typeId, $content);
         if (is_numeric($content['column_span'] ?? null) && ! isset($schema['column_span'])) {
             $schema['column_span'] = (int) $content['column_span'];
         }

@@ -2,6 +2,7 @@
 
 namespace Ccast\TagixoFilament\Forms;
 
+use Ccast\Tagixo\FormBuilder\FormModule;
 use Ccast\Tagixo\Models\FormSchema;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\IconColumn;
@@ -29,20 +30,22 @@ class FilamentFormColumns
         $columns = [];
 
         foreach ($form->fields ?? [] as $field) {
+            $typeId     = (string) ($field['type'] ?? '');
             $tableProps = $field['props']['table'] ?? [];
+            $content    = FormModule::fillContentDefaults($typeId, $field['props']['content'] ?? []);
 
             if (! (bool) self::prop($tableProps, 'show_in_table')) {
                 continue;
             }
 
-            $fieldKey = $field['props']['content']['name'] ?? $field['key'] ?? $field['id'] ?? null;
+            $fieldKey = $content['name'] ?? $field['key'] ?? $field['id'] ?? null;
 
             if ($fieldKey === null) {
                 continue;
             }
 
             $rawLabel      = (string) (self::prop($tableProps, 'column_label') ?? '');
-            $fallbackLabel = strip_tags((string) ($field['props']['content']['label'] ?? $field['label'] ?? $fieldKey));
+            $fallbackLabel = strip_tags((string) ($content['label'] ?? $field['label'] ?? $fieldKey));
             $columnLabel   = $rawLabel !== '' ? strip_tags($rawLabel) : $fallbackLabel;
             $columnType    = (string) (self::prop($tableProps, 'column_type') ?? 'text');
 
