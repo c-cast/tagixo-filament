@@ -74,6 +74,12 @@ trait AppliesFilamentFieldConfig
 
         $component = static::applyReactivityConfig($component, $field);
 
+        // Add data-tgx-field so FilamentFormStyles can scope CSS per field.
+        $fieldName = (string) ($field['name'] ?? '');
+        if ($fieldName !== '' && method_exists($component, 'extraAttributes')) {
+            $component->extraAttributes(['data-tgx-field' => $fieldName], merge: true);
+        }
+
         return static::applyLayoutConfig($component, $field);
     }
 
