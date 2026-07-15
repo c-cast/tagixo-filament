@@ -7,7 +7,10 @@ use Ccast\Tagixo\Models\FormSchema;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\TextInputColumn;
+use Filament\Tables\Columns\ToggleColumn;
 
 class FilamentFormColumns
 {
@@ -58,20 +61,25 @@ class FilamentFormColumns
             $fallbackLabel = strip_tags((string) ($content['label'] ?? $field['label'] ?? $fieldKey));
             $columnLabel   = $rawLabel !== '' ? strip_tags($rawLabel) : $fallbackLabel;
             $columnType    = (string) (self::prop($tableProps, 'column_type') ?? 'text');
+            $editable      = (bool) self::prop($tableProps, 'editable_in_table');
 
-            $column = match ($columnType) {
-                'boolean' => IconColumn::make($fieldKey)->boolean()->label($columnLabel),
-                'badge'   => BadgeColumn::make($fieldKey)->label($columnLabel),
-                'image'   => ImageColumn::make($fieldKey)->label($columnLabel),
-                default   => TextColumn::make($fieldKey)->label($columnLabel),
-            };
+            if ($editable) {
+                $column = self::makeEditableColumn($fieldKey, $columnLabel, $columnType, $content);
+            } else {
+                $column = match ($columnType) {
+                    'boolean' => IconColumn::make($fieldKey)->boolean()->label($columnLabel),
+                    'badge'   => BadgeColumn::make($fieldKey)->label($columnLabel),
+                    'image'   => ImageColumn::make($fieldKey)->label($columnLabel),
+                    default   => TextColumn::make($fieldKey)->label($columnLabel),
+                };
+            }
 
             // ── Common ──────────────────────────────────────────────────────
-            if ((bool) self::prop($tableProps, 'sortable')) {
+            if (! $editable && (bool) self::prop($tableProps, 'sortable')) {
                 $column->sortable();
             }
 
-            if ((bool) self::prop($tableProps, 'searchable')) {
+            if (! $editable && (bool) self::prop($tableProps, 'searchable')) {
                 $column->searchable();
             }
 
@@ -79,30 +87,67 @@ class FilamentFormColumns
                 $column->toggleable();
             }
 
-            $alignment = self::prop($tableProps, 'alignment');
-            if ($alignment && $alignment !== 'left') {
-                $column->alignment($alignment);
+            if (! $editable) {
+                $alignment = self::prop($tableProps, 'alignment');
+                if ($alignment && $alignment !== 'left') {
+                    $column->alignment($alignment);
+                }
+
+                $tooltip = self::prop($tableProps, 'tooltip');
+                if (is_string($tooltip) && $tooltip !== '') {
+                    $column->tooltip($tooltip);
+                }
             }
 
-            $tooltip = self::prop($tableProps, 'tooltip');
-            if (is_string($tooltip) && $tooltip !== '') {
-                $column->tooltip($tooltip);
+            // ── Type-specific (readonly only) ────────────────────────────────
+            if (! $editable) {
+                match ($columnType) {
+                    'text'    => self::applyText($column, $tableProps),
+                    'date'    => self::applyDate($column, $tableProps),
+                    'boolean' => self::applyBoolean($column, $tableProps),
+                    'badge'   => self::applyBadge($column, $tableProps),
+                    'image'   => self::applyImage($column, $tableProps),
+                    default   => null,
+                };
             }
-
-            // ── Type-specific ────────────────────────────────────────────────
-            match ($columnType) {
-                'text'    => self::applyText($column, $tableProps),
-                'date'    => self::applyDate($column, $tableProps),
-                'boolean' => self::applyBoolean($column, $tableProps),
-                'badge'   => self::applyBadge($column, $tableProps),
-                'image'   => self::applyImage($column, $tableProps),
-                default   => null,
-            };
 
             $columns[] = $column;
         }
 
         return $columns;
+    }
+
+    private static function makeEditableColumn(
+        string $fieldKey,
+        string $columnLabel,
+        string $columnType,
+        array $content,
+    ): ToggleColumn | TextInputColumn | SelectColumn {
+        if ($columnType === 'boolean') {
+            return ToggleColumn::make($fieldKey)->label($columnLabel);
+        }
+
+        if ($columnType === 'badge') {
+            $rawOptions = $content['options'] ?? [];
+            $options    = [];
+            if (is_array($rawOptions)) {
+                foreach ($rawOptions as $opt) {
+                    if (isset($opt['value'], $opt['label'])) {
+                        $options[$opt['value']] = $opt['label'];
+                    }
+                }
+            }
+
+            $col = SelectColumn::make($fieldKey)->label($columnLabel);
+            if ($options !== []) {
+                $col->options($options);
+            }
+
+            return $col;
+        }
+
+        // text and all other types → free-text input
+        return TextInputColumn::make($fieldKey)->label($columnLabel);
     }
 
     private static function applyText(TextColumn $column, array $p): void

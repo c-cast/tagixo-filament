@@ -101,6 +101,11 @@ class FilamentTablePropType extends AbstractPropType
             TextProp::make('tooltip')
                 ->setLabel(__('Tooltip')),
 
+            // ── Inline editing ───────────────────────────────────────────────
+            ToggleProp::make('editable_in_table')
+                ->setLabel(__('Editable inline (in table)'))
+                ->default(false),
+
             // ── Text column ─────────────────────────────────────────────────
             NumberProp::make('text_limit')
                 ->setLabel(__('Truncate characters (0 = no limit)'))
