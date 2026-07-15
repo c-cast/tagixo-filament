@@ -473,6 +473,17 @@ class FormSchemaToFilamentMapper
                 $field['children'] = $this->sortSchemaTree($field['children']);
             }
 
+            // Simple-format fields are flat (no props/parent_id), so fillContentDefaults
+            // is never called upstream. Backfill column_span here so both formats
+            // behave consistently when the key is absent (default = 12, full width).
+            if (! isset($field['column_span'])) {
+                $typeId  = (string) ($field['type'] ?? '');
+                $filled  = $typeId !== '' ? FormModule::fillContentDefaults($typeId, $field) : $field;
+                if (isset($filled['column_span'])) {
+                    $field['column_span'] = $filled['column_span'];
+                }
+            }
+
             return $field;
         }, $schemaFields);
     }
