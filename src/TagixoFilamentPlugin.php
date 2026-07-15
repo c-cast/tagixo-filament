@@ -26,6 +26,9 @@ class TagixoFilamentPlugin implements Plugin
 
     private ?string $formTarget = null;
 
+    /** @var list<class-string>|null — null means "use config/tagixo-filament.php" */
+    private ?array $resourcesOverride = null;
+
     public function getId(): string
     {
         return 'tagixo';
@@ -33,6 +36,22 @@ class TagixoFilamentPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
+        if ($this->resourcesOverride !== null) {
+            // Per-instance override: use the explicit list, skip ThemeBuilderPage.
+            $resources = array_values(array_filter(
+                $this->resourcesOverride,
+                fn ($resource) => is_string($resource) && class_exists($resource),
+            ));
+
+            if ($this->mediaGallery && ! in_array(MediaResource::class, $resources, true)) {
+                $resources[] = MediaResource::class;
+            }
+
+            $panel->resources($resources);
+
+            return;
+        }
+
         // The resource list is config-driven: comment out a line in
         // config/tagixo-filament.php to hide that builder from the panel.
         // Fall back to the package defaults when the config is unavailable.
@@ -111,6 +130,23 @@ class TagixoFilamentPlugin implements Plugin
     public function formTarget(string $target): static
     {
         $this->formTarget = $target;
+
+        return $this;
+    }
+
+    /**
+     * Override the resource list for this plugin instance.
+     *
+     * When called, the per-instance list takes precedence over
+     * config('tagixo-filament.resources') for this panel, and ThemeBuilderPage
+     * is not registered. Pass an empty array to register no CMS resources at all
+     * (useful when attaching the plugin only for form-target-lock / form module wiring).
+     *
+     * @param  list<class-string>  $resources
+     */
+    public function resources(array $resources): static
+    {
+        $this->resourcesOverride = $resources;
 
         return $this;
     }
