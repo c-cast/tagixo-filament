@@ -60,6 +60,16 @@ class FilamentFormStyles
         return static::buildScript((string) $formId, static::forForm($formId));
     }
 
+    public static function fromFields(array $fields, string $key = 'custom'): string
+    {
+        return FormElementsCssGenerator::forComponents($fields, static::SELECTOR_MAP);
+    }
+
+    public static function scriptFromFields(array $fields, string $key = 'custom'): string
+    {
+        return static::buildScript($key, static::fromFields($fields, $key));
+    }
+
     private static function buildScript(string $key, string $css): string
     {
         if ($css === '') {

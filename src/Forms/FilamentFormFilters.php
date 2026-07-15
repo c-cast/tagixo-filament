@@ -24,11 +24,21 @@ class FilamentFormFilters
         return $form ? self::resolveFilters($form) : [];
     }
 
+    public static function fromFields(array $fields): array
+    {
+        return self::resolveFields($fields);
+    }
+
     private static function resolveFilters(FormSchema $form): array
+    {
+        return self::resolveFields($form->fields ?? []);
+    }
+
+    private static function resolveFields(array $fields): array
     {
         $filters = [];
 
-        foreach ($form->fields ?? [] as $field) {
+        foreach ($fields as $field) {
             $typeId     = (string) ($field['type'] ?? '');
             $tableProps = $field['props']['table'] ?? [];
             $content    = FormModule::fillContentDefaults($typeId, $field['props']['content'] ?? []);

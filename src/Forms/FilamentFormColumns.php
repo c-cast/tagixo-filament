@@ -25,11 +25,21 @@ class FilamentFormColumns
         return $form ? self::resolveColumns($form) : [];
     }
 
+    public static function fromFields(array $fields): array
+    {
+        return self::resolveFields($fields);
+    }
+
     private static function resolveColumns(FormSchema $form): array
+    {
+        return self::resolveFields($form->fields ?? []);
+    }
+
+    private static function resolveFields(array $fields): array
     {
         $columns = [];
 
-        foreach ($form->fields ?? [] as $field) {
+        foreach ($fields as $field) {
             $typeId     = (string) ($field['type'] ?? '');
             $tableProps = $field['props']['table'] ?? [];
             $content    = FormModule::fillContentDefaults($typeId, $field['props']['content'] ?? []);
