@@ -77,7 +77,7 @@ class MakeBuilderPageCommand extends GeneratorCommand
     protected function getOptions(): array
     {
         return [
-            ['context', 'c', InputOption::VALUE_OPTIONAL, 'The builder context (page, form, mail, pdf)', 'page'],
+            ['context', 'c', InputOption::VALUE_OPTIONAL, 'The builder context (page, form, mail, document)', 'page'],
             ['title', 't', InputOption::VALUE_OPTIONAL, 'The page title'],
             ['panel', 'p', InputOption::VALUE_OPTIONAL, 'The Filament panel name', 'Admin'],
             ['force', 'f', InputOption::VALUE_NONE, 'Create the class even if the page already exists'],

@@ -13,14 +13,14 @@ use Illuminate\Database\Eloquent\Model;
  * Only the target differs, hence two factories:
  *
  *   VisualBuilderAction::make(PageResource::class)   // Filament build page
- *   VisualBuilderAction::forRoute('builder.forms.edit')  // standalone builder, new tab
+ *   VisualBuilderAction::forRoute('tagixo.forms.edit')  // standalone builder, new tab
  *
  * The record is injected by Filament in both the table and edit-page contexts.
  */
 class VisualBuilderAction
 {
     /**
-     * Point at a resource's own "build" page (Pages, Mails, Popups, PDFs).
+     * Point at a resource's own "build" page (Pages, Mails, Popups, Documents).
      */
     public static function make(string $resource): Action
     {

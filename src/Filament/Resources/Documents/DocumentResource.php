@@ -1,14 +1,14 @@
 <?php
 
-namespace Ccast\TagixoFilament\Filament\Resources\PdfTemplates;
+namespace Ccast\TagixoFilament\Filament\Resources\Documents;
 
-use Ccast\Tagixo\Models\PdfTemplate;
-use Ccast\TagixoFilament\Filament\Resources\PdfTemplates\Pages\BuildPdfTemplate;
-use Ccast\TagixoFilament\Filament\Resources\PdfTemplates\Pages\CreatePdfTemplate;
-use Ccast\TagixoFilament\Filament\Resources\PdfTemplates\Pages\EditPdfTemplate;
-use Ccast\TagixoFilament\Filament\Resources\PdfTemplates\Pages\ListPdfTemplates;
-use Ccast\TagixoFilament\Filament\Resources\PdfTemplates\Schemas\PdfTemplateForm;
-use Ccast\TagixoFilament\Filament\Resources\PdfTemplates\Tables\PdfTemplatesTable;
+use Ccast\Tagixo\Models\DocumentTemplate;
+use Ccast\TagixoFilament\Filament\Resources\Documents\Pages\BuildDocument;
+use Ccast\TagixoFilament\Filament\Resources\Documents\Pages\CreateDocument;
+use Ccast\TagixoFilament\Filament\Resources\Documents\Pages\EditDocument;
+use Ccast\TagixoFilament\Filament\Resources\Documents\Pages\ListDocuments;
+use Ccast\TagixoFilament\Filament\Resources\Documents\Schemas\DocumentForm;
+use Ccast\TagixoFilament\Filament\Resources\Documents\Tables\DocumentsTable;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
@@ -16,9 +16,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use UnitEnum;
 
-class PdfTemplateResource extends Resource
+class DocumentResource extends Resource
 {
-    protected static ?string $model = PdfTemplate::class;
+    protected static ?string $model = DocumentTemplate::class;
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -33,22 +33,22 @@ class PdfTemplateResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('PDF template');
+        return __('Document');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('PDF templates');
+        return __('Documents');
     }
 
     public static function form(Schema $schema): Schema
     {
-        return PdfTemplateForm::configure($schema);
+        return DocumentForm::configure($schema);
     }
 
     public static function table(Table $table): Table
     {
-        return PdfTemplatesTable::configure($table);
+        return DocumentsTable::configure($table);
     }
 
     public static function getRelations(): array
@@ -59,10 +59,10 @@ class PdfTemplateResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListPdfTemplates::route('/'),
-            'create' => CreatePdfTemplate::route('/create'),
-            'edit' => EditPdfTemplate::route('/{record}/edit'),
-            'build' => BuildPdfTemplate::route('/{record}/build'),
+            'index' => ListDocuments::route('/'),
+            'create' => CreateDocument::route('/create'),
+            'edit' => EditDocument::route('/{record}/edit'),
+            'build' => BuildDocument::route('/{record}/build'),
         ];
     }
 

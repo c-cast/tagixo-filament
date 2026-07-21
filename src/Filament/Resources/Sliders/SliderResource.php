@@ -56,7 +56,7 @@ class SliderResource extends Resource
 
     /**
      * Panel pages are metadata-only. The visual slider builder lives at the
-     * plugin route `/builder/sliders/{id}/edit` and is opened in a new tab
+     * plugin route `/tagixo/sliders/{id}/edit` and is opened in a new tab
      * via header/row actions (see ListSliders + SlidersTable).
      */
     public static function getPages(): array

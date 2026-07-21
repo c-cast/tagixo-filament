@@ -84,7 +84,7 @@ class FormsTable
             ->columns($columns)
             ->filters($filters)
             ->actions([
-                VisualBuilderAction::forRoute('builder.forms.edit'),
+                VisualBuilderAction::forRoute('tagixo.forms.edit'),
 
                 EditAction::make(),
                 DeleteAction::make(),

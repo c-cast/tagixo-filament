@@ -1,11 +1,11 @@
 <?php
 
-namespace Ccast\TagixoFilament\Filament\Resources\PdfTemplates\Tables;
+namespace Ccast\TagixoFilament\Filament\Resources\Documents\Tables;
 
 use Ccast\Tagixo\Enums\PageStatus;
-use Ccast\TagixoFilament\Filament\Actions\PdfPreviewAction;
+use Ccast\TagixoFilament\Filament\Actions\DocumentPreviewAction;
 use Ccast\TagixoFilament\Filament\Actions\VisualBuilderAction;
-use Ccast\TagixoFilament\Filament\Resources\PdfTemplates\PdfTemplateResource;
+use Ccast\TagixoFilament\Filament\Resources\Documents\DocumentResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -14,7 +14,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
-class PdfTemplatesTable
+class DocumentsTable
 {
     public static function configure(Table $table): Table
     {
@@ -68,9 +68,9 @@ class PdfTemplatesTable
                     )->all()),
             ])
             ->actions([
-                VisualBuilderAction::make(PdfTemplateResource::class),
+                VisualBuilderAction::make(DocumentResource::class),
 
-                PdfPreviewAction::make(),
+                DocumentPreviewAction::make(),
 
                 EditAction::make(),
                 DeleteAction::make(),

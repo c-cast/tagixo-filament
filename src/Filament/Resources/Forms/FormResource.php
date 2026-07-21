@@ -69,7 +69,7 @@ class FormResource extends Resource
 
     /**
      * Panel pages are metadata-only. The actual visual form builder lives at
-     * the plugin route `/builder/forms/{id}/edit` and is opened in a new tab
+     * the plugin route `/tagixo/forms/{id}/edit` and is opened in a new tab
      * via header/row actions (see ListForms + FormsTable).
      */
     public static function getPages(): array

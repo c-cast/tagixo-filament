@@ -14,7 +14,7 @@ class EditSlider extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            VisualBuilderAction::forRoute('builder.sliders.edit'),
+            VisualBuilderAction::forRoute('tagixo.sliders.edit'),
 
             DeleteAction::make(),
         ];

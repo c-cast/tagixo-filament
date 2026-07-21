@@ -55,7 +55,7 @@ class SlidersTable
                     ]),
             ])
             ->actions([
-                VisualBuilderAction::forRoute('builder.sliders.edit'),
+                VisualBuilderAction::forRoute('tagixo.sliders.edit'),
 
                 EditAction::make(),
                 DeleteAction::make(),

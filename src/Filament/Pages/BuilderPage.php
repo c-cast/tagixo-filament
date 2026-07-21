@@ -15,7 +15,7 @@ use Filament\Pages\Page;
  *
  * Usage:
  * 1. Extend this class
- * 2. Implement getContext() to return 'page', 'form', 'mail', or 'pdf'
+ * 2. Implement getContext() to return 'page', 'form', 'mail', or 'document'
  * 3. Implement loadStructure() to load the JSON structure
  * 4. Implement saveStructure() to persist the JSON structure
  */
@@ -31,7 +31,7 @@ abstract class BuilderPage extends Page implements BuilderPageContract
     /**
      * Get the builder context
      *
-     * @return string One of: 'page', 'form', 'mail', 'pdf'
+     * @return string One of: 'page', 'form', 'mail', 'document'
      */
     abstract public function getContext(): string;
 

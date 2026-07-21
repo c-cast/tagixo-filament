@@ -9,7 +9,7 @@
  * full Filament panel.
  *
  * If a future refactor changes the plugin route names
- * (`builder.forms.*` / `builder.sliders.*`) or accidentally adds a
+ * (`tagixo.forms.*` / `tagixo.sliders.*`) or accidentally adds a
  * panel-internal Build/Create page, these tests fail loudly.
  */
 
@@ -112,10 +112,10 @@ describe('Plugin route names contract', function () {
         expect(Route::has($name))
             ->toBeTrue("Missing plugin route: {$name}");
     })->with([
-        'builder.forms.new' => 'builder.forms.new',
-        'builder.forms.edit' => 'builder.forms.edit',
-        'builder.sliders.new' => 'builder.sliders.new',
-        'builder.sliders.edit' => 'builder.sliders.edit',
+        'tagixo.forms.new' => 'tagixo.forms.new',
+        'tagixo.forms.edit' => 'tagixo.forms.edit',
+        'tagixo.sliders.new' => 'tagixo.sliders.new',
+        'tagixo.sliders.edit' => 'tagixo.sliders.edit',
     ]);
 });
 

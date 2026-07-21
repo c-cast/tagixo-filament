@@ -17,7 +17,7 @@ class ListForms extends ListRecords
                 ->label(__('Create new form'))
                 ->icon('heroicon-o-plus')
                 ->color('primary')
-                ->url(fn (): string => route('builder.forms.new'))
+                ->url(fn (): string => route('tagixo.forms.new'))
                 ->openUrlInNewTab()
                 ->tooltip(__('Opens the visual form builder in a new tab and creates a draft')),
         ];

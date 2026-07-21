@@ -1,28 +1,28 @@
 <?php
 
-namespace Ccast\TagixoFilament\Filament\Resources\PdfTemplates\Pages;
+namespace Ccast\TagixoFilament\Filament\Resources\Documents\Pages;
 
+use Ccast\Tagixo\Renderers\DocumentRenderer;
 use Ccast\Tagixo\Renderers\PageRenderer;
-use Ccast\Tagixo\Renderers\PdfRenderer;
 use Ccast\TagixoFilament\Filament\Pages\FilamentVisualBuilderPage;
-use Ccast\TagixoFilament\Filament\Resources\PdfTemplates\PdfTemplateResource;
+use Ccast\TagixoFilament\Filament\Resources\Documents\DocumentResource;
 
 /**
- * Visual Builder page for PDF templates.
+ * Visual Builder page for documents.
  *
- * Mirrors BuildPage but runs in the `pdf` context and renders the saved
- * structure through PdfRenderer, which wraps the components in a print-ready
+ * Mirrors BuildPage but runs in the `document` context and renders the saved
+ * structure through DocumentRenderer, which wraps the components in a print-ready
  * HTML scaffold sized to the record's paper/orientation/margin. Global-variable
- * CSS is passed as extra CSS so PDFs honour the same variables as pages.
+ * CSS is passed as extra CSS so documents honour the same variables as pages.
  */
-class BuildPdfTemplate extends FilamentVisualBuilderPage
+class BuildDocument extends FilamentVisualBuilderPage
 {
 
-    protected static string $resource = PdfTemplateResource::class;
+    protected static string $resource = DocumentResource::class;
 
     public function getContext(): string
     {
-        return 'pdf';
+        return 'document';
     }
 
     protected function authorizeAccess(): void
@@ -52,7 +52,7 @@ class BuildPdfTemplate extends FilamentVisualBuilderPage
 
         $globalVarsCss = app(PageRenderer::class)->generateGlobalVariablesCss();
 
-        $html = app(PdfRenderer::class)->renderFromJson(
+        $html = app(DocumentRenderer::class)->renderFromJson(
             $decoded,
             $globalVarsCss,
             (string) $this->record->name,

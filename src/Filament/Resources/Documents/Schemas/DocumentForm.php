@@ -1,6 +1,6 @@
 <?php
 
-namespace Ccast\TagixoFilament\Filament\Resources\PdfTemplates\Schemas;
+namespace Ccast\TagixoFilament\Filament\Resources\Documents\Schemas;
 
 use Ccast\Tagixo\Enums\PageStatus;
 use Filament\Forms\Components\DateTimePicker;
@@ -9,7 +9,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
 
-class PdfTemplateForm
+class DocumentForm
 {
     public static function configure(Schema $schema): Schema
     {
