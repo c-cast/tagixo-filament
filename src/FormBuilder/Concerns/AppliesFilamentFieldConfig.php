@@ -38,7 +38,7 @@ trait AppliesFilamentFieldConfig
      */
     protected static function applyCommonFieldConfig(Field $component, array $field): Field
     {
-        $label = trim((string) ($field['label'] ?? ''));
+        $label = trim(strip_tags((string) ($field['label'] ?? '')));
         if ($label !== '') {
             $component->label($label);
             if (method_exists($component, 'validationAttribute')) {
@@ -289,7 +289,7 @@ trait AppliesFilamentFieldConfig
             return $name;
         }
 
-        $label = trim((string) ($field['label'] ?? ''));
+        $label = trim(strip_tags((string) ($field['label'] ?? '')));
         if ($label !== '') {
             $slug = Str::snake($label);
             if ($slug !== '') {
