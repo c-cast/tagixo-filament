@@ -7,6 +7,8 @@ use Ccast\TagixoFilament\FormBuilder\Contracts\FilamentFieldModule;
 use Ccast\TagixoFilament\FormBuilder\Contracts\FilamentWrapperModule;
 use Ccast\TagixoFilament\FormBuilder\FilamentModuleRegistry;
 use Ccast\TagixoFilament\FormBuilder\Modules\CheckboxField;
+use Ccast\TagixoFilament\FormBuilder\Modules\ToggleField;
+use Ccast\TagixoFilament\FormBuilder\Modules\ToggleModule;
 use Ccast\TagixoFilament\FormBuilder\Modules\DatePickerField;
 use Ccast\TagixoFilament\FormBuilder\Modules\FieldsetField;
 use Ccast\TagixoFilament\FormBuilder\Modules\FileUploadField;
@@ -68,6 +70,7 @@ class TagixoFilamentServiceProvider extends PackageServiceProvider
             'textarea' => TextAreaField::class,
             'select' => SelectField::class,
             'checkbox' => CheckboxField::class,
+            'toggle'   => ToggleField::class,
             'radio' => RadioField::class,
             'date' => DatePickerField::class,
             'file' => FileUploadField::class,
@@ -130,6 +133,7 @@ class TagixoFilamentServiceProvider extends PackageServiceProvider
         // resource preview page.
         if (class_exists(\Ccast\Tagixo\Tagixo::class)) {
             $tagixo = app(\Ccast\Tagixo\Tagixo::class);
+            $tagixo->registerModule(ToggleModule::class);
             $tagixo->enableAppForms();
             $tagixo->registerAppFormPreviewer(function (int|string $id): ?string {
                 try {

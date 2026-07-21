@@ -68,6 +68,7 @@ class FilamentFormColumns
             } else {
                 $column = match ($columnType) {
                     'boolean' => IconColumn::make($fieldKey)->boolean()->label($columnLabel),
+                    'toggle'  => ToggleColumn::make($fieldKey)->label($columnLabel),
                     'badge'   => BadgeColumn::make($fieldKey)->label($columnLabel),
                     'image'   => ImageColumn::make($fieldKey)->label($columnLabel),
                     default   => TextColumn::make($fieldKey)->label($columnLabel),
@@ -107,6 +108,7 @@ class FilamentFormColumns
                     'boolean' => self::applyBoolean($column, $tableProps),
                     'badge'   => self::applyBadge($column, $tableProps),
                     'image'   => self::applyImage($column, $tableProps),
+                    'toggle'  => null,
                     default   => null,
                 };
             }
@@ -123,7 +125,7 @@ class FilamentFormColumns
         string $columnType,
         array $content,
     ): ToggleColumn | TextInputColumn | SelectColumn {
-        if ($columnType === 'boolean') {
+        if ($columnType === 'boolean' || $columnType === 'toggle') {
             return ToggleColumn::make($fieldKey)->label($columnLabel);
         }
 
@@ -146,7 +148,6 @@ class FilamentFormColumns
             return $col;
         }
 
-        // text and all other types → free-text input
         return TextInputColumn::make($fieldKey)->label($columnLabel);
     }
 

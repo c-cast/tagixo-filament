@@ -13,6 +13,7 @@ use Ccast\TagixoFilament\Filament\Resources\Sliders\SliderResource;
 use Ccast\Tagixo\Contracts\HasPlugin;
 use Ccast\Tagixo\Tagixo;
 use Ccast\TagixoFilament\Forms\PropTypes\BooleanFilamentTablePropType;
+use Ccast\TagixoFilament\Forms\PropTypes\ToggleFilamentTablePropType;
 use Ccast\TagixoFilament\Forms\PropTypes\DateFilamentTablePropType;
 use Ccast\TagixoFilament\Forms\PropTypes\FileFilamentTablePropType;
 use Ccast\TagixoFilament\Forms\PropTypes\FilamentTablePropType;
@@ -95,6 +96,7 @@ class TagixoFilamentPlugin implements Plugin
 
         app(Tagixo::class)->extendFormModule('*',                           ['table' => FilamentTablePropType::class]);
         app(Tagixo::class)->extendFormModule(['checkbox'],                  ['table' => BooleanFilamentTablePropType::class]);
+        app(Tagixo::class)->extendFormModule(['toggle'],                    ['table' => ToggleFilamentTablePropType::class]);
         app(Tagixo::class)->extendFormModule(['date', 'date-picker'],       ['table' => DateFilamentTablePropType::class]);
         app(Tagixo::class)->extendFormModule(['file', 'file-upload'],       ['table' => FileFilamentTablePropType::class]);
         app(Tagixo::class)->hideFormModulePropTypes('*', ['sizing']);
