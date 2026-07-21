@@ -30,6 +30,11 @@ class ToggleModule extends FormModule
         return 'toggle';
     }
 
+    public static function getCanvasView(): string
+    {
+        return 'tagixo-filament::partials.form-embed-toggle';
+    }
+
     public static function define(): ModuleDefinition
     {
         return ModuleDefinition::make()
