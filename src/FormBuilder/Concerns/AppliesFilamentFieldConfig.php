@@ -318,9 +318,66 @@ trait AppliesFilamentFieldConfig
             return static::resolveModelOptions($field, $modelRegistry, $modelOptionsResolver);
         }
 
+        if ($optionsSource === 'loop') {
+            return static::resolveLoopOptions($field);
+        }
+
         $options = $field['options'] ?? [];
 
         return static::normalizeOptions($options);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected static function resolveLoopOptions(array $field): array
+    {
+        $loopOpts   = is_array($field['loop_options'] ?? null) ? $field['loop_options'] : [];
+        $loopType   = (string) ($loopOpts['loop_type'] ?? 'number');
+        $loopPrefix = (string) ($loopOpts['loop_prefix'] ?? '');
+        $loopSuffix = (string) ($loopOpts['loop_suffix'] ?? '');
+        $raw        = [];
+
+        if ($loopType === 'number') {
+            $from   = (int) ($loopOpts['loop_from'] ?? 1);
+            $to     = (int) ($loopOpts['loop_to'] ?? 10);
+            $step   = max(1, (int) ($loopOpts['loop_step'] ?? 1));
+            $pad    = (bool) ($loopOpts['loop_pad_zeros'] ?? false);
+            $padLen = $pad ? strlen((string) max(abs($from), abs($to))) : 0;
+
+            if ($from <= $to) {
+                for ($i = $from; $i <= $to; $i += $step) {
+                    $val   = $pad ? str_pad((string) $i, $padLen, '0', STR_PAD_LEFT) : (string) $i;
+                    $raw[] = ['value' => $val, 'label' => $loopPrefix . $val . $loopSuffix];
+                }
+            } else {
+                for ($i = $from; $i >= $to; $i -= $step) {
+                    $val   = $pad ? str_pad((string) $i, $padLen, '0', STR_PAD_LEFT) : (string) $i;
+                    $raw[] = ['value' => $val, 'label' => $loopPrefix . $val . $loopSuffix];
+                }
+            }
+        } elseif ($loopType === 'letter') {
+            $caseMode = (string) ($loopOpts['loop_letter_case'] ?? 'lower');
+            $fromChar = strtolower(substr((string) ($loopOpts['loop_from'] ?? 'a'), 0, 1)) ?: 'a';
+            $toChar   = strtolower(substr((string) ($loopOpts['loop_to'] ?? 'z'), 0, 1)) ?: 'z';
+            $fromOrd  = max(ord('a'), min(ord('z'), ord($fromChar)));
+            $toOrd    = max(ord('a'), min(ord('z'), ord($toChar)));
+            $range    = $fromOrd <= $toOrd ? range($fromOrd, $toOrd) : range($fromOrd, $toOrd, -1);
+
+            foreach ($range as $code) {
+                $char  = $caseMode === 'upper' ? strtoupper(chr($code)) : chr($code);
+                $raw[] = ['value' => $char, 'label' => $loopPrefix . $char . $loopSuffix];
+            }
+        } elseif ($loopType === 'list') {
+            foreach (preg_split('/\r?\n/', (string) ($loopOpts['loop_list'] ?? '')) ?: [] as $line) {
+                $line = trim($line);
+                if ($line !== '') {
+                    $raw[] = ['value' => $line, 'label' => $line];
+                }
+            }
+        }
+
+        return static::normalizeOptions($raw);
     }
 
     /**
