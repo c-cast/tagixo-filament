@@ -29,6 +29,12 @@ final class SelectField implements FilamentFieldModule
 
         if (! empty($options)) {
             $component->options($options);
+            // Filament's default optionsLimit is 50 — raise it to the actual
+            // option count so loop/range selects (e.g. 1-100) are never truncated.
+            $count = count($options);
+            if ($count > 50) {
+                $component->optionsLimit($count);
+            }
         }
 
         $isMultiple = (bool) ($field['multiple'] ?? false);
