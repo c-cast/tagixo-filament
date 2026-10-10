@@ -1,11 +1,9 @@
 <?php
 
-namespace Ccast\TagixoFilament\Tests;
+namespace Tagixo\Filament\Tests;
 
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
-use Ccast\Tagixo\TagixoServiceProvider;
-use Ccast\TagixoFilament\TagixoFilamentServiceProvider;
 use Filament\Actions\ActionsServiceProvider;
 use Filament\FilamentServiceProvider;
 use Filament\Forms\FormsServiceProvider;
@@ -18,10 +16,21 @@ use Filament\Widgets\WidgetsServiceProvider;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
+use Tagixo\Core\TagixoServiceProvider;
+use Tagixo\DocumentBuilder\DocumentBuilderServiceProvider;
+use Tagixo\Filament\TagixoFilamentServiceProvider;
+use Tagixo\FormBuilder\FormBuilderServiceProvider;
+use Tagixo\MailBuilder\MailBuilderServiceProvider;
+use Tagixo\Filament\Tests\Support\TestPanelProvider;
+use Tagixo\PageBuilder\PageBuilderServiceProvider;
 
-class TestCase extends Orchestra
+/**
+ * Filament panel with the core and every builder this SDK is developed
+ * against. A suite that needs a builder absent drops its provider.
+ */
+abstract class TestCase extends Orchestra
 {
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             ActionsServiceProvider::class,
@@ -36,14 +45,25 @@ class TestCase extends Orchestra
             SchemasServiceProvider::class,
             SupportServiceProvider::class,
             TablesServiceProvider::class,
-            TagixoServiceProvider::class,
-            TagixoFilamentServiceProvider::class,
             WidgetsServiceProvider::class,
+            TagixoServiceProvider::class,
+            PageBuilderServiceProvider::class,
+            FormBuilderServiceProvider::class,
+            MailBuilderServiceProvider::class,
+            DocumentBuilderServiceProvider::class,
+            TagixoFilamentServiceProvider::class,
+            TestPanelProvider::class,
         ];
     }
 
-    public function getEnvironmentSetUp($app): void
+    protected function defineEnvironment($app): void
     {
+        $app['config']->set('app.key', 'base64:'.base64_encode(random_bytes(32)));
         $app['config']->set('database.default', 'testing');
+        $app['config']->set('database.connections.testing', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ]);
     }
 }

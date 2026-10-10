@@ -1,118 +1,54 @@
 <?php
 
-namespace Ccast\TagixoFilament;
+namespace Tagixo\Filament;
 
-use Ccast\TagixoFilament\Filament\Pages\ThemeBuilderPage;
-use Ccast\TagixoFilament\Filament\Resources\Forms\FormResource;
-use Ccast\TagixoFilament\Filament\Resources\LayoutResource;
-use Ccast\TagixoFilament\Filament\Resources\Mails\MailResource;
-use Ccast\TagixoFilament\Filament\Resources\MediaResource;
-use Ccast\TagixoFilament\Filament\Resources\Menus\MenuResource;
-use Ccast\TagixoFilament\Filament\Resources\Pages\PageResource;
-use Ccast\TagixoFilament\Filament\Resources\Sliders\SliderResource;
-use Ccast\Tagixo\Contracts\HasPlugin;
-use Ccast\Tagixo\Tagixo;
-use Ccast\TagixoFilament\Forms\PropTypes\BooleanFilamentTablePropType;
-use Ccast\TagixoFilament\Forms\PropTypes\ToggleFilamentTablePropType;
-use Ccast\TagixoFilament\Forms\PropTypes\DateFilamentTablePropType;
-use Ccast\TagixoFilament\Forms\PropTypes\FileFilamentTablePropType;
-use Ccast\TagixoFilament\Forms\PropTypes\FilamentTablePropType;
 use Filament\Contracts\Plugin;
-use Filament\FilamentManager;
 use Filament\Panel;
+use Tagixo\Core\BuilderTypeRegistry;
+use Tagixo\Core\Contracts\HasPlugin;
+use Tagixo\Core\Tagixo;
+use Tagixo\Filament\Resources;
 
+/**
+ * Brings Tagixo into a Filament panel: one admin resource per record type the
+ * installed builders register, and nothing for the ones they don't.
+ *
+ * Which packages are installed is asked of the BuilderTypeRegistry, not of the
+ * autoloader: an application can drop a type from `tagixo.builder_types` or
+ * replace its handler, and the panel has to follow that, not the file system.
+ */
 class TagixoFilamentPlugin implements Plugin
 {
-    private bool $mediaGallery = false;
+    /**
+     * Resource per type. A type whose package is absent is skipped.
+     *
+     * @var array<string, class-string>
+     */
+    protected array $resources = [
+        'pages' => Resources\PageResource::class,
+        'popups' => Resources\PopupResource::class,
+        'global-blocks' => Resources\GlobalBlockResource::class,
+        'layouts' => Resources\LayoutResource::class,
+        'forms' => Resources\FormResource::class,
+        'mails' => Resources\MailResource::class,
+        'documents' => Resources\DocumentResource::class,
+        'sliders' => Resources\SliderResource::class,
+    ];
 
-    private ?string $formTarget = null;
+    /** @var list<string>|null */
+    protected ?array $only = null;
 
-    /** @var list<class-string>|null — null means "use config/tagixo-filament.php" */
-    private ?array $resourcesOverride = null;
+    /** @var list<string> */
+    protected array $except = [];
+
+    /** @var array<string, string> */
+    protected array $icons = [];
+
+    protected ?string $navigationGroup = null;
 
     public function getId(): string
     {
         return 'tagixo';
-    }
-
-    public function register(Panel $panel): void
-    {
-        if ($this->resourcesOverride !== null) {
-            // Per-instance override: use the explicit list, skip ThemeBuilderPage.
-            $resources = array_values(array_filter(
-                $this->resourcesOverride,
-                fn ($resource) => is_string($resource) && class_exists($resource),
-            ));
-
-            if ($this->mediaGallery && ! in_array(MediaResource::class, $resources, true)) {
-                $resources[] = MediaResource::class;
-            }
-
-            $panel->resources($resources);
-
-            return;
-        }
-
-        // The resource list is config-driven: comment out a line in
-        // config/tagixo-filament.php to hide that builder from the panel.
-        // Fall back to the package defaults when the config is unavailable.
-        $resources = array_values(array_filter(
-            (array) config('tagixo-filament.resources', $this->defaultResources()),
-            fn ($resource) => is_string($resource) && class_exists($resource),
-        ));
-
-        // The fluent flag still adds its resource (deduped), so existing
-        // ->withMediaGallery() call sites keep working alongside the config.
-        if ($this->mediaGallery && ! in_array(MediaResource::class, $resources, true)) {
-            $resources[] = MediaResource::class;
-        }
-
-        $panel->resources($resources);
-        $panel->pages([ThemeBuilderPage::class]);
-    }
-
-    /**
-     * Default resources used when config/tagixo-filament.php is not loaded.
-     *
-     * @return array<int, class-string>
-     */
-    private function defaultResources(): array
-    {
-        return [
-            PageResource::class,
-            LayoutResource::class,
-            MenuResource::class,
-            FormResource::class,
-            SliderResource::class,
-            MailResource::class,
-        ];
-    }
-
-    public function boot(Panel $panel): void
-    {
-        if ($this->formTarget !== null) {
-            app(Tagixo::class)->lockFormTarget($this->formTarget);
-        }
-
-        app(Tagixo::class)->extendFormModule('*',                           ['table' => FilamentTablePropType::class]);
-        app(Tagixo::class)->extendFormModule(['checkbox'],                  ['table' => BooleanFilamentTablePropType::class]);
-        app(Tagixo::class)->extendFormModule(['toggle'],                    ['table' => ToggleFilamentTablePropType::class]);
-        app(Tagixo::class)->extendFormModule(['date', 'date-picker'],       ['table' => DateFilamentTablePropType::class]);
-        app(Tagixo::class)->extendFormModule(['file', 'file-upload'],       ['table' => FileFilamentTablePropType::class]);
-        app(Tagixo::class)->hideFormModulePropTypes('*', ['sizing']);
-
-        foreach (app(Tagixo::class)->getPlugins() as $plugin) {
-            if (! ($plugin instanceof HasPlugin)) {
-                continue;
-            }
-
-            $sub = $plugin->getPlugin();
-
-            if ($sub instanceof Plugin) {
-                $sub->register($panel);
-                $sub->boot($panel);
-            }
-        }
     }
 
     public static function make(): static
@@ -120,43 +56,136 @@ class TagixoFilamentPlugin implements Plugin
         return app(static::class);
     }
 
-    public static function get(): Plugin | FilamentManager
+    public function register(Panel $panel): void
     {
-        return filament(app(static::class)->getId());
+        // `resources()` replaces the list, and a panel may already have its own
+        // (listed or discovered): keep them.
+        $panel->resources([...$panel->getResources(), ...array_values($this->resolveResources())]);
+    }
+
+    public function boot(Panel $panel): void
+    {
+        $this->bootPluginsOfPlugins($panel);
     }
 
     /**
-     * Lock all forms in this panel to a specific target ('universal' or 'app').
-     * Hides the target selector — the user cannot change it.
+     * The resources this panel gets: declared, not excluded, and belonging to a
+     * type the registry knows.
+     *
+     * @return array<string, class-string>
      */
-    public function formTarget(string $target): static
+    public function resolveResources(): array
     {
-        $this->formTarget = $target;
+        $registry = app(BuilderTypeRegistry::class);
+        $configured = (array) config('tagixo-filament.resources', []);
+        $resources = [...$this->resources, ...array_filter($configured, 'is_string')];
+
+        $resolved = [];
+
+        foreach ($resources as $type => $resource) {
+            if (! $registry->has($type) || ! $this->wanted($type) || ! class_exists($resource)) {
+                continue;
+            }
+
+            $resolved[$type] = $resource;
+        }
+
+        return $resolved;
+    }
+
+    /**
+     * Only these types, in this order.
+     *
+     * @param  list<string>  $types
+     */
+    public function only(array $types): static
+    {
+        $this->only = array_values($types);
 
         return $this;
     }
 
     /**
-     * Override the resource list for this plugin instance.
-     *
-     * When called, the per-instance list takes precedence over
-     * config('tagixo-filament.resources') for this panel, and ThemeBuilderPage
-     * is not registered. Pass an empty array to register no CMS resources at all
-     * (useful when attaching the plugin only for form-target-lock / form module wiring).
-     *
-     * @param  list<class-string>  $resources
+     * @param  list<string>  $types
      */
-    public function resources(array $resources): static
+    public function except(array $types): static
     {
-        $this->resourcesOverride = $resources;
+        $this->except = array_values($types);
 
         return $this;
     }
 
-    public function withMediaGallery(bool $enabled = true): static
+    /**
+     * Replace the resource of one type with your own — a subclass that adds a
+     * column, or something written from scratch.
+     */
+    public function resource(string $type, string $resource): static
     {
-        $this->mediaGallery = $enabled;
+        $this->resources[$type] = $resource;
 
         return $this;
+    }
+
+    public function navigationGroup(?string $group): static
+    {
+        $this->navigationGroup = $group;
+
+        return $this;
+    }
+
+    /**
+     * @param  array<string, string>  $icons
+     */
+    public function icons(array $icons): static
+    {
+        $this->icons = [...$this->icons, ...$icons];
+
+        return $this;
+    }
+
+    public function iconFor(string $type): ?string
+    {
+        return $this->icons[$type]
+            ?? config("tagixo-filament.icons.{$type}")
+            ?? config('tagixo-filament.icons.default');
+    }
+
+    /**
+     * The group every Tagixo resource sits in, unless the panel says otherwise.
+     */
+    public function getNavigationGroup(): ?string
+    {
+        return $this->navigationGroup ?? config('tagixo-filament.navigation_group');
+    }
+
+    protected function wanted(string $type): bool
+    {
+        if (in_array($type, $this->except, true)) {
+            return false;
+        }
+
+        return $this->only === null || in_array($type, $this->only, true);
+    }
+
+    /**
+     * A Tagixo plugin that brings its own admin screens says so by implementing
+     * HasPlugin: whatever `getPlugin()` returns is registered here, so a package
+     * that adds a content type needs no panel wiring in the application that
+     * installs it.
+     */
+    protected function bootPluginsOfPlugins(Panel $panel): void
+    {
+        foreach (app(Tagixo::class)->getPlugins() as $plugin) {
+            if (! $plugin instanceof HasPlugin) {
+                continue;
+            }
+
+            $own = $plugin->getPlugin();
+
+            if ($own instanceof Plugin) {
+                $own->register($panel);
+                $own->boot($panel);
+            }
+        }
     }
 }

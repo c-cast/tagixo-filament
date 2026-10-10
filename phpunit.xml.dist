@@ -17,7 +17,7 @@
 >
     <testsuites>
         <testsuite name="TagixoFilament Test Suite">
-            <directory>tests</directory>
+            <directory>tests/Feature</directory>
         </testsuite>
     </testsuites>
     <source>
