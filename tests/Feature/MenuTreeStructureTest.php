@@ -1,6 +1,6 @@
 <?php
 
-use Ccast\TagixoFilament\Support\MenuTreeStructure;
+use Tagixo\Filament\Support\MenuTreeStructure;
 
 describe('MenuTreeStructure conversions', function () {
     it('flattens a nested tree with correct depths', function () {

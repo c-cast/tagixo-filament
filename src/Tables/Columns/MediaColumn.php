@@ -1,8 +1,8 @@
 <?php
 
-namespace Ccast\TagixoFilament\MediaGallery\Filament\Columns;
+namespace Tagixo\Filament\Tables\Columns;
 
-use Ccast\Tagixo\MediaGallery\Models\Media;
+use Tagixo\Core\MediaGallery\Models\Media;
 use Filament\Tables\Columns\Column;
 use Illuminate\Support\Collection;
 
@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
  */
 class MediaColumn extends Column
 {
-    protected string $view = 'media-gallery::columns.media-column';
+    protected string $view = 'tagixo-filament::media-gallery.columns.media-column';
 
     /**
      * Render thumbnails as circles instead of rounded squares.

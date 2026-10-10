@@ -7,6 +7,7 @@ use Filament\Panel;
 use Tagixo\Core\BuilderTypeRegistry;
 use Tagixo\Core\Contracts\HasPlugin;
 use Tagixo\Core\Tagixo;
+use Tagixo\Filament\Capabilities\Capability;
 use Tagixo\Filament\Resources;
 
 /**
@@ -41,6 +42,25 @@ class TagixoFilamentPlugin implements Plugin
     /** @var list<string> */
     protected array $except = [];
 
+    /**
+     * Capabilities of the packages that are not record types. Each one decides
+     * whether it applies; a panel drops one with
+     * `withoutCapability('media-gallery')`.
+     *
+     * @var list<class-string<Capability>>
+     */
+    protected array $capabilities = [
+        Capabilities\MediaGalleryCapability::class,
+        Capabilities\PageBuilderCapability::class,
+    ];
+
+    /** @var list<string> */
+    protected array $withoutCapabilities = [];
+
+    protected bool $mediaLibrary = false;
+
+    protected bool $menus = false;
+
     /** @var array<string, string> */
     protected array $icons = [];
 
@@ -65,7 +85,81 @@ class TagixoFilamentPlugin implements Plugin
 
     public function boot(Panel $panel): void
     {
+        foreach ($this->resolveCapabilities() as $capability) {
+            $capability->apply($panel, $this);
+        }
+
         $this->bootPluginsOfPlugins($panel);
+    }
+
+    /**
+     * The capabilities this panel gets: declared, not excluded, and available —
+     * which each one answers for itself, asking the container.
+     *
+     * @return list<Capability>
+     */
+    public function resolveCapabilities(): array
+    {
+        $configured = (array) config('tagixo-filament.capabilities', []);
+        $classes = array_values(array_unique([...$this->capabilities, ...array_filter($configured, 'is_string')]));
+
+        $resolved = [];
+
+        foreach ($classes as $class) {
+            if (! class_exists($class)) {
+                continue;
+            }
+
+            /** @var Capability $capability */
+            $capability = app($class);
+
+            if (in_array($capability->id(), $this->withoutCapabilities, true) || ! $capability->available()) {
+                continue;
+            }
+
+            $resolved[] = $capability;
+        }
+
+        return $resolved;
+    }
+
+    public function withoutCapability(string ...$ids): static
+    {
+        $this->withoutCapabilities = [...$this->withoutCapabilities, ...$ids];
+
+        return $this;
+    }
+
+    /**
+     * The media library of the core as a panel screen, and the picker available
+     * to any form in it.
+     */
+    public function withMediaGallery(bool $enabled = true): static
+    {
+        $this->mediaLibrary = $enabled;
+
+        return $this;
+    }
+
+    public function mediaLibraryEnabled(): bool
+    {
+        return $this->mediaLibrary;
+    }
+
+    /**
+     * The menus of the site: a tree of items, each pointing at a page, a record
+     * or a URL.
+     */
+    public function withMenus(bool $enabled = true): static
+    {
+        $this->menus = $enabled;
+
+        return $this;
+    }
+
+    public function menusEnabled(): bool
+    {
+        return $this->menus;
     }
 
     /**

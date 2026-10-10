@@ -1,8 +1,8 @@
 <?php
 
-namespace Ccast\TagixoFilament\Support;
+namespace Tagixo\Filament\Support;
 
-use Ccast\Tagixo\Support\MenuTreeStructure as TagixoMenuTreeStructure;
+use Tagixo\PageBuilder\Support\MenuTreeStructure as TagixoMenuTreeStructure;
 
 /**
  * Re-exports the plugin's MenuTreeStructure under the Filament SDK namespace

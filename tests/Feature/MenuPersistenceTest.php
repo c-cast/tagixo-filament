@@ -1,9 +1,9 @@
 <?php
 
-use Ccast\Tagixo\Models\Menu;
-use Ccast\Tagixo\Models\Page;
-use Ccast\TagixoFilament\Filament\Resources\Menus\Concerns\PersistsMenuItems;
-use Ccast\TagixoFilament\Support\MenuTreeStructure;
+use Tagixo\PageBuilder\Models\Menu;
+use Tagixo\PageBuilder\Models\Page;
+use Tagixo\Filament\Resources\Menus\Concerns\PersistsMenuItems;
+use Tagixo\Filament\Support\MenuTreeStructure;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);

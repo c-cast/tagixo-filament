@@ -1,11 +1,11 @@
 <?php
 
-namespace Ccast\TagixoFilament\MediaGallery\Filament\Columns;
+namespace Tagixo\Filament\Tables\Columns;
 
 use Closure;
 use Filament\Tables\Columns\Column;
 
-class MediaGalleryPickerColumn extends Column
+class MediaPickerColumn extends Column
 {
     protected bool|Closure $isCircular = false;
 

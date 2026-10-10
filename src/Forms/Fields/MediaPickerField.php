@@ -1,12 +1,12 @@
 <?php
 
-namespace Ccast\TagixoFilament\MediaGallery\Filament\Forms;
+namespace Tagixo\Filament\Forms\Fields;
 
 use Closure;
 use Filament\Forms\Components\Concerns\HasPlaceholder;
 use Filament\Forms\Components\Field;
 
-class MediaGalleryPickerField extends Field
+class MediaPickerField extends Field
 {
     use HasPlaceholder;
 

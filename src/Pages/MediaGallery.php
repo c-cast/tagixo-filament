@@ -1,9 +1,9 @@
 <?php
 
-namespace Ccast\TagixoFilament\MediaGallery\Filament\Pages;
+namespace Tagixo\Filament\Pages;
 
-use Ccast\Tagixo\MediaGallery\Models\Media;
-use Ccast\Tagixo\MediaGallery\Services\MediaService;
+use Tagixo\Core\MediaGallery\Models\Media;
+use Tagixo\Core\MediaGallery\Services\MediaService;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -41,7 +41,7 @@ class MediaGallery extends Page implements HasSchemas, HasTable
 
     protected static \BackedEnum | string | null $navigationIcon = 'heroicon-o-photo';
 
-    protected string $view = 'media-gallery::pages.media-gallery';
+    protected string $view = 'tagixo-filament::media-gallery.pages.media-gallery';
 
     protected static string | null | \UnitEnum $navigationGroup = 'Content';
 
@@ -143,7 +143,7 @@ class MediaGallery extends Page implements HasSchemas, HasTable
             ->recordActions([
                 ViewAction::make()
                     ->modalHeading(fn (Media $record) => $record->title ?: $record->filename)
-                    ->modalContent(fn (Media $record) => view('media-gallery::components.media-preview', ['media' => $record])),
+                    ->modalContent(fn (Media $record) => view('tagixo-filament::media-gallery.components.media-preview', ['media' => $record])),
 
                 EditAction::make()
                     ->schema([

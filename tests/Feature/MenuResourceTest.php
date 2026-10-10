@@ -7,13 +7,13 @@
  * test style). The flat↔nested logic is covered by MenuTreeStructureTest.
  */
 
-use Ccast\Tagixo\Models\Menu;
-use Ccast\TagixoFilament\Filament\Resources\Menus\Concerns\PersistsMenuItems;
-use Ccast\TagixoFilament\Filament\Resources\Menus\Forms\MenuTreeField;
-use Ccast\TagixoFilament\Filament\Resources\Menus\MenuResource;
-use Ccast\TagixoFilament\Filament\Resources\Menus\Pages\CreateMenu;
-use Ccast\TagixoFilament\Filament\Resources\Menus\Pages\EditMenu;
-use Ccast\TagixoFilament\Filament\Resources\Menus\Pages\ListMenus;
+use Tagixo\PageBuilder\Models\Menu;
+use Tagixo\Filament\Resources\Menus\Concerns\PersistsMenuItems;
+use Tagixo\Filament\Resources\Menus\Forms\MenuTreeField;
+use Tagixo\Filament\Resources\Menus\MenuResource;
+use Tagixo\Filament\Resources\Menus\Pages\CreateMenu;
+use Tagixo\Filament\Resources\Menus\Pages\EditMenu;
+use Tagixo\Filament\Resources\Menus\Pages\ListMenus;
 use Filament\Forms\Components\Field;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\EditRecord;
