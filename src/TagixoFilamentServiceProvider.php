@@ -8,7 +8,6 @@ use Tagixo\Filament\FormBuilder\Contracts\FilamentFieldModule;
 use Tagixo\Filament\FormBuilder\Contracts\FilamentWrapperModule;
 use Tagixo\Filament\FormBuilder\FilamentModuleRegistry;
 use Tagixo\Filament\FormBuilder\Modules;
-use Tagixo\Filament\FormBuilder\Reactivity\ReactivityFunctionRegistry;
 
 class TagixoFilamentServiceProvider extends ServiceProvider
 {
@@ -68,7 +67,6 @@ class TagixoFilamentServiceProvider extends ServiceProvider
             ],
         ));
 
-        $this->app->singleton(ReactivityFunctionRegistry::class, static fn (): ReactivityFunctionRegistry => new ReactivityFunctionRegistry);
     }
 
     public function boot(): void

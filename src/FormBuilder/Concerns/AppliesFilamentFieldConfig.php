@@ -3,7 +3,8 @@
 namespace Tagixo\Filament\FormBuilder\Concerns;
 
 use Tagixo\Core\Services\BuilderModelRegistryService;
-use Tagixo\Filament\FormBuilder\Reactivity\ReactivityActionRunner;
+use Tagixo\Filament\FormBuilder\Reactivity\FilamentFormState;
+use Tagixo\FormBuilder\Reactivity\ReactivityActionRunner;
 use Closure;
 use Filament\Forms\Components\Field;
 use Filament\Schemas\Components\Component;
@@ -210,7 +211,7 @@ trait AppliesFilamentFieldConfig
             }
 
             $component->{$methodName}(function (mixed $state, Set $set, Get $get) use ($actions): void {
-                ReactivityActionRunner::run($actions, $state, $set, $get);
+                ReactivityActionRunner::run($actions, $state, new FilamentFormState($get, $set));
             });
         }
 
