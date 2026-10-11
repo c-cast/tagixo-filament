@@ -1,8 +1,8 @@
 <?php
 
-namespace Ccast\TagixoFilament\FormBuilder\Concerns;
+namespace Tagixo\Filament\FormBuilder\Concerns;
 
-use Ccast\Tagixo\Services\BuilderModelRegistryService;
+use Tagixo\Core\Services\BuilderModelRegistryService;
 use Closure;
 use Filament\Forms\Components\Field;
 use Filament\Schemas\Components\Component;

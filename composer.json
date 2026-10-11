@@ -39,8 +39,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Tagixo\\Filament\\": "src/",
-            "Ccast\\TagixoFilament\\": "src/"
+            "Tagixo\\Filament\\": "src/"
         }
     },
     "autoload-dev": {

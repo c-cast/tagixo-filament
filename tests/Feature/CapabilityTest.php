@@ -19,7 +19,7 @@ it('offers the capabilities of the packages that are installed', function () {
         app(TagixoFilamentPlugin::class)->resolveCapabilities(),
     );
 
-    expect($ids)->toBe(['media-gallery', 'page-builder']);
+    expect($ids)->toBe(['form-builder', 'media-gallery', 'page-builder']);
 });
 
 it('drops a capability the panel refuses', function () {
@@ -27,7 +27,7 @@ it('drops a capability the panel refuses', function () {
 
     $ids = array_map(fn ($capability) => $capability->id(), $plugin->resolveCapabilities());
 
-    expect($ids)->toBe(['page-builder']);
+    expect($ids)->toBe(['form-builder', 'page-builder']);
 });
 
 it('asks the container, not the autoloader', function () {

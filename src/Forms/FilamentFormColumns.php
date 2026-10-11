@@ -1,9 +1,9 @@
 <?php
 
-namespace Ccast\TagixoFilament\Forms;
+namespace Tagixo\Filament\Forms;
 
-use Ccast\Tagixo\FormBuilder\FormModule;
-use Ccast\Tagixo\Models\FormSchema;
+use Tagixo\FormBuilder\FormModule;
+use Tagixo\FormBuilder\Models\FormSchema;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;

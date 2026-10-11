@@ -1,9 +1,9 @@
 <?php
 
-namespace Ccast\TagixoFilament\Forms;
+namespace Tagixo\Filament\Forms;
 
-use Ccast\Tagixo\Models\FormSchema;
-use Ccast\Tagixo\Support\FormElementsCssGenerator;
+use Tagixo\FormBuilder\Models\FormSchema;
+use Tagixo\FormBuilder\Support\FormElementsCssGenerator;
 
 /**
  * Generates scoped CSS from form builder element styles for fields rendered

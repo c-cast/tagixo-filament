@@ -1,9 +1,9 @@
 <?php
 
-namespace Ccast\TagixoFilament\FormBuilder\Reactivity\Contracts;
+namespace Tagixo\Filament\FormBuilder\Reactivity\Contracts;
 
-use Ccast\TagixoFilament\Facades\TagixoReactivity;
-use Ccast\TagixoFilament\FormBuilder\Reactivity\ReactivityFunctionRegistry;
+use Tagixo\Filament\Facades\TagixoReactivity;
+use Tagixo\Filament\FormBuilder\Reactivity\ReactivityFunctionRegistry;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
@@ -36,7 +36,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
  * ### Example
  *
  * ```php
- * use Ccast\TagixoFilament\FormBuilder\Reactivity\Contracts\ReactivityFunctionProvider;
+ * use Tagixo\Filament\FormBuilder\Reactivity\Contracts\ReactivityFunctionProvider;
  * use Symfony\Component\ExpressionLanguage\ExpressionFunction;
  *
  * final class TenantFunctionProvider implements ReactivityFunctionProvider

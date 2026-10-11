@@ -1,12 +1,12 @@
 <?php
 
-namespace Ccast\TagixoFilament\FormBuilder\Modules;
+namespace Tagixo\Filament\FormBuilder\Modules;
 
-use Ccast\Tagixo\Core\ModuleDefinition;
-use Ccast\Tagixo\Core\Props\EditorProp;
-use Ccast\Tagixo\Core\Props\TextProp;
-use Ccast\Tagixo\Core\Props\ToggleProp;
-use Ccast\Tagixo\FormBuilder\FormModule;
+use Tagixo\Core\ModuleDefinition;
+use Tagixo\Core\Props\EditorProp;
+use Tagixo\Core\Props\TextProp;
+use Tagixo\Core\Props\ToggleProp;
+use Tagixo\FormBuilder\FormModule;
 
 class ToggleModule extends FormModule
 {

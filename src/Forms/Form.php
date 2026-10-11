@@ -1,9 +1,9 @@
 <?php
 
-namespace Ccast\TagixoFilament\Filament\Forms;
+namespace Tagixo\Filament\Forms;
 
-use Ccast\TagixoFilament\FormBuilder\FormSchemaDefinitionResolver;
-use Ccast\TagixoFilament\FormBuilder\FormSchemaToFilamentMapper;
+use Tagixo\Filament\FormBuilder\FormSchemaDefinitionResolver;
+use Tagixo\Filament\FormBuilder\FormSchemaToFilamentMapper;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Schema;
 

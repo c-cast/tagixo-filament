@@ -1,8 +1,8 @@
 <?php
 
-namespace Ccast\TagixoFilament\Facades;
+namespace Tagixo\Filament\Facades;
 
-use Ccast\TagixoFilament\FormBuilder\Reactivity\ReactivityFunctionRegistry;
+use Tagixo\Filament\FormBuilder\Reactivity\ReactivityFunctionRegistry;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Facade;
  * In `AppServiceProvider::boot()`:
  *
  * ```php
- * use Ccast\TagixoFilament\Facades\TagixoReactivity;
+ * use Tagixo\Filament\Facades\TagixoReactivity;
  *
  * TagixoReactivity::register('shout', fn (string $value) => strtoupper($value));
  *
@@ -33,12 +33,12 @@ use Illuminate\Support\Facades\Facade;
  * TagixoReactivity::addProvider(fn () => new \App\Reactivity\LocaleFunctionProvider());
  * ```
  *
- * @method static \Ccast\TagixoFilament\FormBuilder\Reactivity\ReactivityFunctionRegistry register(string $name, \Closure $evaluator)
- * @method static \Ccast\TagixoFilament\FormBuilder\Reactivity\ReactivityFunctionRegistry registerMany(array $functions)
- * @method static \Ccast\TagixoFilament\FormBuilder\Reactivity\ReactivityFunctionRegistry addProvider(\Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface|string|\Closure $provider)
+ * @method static \Tagixo\Filament\FormBuilder\Reactivity\ReactivityFunctionRegistry register(string $name, \Closure $evaluator)
+ * @method static \Tagixo\Filament\FormBuilder\Reactivity\ReactivityFunctionRegistry registerMany(array $functions)
+ * @method static \Tagixo\Filament\FormBuilder\Reactivity\ReactivityFunctionRegistry addProvider(\Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface|string|\Closure $provider)
  * @method static array resolveAll()
  * @method static array describe()
- * @method static \Ccast\TagixoFilament\FormBuilder\Reactivity\ReactivityFunctionRegistry flush()
+ * @method static \Tagixo\Filament\FormBuilder\Reactivity\ReactivityFunctionRegistry flush()
  *
  * @see ReactivityFunctionRegistry
  */

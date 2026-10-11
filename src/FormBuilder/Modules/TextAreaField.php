@@ -1,10 +1,10 @@
 <?php
 
-namespace Ccast\TagixoFilament\FormBuilder\Modules;
+namespace Tagixo\Filament\FormBuilder\Modules;
 
-use Ccast\Tagixo\Services\BuilderModelRegistryService;
-use Ccast\TagixoFilament\FormBuilder\Concerns\MapsFilamentFieldModule;
-use Ccast\TagixoFilament\FormBuilder\Contracts\FilamentFieldModule;
+use Tagixo\Core\Services\BuilderModelRegistryService;
+use Tagixo\Filament\FormBuilder\Concerns\MapsFilamentFieldModule;
+use Tagixo\Filament\FormBuilder\Contracts\FilamentFieldModule;
 use Closure;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Component;

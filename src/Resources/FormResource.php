@@ -15,6 +15,9 @@ class FormResource extends TagixoRecordResource
             'index' => Pages\ListForms::route('/'),
             'create' => Pages\CreateForm::route('/create'),
             'edit' => Pages\EditForm::route('/{record}/edit'),
+            // The builder's own Preview of an app form opens this instead of
+            // the HTML one: a Filament form is what that form will really be.
+            'preview-app' => Pages\PreviewAppForm::route('/{record}/preview'),
         ];
     }
 }

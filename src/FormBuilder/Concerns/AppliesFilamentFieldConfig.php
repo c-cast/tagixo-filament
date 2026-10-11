@@ -1,9 +1,9 @@
 <?php
 
-namespace Ccast\TagixoFilament\FormBuilder\Concerns;
+namespace Tagixo\Filament\FormBuilder\Concerns;
 
-use Ccast\Tagixo\Services\BuilderModelRegistryService;
-use Ccast\TagixoFilament\FormBuilder\Reactivity\ReactivityActionRunner;
+use Tagixo\Core\Services\BuilderModelRegistryService;
+use Tagixo\Filament\FormBuilder\Reactivity\ReactivityActionRunner;
 use Closure;
 use Filament\Forms\Components\Field;
 use Filament\Schemas\Components\Component;

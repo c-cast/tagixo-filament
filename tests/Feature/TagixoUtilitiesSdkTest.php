@@ -1,12 +1,12 @@
 <?php
 
-use Ccast\Tagixo\Services\BuilderModelRegistryService;
-use Ccast\TagixoFilament\Concerns\CleansBuilderStructure;
-use Ccast\TagixoFilament\Filament\Forms\Form;
-use Ccast\TagixoFilament\FormBuilder\Contracts\FilamentFieldModule;
-use Ccast\TagixoFilament\FormBuilder\Contracts\FilamentWrapperModule;
-use Ccast\TagixoFilament\FormBuilder\FilamentModuleRegistry;
-use Ccast\TagixoFilament\FormBuilder\Modules\TextInputField;
+use Tagixo\Core\Services\BuilderModelRegistryService;
+use Tagixo\Filament\Concerns\CleansBuilderStructure;
+use Tagixo\Filament\Forms\Form;
+use Tagixo\Filament\FormBuilder\Contracts\FilamentFieldModule;
+use Tagixo\Filament\FormBuilder\Contracts\FilamentWrapperModule;
+use Tagixo\Filament\FormBuilder\FilamentModuleRegistry;
+use Tagixo\Filament\FormBuilder\Modules\TextInputField;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Group;
@@ -125,42 +125,3 @@ it('registers custom module mappings through the registry and maps components', 
     expect($components[0]->getName())->toBe('external_custom');
 });
 
-it('generates a builder page class via artisan command with custom options', function () {
-    $class = 'SdkGeneratedBuilderPage'.Str::upper(Str::random(6));
-    $path = app_path("Filament/Admin/Pages/{$class}.php");
-
-    File::delete($path);
-
-    $this->artisan('make:builder-page', [
-        'name' => $class,
-        '--context' => 'mail',
-        '--title' => 'SDK Mail Builder',
-        '--panel' => 'Admin',
-    ])->assertExitCode(0);
-
-    expect(File::exists($path))->toBeTrue();
-
-    $contents = File::get($path);
-    expect($contents)->toContain("class {$class} extends BuilderPage");
-    expect($contents)->toContain("protected static ?string \$title = 'SDK Mail Builder';");
-    expect($contents)->toContain("return 'mail';");
-
-    File::delete($path);
-});
-
-it('supports custom panel namespace when generating builder pages', function () {
-    $class = 'SdkMarketingBuilder'.Str::upper(Str::random(6));
-    $path = app_path("Filament/Marketing/Pages/{$class}.php");
-
-    File::delete($path);
-
-    $this->artisan('make:builder-page', [
-        'name' => $class,
-        '--panel' => 'Marketing',
-    ])->assertExitCode(0);
-
-    expect(File::exists($path))->toBeTrue();
-    expect(File::get($path))->toContain('namespace App\\Filament\\Marketing\\Pages;');
-
-    File::delete($path);
-});

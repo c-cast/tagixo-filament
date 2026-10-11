@@ -1,9 +1,9 @@
 <?php
 
-namespace Ccast\TagixoFilament\FormBuilder\Reactivity;
+namespace Tagixo\Filament\FormBuilder\Reactivity;
 
-use Ccast\TagixoFilament\Facades\TagixoReactivity;
-use Ccast\TagixoFilament\FormBuilder\Reactivity\Contracts\ReactivityFunctionProvider;
+use Tagixo\Filament\Facades\TagixoReactivity;
+use Tagixo\Filament\FormBuilder\Reactivity\Contracts\ReactivityFunctionProvider;
 use Closure;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;

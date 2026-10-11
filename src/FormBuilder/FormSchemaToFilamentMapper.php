@@ -1,11 +1,11 @@
 <?php
 
-namespace Ccast\TagixoFilament\FormBuilder;
+namespace Tagixo\Filament\FormBuilder;
 
-use Ccast\Tagixo\Core\ComponentRegistry;
-use Ccast\Tagixo\FormBuilder\FormModule;
-use Ccast\Tagixo\Services\BuilderModelRegistryService;
-use Ccast\TagixoFilament\FormBuilder\Concerns\AppliesFilamentFieldConfig;
+use Tagixo\Core\ComponentRegistry;
+use Tagixo\FormBuilder\FormModule;
+use Tagixo\Core\Services\BuilderModelRegistryService;
+use Tagixo\Filament\FormBuilder\Concerns\AppliesFilamentFieldConfig;
 use Closure;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Component;

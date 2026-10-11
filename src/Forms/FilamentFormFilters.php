@@ -1,9 +1,9 @@
 <?php
 
-namespace Ccast\TagixoFilament\Forms;
+namespace Tagixo\Filament\Forms;
 
-use Ccast\Tagixo\FormBuilder\FormModule;
-use Ccast\Tagixo\Models\FormSchema;
+use Tagixo\FormBuilder\FormModule;
+use Tagixo\FormBuilder\Models\FormSchema;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;

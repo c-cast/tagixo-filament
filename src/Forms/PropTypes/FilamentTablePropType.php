@@ -1,13 +1,13 @@
 <?php
 
-namespace Ccast\TagixoFilament\Forms\PropTypes;
+namespace Tagixo\Filament\Forms\PropTypes;
 
-use Ccast\Tagixo\Core\PropTypes\AbstractPropType;
-use Ccast\Tagixo\Core\Props\NumberProp;
-use Ccast\Tagixo\Core\Props\RepeaterProp;
-use Ccast\Tagixo\Core\Props\SelectProp;
-use Ccast\Tagixo\Core\Props\TextProp;
-use Ccast\Tagixo\Core\Props\ToggleProp;
+use Tagixo\Core\PropTypes\AbstractPropType;
+use Tagixo\Core\Props\NumberProp;
+use Tagixo\Core\Props\RepeaterProp;
+use Tagixo\Core\Props\SelectProp;
+use Tagixo\Core\Props\TextProp;
+use Tagixo\Core\Props\ToggleProp;
 
 class FilamentTablePropType extends AbstractPropType
 {

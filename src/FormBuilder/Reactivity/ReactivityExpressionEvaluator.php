@@ -1,6 +1,6 @@
 <?php
 
-namespace Ccast\TagixoFilament\FormBuilder\Reactivity;
+namespace Tagixo\Filament\FormBuilder\Reactivity;
 
 use Filament\Schemas\Components\Utilities\Get;
 use Illuminate\Support\Str;

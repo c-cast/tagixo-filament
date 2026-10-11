@@ -1,6 +1,6 @@
 <?php
 
-namespace Ccast\TagixoFilament\FormBuilder;
+namespace Tagixo\Filament\FormBuilder;
 
 use Filament\Resources\Pages\Page as FilamentResourcePage;
 use Filament\Resources\Resource;

@@ -50,6 +50,7 @@ class TagixoFilamentPlugin implements Plugin
      * @var list<class-string<Capability>>
      */
     protected array $capabilities = [
+        Capabilities\FormBuilderCapability::class,
         Capabilities\MediaGalleryCapability::class,
         Capabilities\PageBuilderCapability::class,
     ];
@@ -62,6 +63,10 @@ class TagixoFilamentPlugin implements Plugin
     protected bool $menus = false;
 
     protected bool $themeBuilder = false;
+
+    protected bool $appForms = false;
+
+    protected ?string $formTarget = null;
 
     /** @var array<string, string> */
     protected array $icons = [];
@@ -162,6 +167,38 @@ class TagixoFilamentPlugin implements Plugin
     public function menusEnabled(): bool
     {
         return $this->menus;
+    }
+
+    /**
+     * Forms that target the application: the interactive layouts a panel can
+     * render, which a public page cannot.
+     */
+    public function withAppForms(bool $enabled = true): static
+    {
+        $this->appForms = $enabled;
+
+        return $this;
+    }
+
+    public function appFormsEnabled(): bool
+    {
+        return $this->appForms || $this->formTarget !== null;
+    }
+
+    /**
+     * Every form in this panel targets one runtime, and the builder stops
+     * asking. Locking to 'app' enables that target on its own.
+     */
+    public function lockFormTarget(string $target): static
+    {
+        $this->formTarget = $target;
+
+        return $this;
+    }
+
+    public function lockedFormTarget(): ?string
+    {
+        return $this->formTarget;
     }
 
     /**

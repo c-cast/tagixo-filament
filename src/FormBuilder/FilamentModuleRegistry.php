@@ -1,9 +1,9 @@
 <?php
 
-namespace Ccast\TagixoFilament\FormBuilder;
+namespace Tagixo\Filament\FormBuilder;
 
-use Ccast\TagixoFilament\FormBuilder\Contracts\FilamentFieldModule;
-use Ccast\TagixoFilament\FormBuilder\Contracts\FilamentWrapperModule;
+use Tagixo\Filament\FormBuilder\Contracts\FilamentFieldModule;
+use Tagixo\Filament\FormBuilder\Contracts\FilamentWrapperModule;
 
 class FilamentModuleRegistry
 {

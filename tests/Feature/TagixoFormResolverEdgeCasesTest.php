@@ -1,6 +1,6 @@
 <?php
 
-use Ccast\TagixoFilament\Filament\Forms\Form;
+use Tagixo\Filament\Forms\Form;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;

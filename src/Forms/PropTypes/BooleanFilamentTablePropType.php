@@ -1,6 +1,6 @@
 <?php
 
-namespace Ccast\TagixoFilament\Forms\PropTypes;
+namespace Tagixo\Filament\Forms\PropTypes;
 
 class BooleanFilamentTablePropType extends FilamentTablePropType
 {
