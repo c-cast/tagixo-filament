@@ -6,7 +6,8 @@ use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Tagixo\Core\BuilderTypeRegistry;
 use Tagixo\Core\Contracts\HasPlugin;
-use Tagixo\Core\Tagixo;
+use Tagixo\Core\Facades\Tagixo;
+use Tagixo\Core\Tagixo as TagixoManager;
 use Tagixo\Filament\Capabilities\Capability;
 use Tagixo\Filament\Resources;
 
@@ -85,18 +86,28 @@ class TagixoFilamentPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
+        // A panel that administers records replaces the core's record CRUD, so
+        // that API goes off: two ways in means two sets of rules. The editor's
+        // own endpoints stay — they are what the builder talks to.
+        Tagixo::disableManagementApi();
+
         // `resources()` replaces the list, and a panel may already have its own
         // (listed or discovered): keep them.
         $panel->resources([...$panel->getResources(), ...array_values($this->resolveResources())]);
-    }
 
-    public function boot(Panel $panel): void
-    {
+        // Here and not in boot(): Filament builds the panel's routes from what
+        // it holds once registration is over, so a screen added later exists in
+        // the navigation and 404s when you click it.
         foreach ($this->resolveCapabilities() as $capability) {
             $capability->apply($panel, $this);
         }
 
-        $this->bootPluginsOfPlugins($panel);
+        $this->registerPluginsOfPlugins($panel);
+    }
+
+    public function boot(Panel $panel): void
+    {
+        //
     }
 
     /**
@@ -322,9 +333,9 @@ class TagixoFilamentPlugin implements Plugin
      * that adds a content type needs no panel wiring in the application that
      * installs it.
      */
-    protected function bootPluginsOfPlugins(Panel $panel): void
+    protected function registerPluginsOfPlugins(Panel $panel): void
     {
-        foreach (app(Tagixo::class)->getPlugins() as $plugin) {
+        foreach (app(TagixoManager::class)->getPlugins() as $plugin) {
             if (! $plugin instanceof HasPlugin) {
                 continue;
             }

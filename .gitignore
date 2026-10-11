@@ -8,3 +8,9 @@ node_modules
 phpstan.neon
 phpunit.xml
 vendor
+
+# Playwright
+/node_modules
+/tests/e2e/.report
+/tests/e2e/.results
+/tests/e2e/.state

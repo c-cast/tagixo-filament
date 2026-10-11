@@ -3,21 +3,17 @@
 namespace Tagixo\Filament\Capabilities;
 
 use Filament\Panel;
-use Filament\Support\Assets\Js;
-use Filament\Support\Facades\FilamentAsset;
 use Tagixo\Core\MediaGallery\Services\MediaService;
-use Tagixo\Core\Support\TagixoAsset;
 use Tagixo\Filament\Pages\MediaGallery;
 use Tagixo\Filament\TagixoFilamentPlugin;
 
 /**
  * The media library of the core, in the panel: a page to browse and edit it, and
- * the picker of the editor available to any Filament form
- * (`Forms\Fields\MediaPickerField`).
+ * a picker available to any Filament form (`Forms\Fields\MediaPickerField`).
  *
- * The picker's own script is the core's, published to public/vendor/tagixo/core:
- * it registers the component the field renders, so no builder bundle is needed
- * for a form to pick an image.
+ * The picker is this SDK's own, written in Alpine. The core also ships one, but
+ * that one is a Vue component registered on a LiVue app — it is what the Primix
+ * SDK uses, and in a panel without LiVue the browser cannot even load it.
  */
 class MediaGalleryCapability implements Capability
 {
@@ -36,9 +32,5 @@ class MediaGalleryCapability implements Capability
         if ($plugin->mediaLibraryEnabled()) {
             $panel->pages([...$panel->getPages(), MediaGallery::class]);
         }
-
-        FilamentAsset::register([
-            Js::make('tagixo-media-picker', TagixoAsset::url('core/media-picker.js', version: false)),
-        ], 'tagixo/filament');
     }
 }

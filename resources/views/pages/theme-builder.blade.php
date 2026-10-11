@@ -59,7 +59,7 @@
                 </div>
             </section>
         @empty
-            <x-filament-tables::empty-state
+            <x-filament::empty-state
                 icon="heroicon-o-squares-2x2"
                 :heading="__('No template yet')"
                 :description="__('A page without one wears nothing.')"

@@ -7,7 +7,7 @@
                     <div>
                         <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('Total Media') }}</div>
                         <div class="text-2xl font-bold">
-                            {{ \Ccast\Tagixo\MediaGallery\Models\Media::count() }}
+                            {{ \Tagixo\Core\MediaGallery\Models\Media::count() }}
                         </div>
                     </div>
                     <div class="p-3 bg-primary-100 dark:bg-primary-900 rounded-lg">
@@ -23,7 +23,7 @@
                     <div>
                         <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('Images') }}</div>
                         <div class="text-2xl font-bold">
-                            {{ \Ccast\Tagixo\MediaGallery\Models\Media::images()->count() }}
+                            {{ \Tagixo\Core\MediaGallery\Models\Media::images()->count() }}
                         </div>
                     </div>
                     <div class="p-3 bg-green-100 dark:bg-green-900 rounded-lg">
@@ -39,7 +39,7 @@
                     <div>
                         <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('Videos') }}</div>
                         <div class="text-2xl font-bold">
-                            {{ \Ccast\Tagixo\MediaGallery\Models\Media::videos()->count() }}
+                            {{ \Tagixo\Core\MediaGallery\Models\Media::videos()->count() }}
                         </div>
                     </div>
                     <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-lg">
@@ -56,7 +56,7 @@
                     <div>
                         <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('Documents') }}</div>
                         <div class="text-2xl font-bold">
-                            {{ \Ccast\Tagixo\MediaGallery\Models\Media::documents()->count() }}
+                            {{ \Tagixo\Core\MediaGallery\Models\Media::documents()->count() }}
                         </div>
                     </div>
                     <div class="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
