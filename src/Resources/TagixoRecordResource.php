@@ -145,15 +145,6 @@ abstract class TagixoRecordResource extends Resource
         ));
     }
 
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListTagixoRecords::route('/'),
-            'create' => Pages\CreateTagixoRecord::route('/create'),
-            'edit' => Pages\EditTagixoRecord::route('/{record}/edit'),
-        ];
-    }
-
     /**
      * The record's attributes as the form wants them. A resource whose form asks
      * its questions differently from the way the record stores them (the

@@ -18,6 +18,7 @@ class TagixoFilamentServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'tagixo-filament');
+        $this->loadRoutesFrom(__DIR__.'/../routes/tagixo-filament.php');
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'tagixo-filament');
 
         $this->publishes([

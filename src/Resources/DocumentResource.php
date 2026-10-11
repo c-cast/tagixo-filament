@@ -9,4 +9,13 @@ namespace Tagixo\Filament\Resources;
 class DocumentResource extends TagixoRecordResource
 {
     protected static string $tagixoType = 'documents';
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListDocuments::route('/'),
+            'create' => Pages\CreateDocument::route('/create'),
+            'edit' => Pages\EditDocument::route('/{record}/edit'),
+        ];
+    }
 }

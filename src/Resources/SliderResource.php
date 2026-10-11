@@ -8,4 +8,13 @@ namespace Tagixo\Filament\Resources;
 class SliderResource extends TagixoRecordResource
 {
     protected static string $tagixoType = 'sliders';
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListSliders::route('/'),
+            'create' => Pages\CreateSlider::route('/create'),
+            'edit' => Pages\EditSlider::route('/{record}/edit'),
+        ];
+    }
 }

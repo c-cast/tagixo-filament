@@ -61,6 +61,8 @@ class TagixoFilamentPlugin implements Plugin
 
     protected bool $menus = false;
 
+    protected bool $themeBuilder = false;
+
     /** @var array<string, string> */
     protected array $icons = [];
 
@@ -160,6 +162,22 @@ class TagixoFilamentPlugin implements Plugin
     public function menusEnabled(): bool
     {
         return $this->menus;
+    }
+
+    /**
+     * The Theme Builder: every template with its three zones, and the way into
+     * each one.
+     */
+    public function withThemeBuilder(bool $enabled = true): static
+    {
+        $this->themeBuilder = $enabled;
+
+        return $this;
+    }
+
+    public function themeBuilderEnabled(): bool
+    {
+        return $this->themeBuilder;
     }
 
     /**

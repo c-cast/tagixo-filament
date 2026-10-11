@@ -8,7 +8,7 @@ use Filament\Tables\Columns\TextColumn;
 use Tagixo\Filament\Resources\DocumentResource;
 use Tagixo\Filament\Resources\PageResource;
 use Tagixo\Filament\Support\RecordFieldSchema;
-use Tagixo\Filament\Tests\Support\MailResourceWithKnownUrl;
+use Tagixo\Filament\Resources\MailResource;
 
 uses(RefreshDatabase::class);
 
@@ -77,11 +77,11 @@ it('hides on create what the type would drop anyway', function () {
 });
 
 it('opens the editor of the core, and carries the way back', function () {
-    $record = MailResourceWithKnownUrl::createRecord(['name' => 'Benvenuto']);
+    $record = MailResource::createRecord(['name' => 'Benvenuto']);
 
-    $url = MailResourceWithKnownUrl::builderUrl($record);
+    $url = MailResource::builderUrl($record);
 
     expect($url)->toContain('/tagixo/builder/embed?type=mails&id='.$record->getKey())
         // Closing the editor returns to the listing it was opened from.
-        ->and($url)->toContain(urlencode('https://panel.test/admin/mails'));
+        ->and($url)->toContain(urlencode(MailResource::getUrl('index')));
 });
