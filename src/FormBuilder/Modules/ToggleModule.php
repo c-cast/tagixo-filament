@@ -30,6 +30,15 @@ class ToggleModule extends FormModule
         return 'toggle';
     }
 
+    /**
+     * A panel form only: nothing renders a toggle in a published HTML form, so
+     * offering it there would put a field on the page that never appears.
+     */
+    public static function getFormTarget(): string
+    {
+        return 'app';
+    }
+
     public static function getCanvasView(): string
     {
         return 'tagixo-filament::partials.form-embed-toggle';
@@ -64,8 +73,7 @@ class ToggleModule extends FormModule
             ->tab('visibility', __('Visibility'), static::visibilityProps())
             ->subElements(...static::checkboxElements())
             ->design('typography', 'spacing')
-            ->contexts(['form'])
-            ->meta(['isFormField' => true, 'mainDesignElement' => 'label'])
+            ->meta(static::formMeta(['isFormField' => true, 'mainDesignElement' => 'label']))
             ->canvas('cards');
     }
 

@@ -10,6 +10,8 @@ use Tagixo\Filament\Forms\PropTypes\FilamentTablePropType;
 use Tagixo\Filament\FormBuilder\Modules\ToggleModule;
 use Tagixo\Filament\Resources\FormResource;
 use Tagixo\Filament\TagixoFilamentPlugin;
+use Tagixo\Core\Builder\ContextDefinition;
+use Tagixo\Core\Builder\ContextRegistry;
 use Tagixo\Core\Facades\Tagixo;
 use Tagixo\FormBuilder\FormBuilder;
 use Throwable;
@@ -51,6 +53,14 @@ class FormBuilderCapability implements Capability
         }
 
         Tagixo::registerModule(ToggleModule::class);
+
+        // Registering it is not enough: the form context carries an explicit
+        // allowlist, so a module contributed from outside the builder has to be
+        // claimed into it or it never reaches the palette.
+        app(ContextRegistry::class)->extend(
+            'form',
+            static fn (ContextDefinition $form): ContextDefinition => $form->claimModules([ToggleModule::getTypeId()]),
+        );
 
         // How a field's answers appear in a Filament table, declared on the field.
         $forms->extendFormModule('*', ['table' => FilamentTablePropType::class]);
