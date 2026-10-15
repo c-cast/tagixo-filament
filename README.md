@@ -67,7 +67,15 @@ The core ships a pre-built Vue bundle and CSS. Publish them to `public/vendor/ta
 php artisan vendor:publish --tag=tagixo-assets
 ```
 
-This creates `public/vendor/tagixo/js/` and `public/vendor/tagixo/css/`. The SDK's CSS asset (`tagixo`) is already registered with Filament's asset manager — no extra action needed for CSS.
+This publishes one directory per installed package under `public/vendor/tagixo/`.
+
+The SDK has a stylesheet of its own — the utilities its Blade views are written in, which Filament's own CSS does not carry — registered with Filament's asset manager. Like every Filament plugin's, it is published with:
+
+```bash
+php artisan filament:assets
+```
+
+Without it the Theme Builder, the media gallery and the menu tree render as unstyled markup.
 
 ### 4. Register the plugin on your Filament panel
 

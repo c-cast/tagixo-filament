@@ -2,6 +2,8 @@
 
 namespace Tagixo\Filament;
 
+use Filament\Support\Assets\Css;
+use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Tagixo\Filament\FormBuilder\Contracts\FilamentFieldModule;
@@ -77,6 +79,15 @@ class TagixoFilamentServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/tagixo-filament.php');
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'tagixo-filament');
         $this->loadJsonTranslationsFrom(__DIR__.'/../resources/lang');
+
+        // The utilities this SDK's own Blade views are written in. Filament's
+        // stylesheet carries the ones Filament itself uses, not ours, so
+        // without this the Theme Builder, the media gallery and the menu tree
+        // render as unstyled markup. Published by `php artisan filament:assets`,
+        // like every other Filament plugin's.
+        FilamentAsset::register([
+            Css::make('tagixo-filament', __DIR__.'/../dist/tagixo-filament.css'),
+        ], package: 'tagixo-filament');
 
         // Per-model policies from config: an application gates each builder, and
         // a model without an entry keeps Filament's own default.

@@ -1,0 +1,19 @@
+/* The utilities this SDK's own Blade views use, and nothing else.
+ *
+ * The views are written in Tailwind utilities, which exist in a panel only if
+ * something compiled them: Filament's stylesheet carries the ones Filament
+ * itself uses, not ours. This file is that something, and the provider hands
+ * the result to Filament's asset pipeline.
+ *
+ * Only the utilities layer is imported — no preflight, no theme. The panel is
+ * already a Tailwind v4 build and owns both: resetting or redefining them from
+ * a plugin would reach every page of the host application. */
+
+@layer theme, base, components, utilities;
+
+/* Theme values for reference only: this emits no variables of its own. */
+@reference 'tailwindcss';
+
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@source '../views';

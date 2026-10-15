@@ -47,3 +47,11 @@ test('the record CRUD of the core is off, and the editor is not', async ({ page,
     expect(manage.status()).toBe(404)
     expect(editor.status()).toBe(200)
 })
+
+test('a listing offers one way to create, in the page header', async ({ page }) => {
+    await page.goto('/admin/documents')
+
+    // The page header carries the action; the table used to add a second copy
+    // of its own, so a listing asked twice for the same thing.
+    await expect(page.getByRole('link', { name: /new document/i })).toHaveCount(1)
+})

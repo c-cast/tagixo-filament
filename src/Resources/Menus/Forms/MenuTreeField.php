@@ -2,10 +2,11 @@
 
 namespace Tagixo\Filament\Resources\Menus\Forms;
 
+use Filament\Forms\Components\Field;
+use Tagixo\Core\IconManager;
 use Tagixo\PageBuilder\Enums\MenuItemTargetType;
 use Tagixo\PageBuilder\Models\Page;
 use Tagixo\PageBuilder\Support\MenuTreeStructure;
-use Filament\Forms\Components\Field;
 
 /**
  * WordPress-style menu builder field for Filament v5.
@@ -80,5 +81,33 @@ class MenuTreeField extends Field
                 'label' => trim(($page->title ?: __('Untitled')).' ('.$page->slug.')'),
             ])
             ->all();
+    }
+
+    /**
+     * Dropdown options in the {value, label} shape the <select> uses.
+     *
+     * Only a top-level item set to `mega` means anything to the renderer; every
+     * other item is an ordinary dropdown, which is why the normal case is the
+     * empty value and not a name of its own.
+     *
+     * @return array<int, array{value: string, label: string}>
+     */
+    public function getDropdownTypeOptions(): array
+    {
+        return [
+            ['value' => '', 'label' => __('Normal')],
+            ['value' => 'mega', 'label' => __('Mega menu')],
+        ];
+    }
+
+    /**
+     * The icon sets the core offers, names only: the picker asks for an icon's
+     * markup when it has to draw it.
+     *
+     * @return array<int, array{name: string, label: string, variants: array, icons: array<int, string>}>
+     */
+    public function getIconSets(): array
+    {
+        return app(IconManager::class)->getIconSetsForVue();
     }
 }

@@ -362,6 +362,7 @@
             }),
         }"
         class="space-y-3"
+        data-tagixo-menu-tree
     >
         {{-- Tree --}}
         <ul

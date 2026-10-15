@@ -5,7 +5,6 @@ namespace Tagixo\Filament\Resources;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -121,9 +120,6 @@ abstract class TagixoRecordResource extends Resource
             ->columns(RecordFieldSchema::columns(static::tagixoFields()))
             // Clicking a row opens what the record is for: its builder.
             ->recordUrl(static fn (Model $record): string => static::builderUrl($record))
-            ->headerActions([
-                CreateAction::make(),
-            ])
             ->recordActions(array_values(array_filter([
                 static::buildAction(),
                 static::previewAction(),
