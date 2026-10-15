@@ -47,7 +47,10 @@ export default defineConfig({
         cwd: SANDBOX_DIR,
         url: BASE_URL,
         reuseExistingServer: false,
-        env: { APP_ENV: 'e2e' },
+        // The preview spec walks through to a page's public URL, which the page
+        // builder does not route unless asked: the suite asks, instead of
+        // depending on whatever the sandbox's own env file happens to say.
+        env: { APP_ENV: 'e2e', TAGIXO_FRONTEND_AUTO_ROUTES: 'true' },
         stdout: 'ignore',
         stderr: 'pipe',
     },
