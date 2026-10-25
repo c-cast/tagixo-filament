@@ -10,6 +10,7 @@ use Tagixo\Filament\FormBuilder\Contracts\FilamentFieldModule;
 use Tagixo\Filament\FormBuilder\Contracts\FilamentWrapperModule;
 use Tagixo\Filament\FormBuilder\FilamentModuleRegistry;
 use Tagixo\Filament\FormBuilder\Modules;
+use Tagixo\Filament\Http\Middleware\AuthenticateBuilder;
 
 class TagixoFilamentServiceProvider extends ServiceProvider
 {
@@ -53,6 +54,16 @@ class TagixoFilamentServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/tagixo-filament.php', 'tagixo-filament');
+
+        // The core guards its builder routes with Laravel's `auth`, which sends
+        // a guest to `route('login')` — a route a panel-only application does
+        // not have. Swapped for one that knows the panel, and only while the
+        // application is still on the core's default: a consumer that chose its
+        // own middleware keeps it. Set here because the core loads those routes
+        // when it boots, and every register() runs first.
+        if (in_array(config('tagixo.route_middleware'), [null, ['web', 'auth']], true)) {
+            config(['tagixo.route_middleware' => ['web', AuthenticateBuilder::class]]);
+        }
 
         // One instance: the panel configures the plugin fluently and the static
         // resources read that same configuration back.

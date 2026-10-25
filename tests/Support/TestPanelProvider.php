@@ -18,6 +18,9 @@ class TestPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            // A real panel has a way in, and the guest middleware asks the panel
+            // for it when the application has no login route of its own.
+            ->login()
             ->plugin(TagixoFilamentPlugin::make());
     }
 }
